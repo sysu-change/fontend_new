@@ -93,7 +93,7 @@ export default{
         // 为表单绑定验证功能
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.SigninforUser();
+            this.SigninforUser(this);
           } else {
             this.dialogVisible = true;
             return false;
@@ -101,19 +101,24 @@ export default{
         });
       },
 
-    SigninforUser:function(){
-      var jsonData={phone_num:this.phone_num,password:this.password};
+    SigninforUser:function(vm){
+      var jsonData={phone_num:this.form.phone_num,password:this.form.password};
       var axios={method: "post",url: "http://localhost:8082/module/login",widthCredentials: false,data:jsonData};
       this.$http(axios).then(function(res){
         if(res.status==200) {
-          alert(res.data.msg);
+          alert(res.data.msg)
+          vm.gotoUser();
         }
         else {
           alert("request failed");
+          return false;
         }
       }).catch(function(err){
         console.log(err);
       });
+    },
+    gotoUser:function() {
+      this.$router.push({path: '/User'});
     }
   }
 }
