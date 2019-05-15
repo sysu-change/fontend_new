@@ -35,9 +35,9 @@ npm test
 │   │    │   ├─Signin.vue：登录页面
 │   │    │   └─Register.vue：注册页面
 │   │    ├─questionaire：
-│   │    │   ├─User.vue：学生端任务页面
-│   │    │   ├─Putjob.vue：奶牛端发布页面
-│   │    │   ├─……开发中
+│   │        ├─User.vue：学生端任务页面
+│   │        ├─Putjob.vue：奶牛端发布页面
+│   │        ├─……开发中
 │   ├─router：前端路由
 │   │    └─index.js：前端路由信息配置文件
 │   ├─App.vue：最外层结构
