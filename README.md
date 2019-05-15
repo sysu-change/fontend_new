@@ -24,5 +24,27 @@ npm run unit
 npm test
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+``` bash
+  |---build： 构建用到的相关文件
+  |---config：配置文件 
+  |---src
+  	|---assets：存放一些公共文件如.css，也可以放一些公共图片
+  	|---components
+  		|---HelloWord 初始页面
+  			|---HelloWord.vue：初始页面
+  		|---Register
+  			|---Register.vue:注册页面
+  		|---Signin
+  			|---Signin.vue：登录页面
+      |---QS 问卷业务页面
+        |---GetJob.vue
+        |---Putjob.vue
+        |--- ……
+  	|---router
+  		|---index.js: 路由
+    |---App.vue: 入口
+    |---main.js: 入口
+  			
+
+```
 
