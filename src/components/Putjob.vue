@@ -52,7 +52,8 @@
     <el-main>
   <el-table
     :data="tableData"
-    style="width: 100%">
+    style="width: 100%"
+    >
     <el-table-column
       label="日期"
       prop="date"
@@ -85,22 +86,22 @@
           size="mini"
           class="delete"
           type="danger"
-          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          @click="handleDelete(scope.$index, tableData)">删除</el-button>
           <el-button
           size="mini"
           class="look1"
           type="success"
-          @click="handleDelete(scope.$index, scope.row)">查看问卷</el-button>
+          @click="handleLook(scope.$index, scope.row)">查看问卷</el-button>
           <el-button
           size="mini"
           class="look2"
           type="success"
-          @click="handleDelete(scope.$index, scope.row)">查看数据</el-button>
+          @click="handleData(scope.$index, scope.row)">查看数据</el-button>
       </template>
     </el-table-column>
   </el-table>
       <i class="el-icon-plus"></i>
-      <el-button class="reg_button1" type="success" v-on:click.native="nainiu">发布问卷</el-button>
+      <el-button class="reg_button1" type="success" @click="handleAdd">发布问卷</el-button>
    </el-main>
   </el-container>
   
@@ -147,18 +148,37 @@
       
     },
     methods: {
-      handleEdit(index, row) {
-        console.log(index, row);
-      },
-      handleDelete(index, row) {
-        console.log(index, row);
-      },
       getCash(){
          this.dialogVisible1 = true;
       },
       withDraw(){
          this.dialogVisible2 = true;
-      }
+      },
+      //删除
+       handleDelete(index,tableData) {
+        tableData.splice(index, 1);
+      },
+      //编辑
+      handleEdit(index, row) {
+        console.log(index, row);
+      },
+      //查看问卷
+      handleLook(index, row) {
+        console.log(index, row);
+      },
+      //查看问卷数据
+       handleData(index, row) {
+        console.log(index, row);
+      },
+      //增加空白问卷
+       handleAdd() {
+        this.tableData.push({
+         date:null,
+         name:'问卷',
+         descript:'新问卷'
+        });
+      },
+     
     }
   }
 </script>
