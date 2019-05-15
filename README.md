@@ -24,27 +24,25 @@ npm run unit
 npm test
 ```
 
-``` bash
-  |---build： 构建用到的相关文件
-  |---config：配置文件 
-  |---src
-  	|---assets：存放一些公共文件如.css，也可以放一些公共图片
-  	|---components
-  		|---HelloWord 初始页面
-  			|---HelloWord.vue：初始页面
-  		|---Register
-  			|---Register.vue:注册页面
-  		|---Signin
-  			|---Signin.vue：登录页面
-      |---QS 问卷业务页面
-        |---GetJob.vue
-        |---Putjob.vue
-        |--- ……
-  	|---router
-  		|---index.js: 路由
-    |---App.vue: 入口
-    |---main.js: 入口
-  			
-
+```txt
+├─build：存放构建用到的相关文件
+├─config：存放配置文件
+├─src：源码
+│   ├─assets：图片等静态资源
+│   ├─components：前端组件
+│   │    ├─auth：登录注册相关界面
+│   │    │   ├─HelloWorld.vue：首页
+│   │    │   ├─Signin.vue：登录页面
+│   │    │   └─Register.vue：注册页面
+│   │    ├─questionaire：
+│   │    │   ├─User.vue：学生端任务页面
+│   │    │   ├─Putjob.vue：奶牛端发布页面
+│   │    │   ├─……开发中
+│   ├─router：前端路由
+│   │    └─index.js：前端路由信息配置文件
+│   ├─App.vue：最外层结构
+│   └─main.js：入口文件；第三方组件和公共文件引入
+└─index.html
+└─package.json
 ```
 
