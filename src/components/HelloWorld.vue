@@ -1,8 +1,8 @@
 <template>
   <el-container>
-    <el-header height="80px"></el-header>
+    
 
-    <el-main> 
+    <div class="back">
       <div id="name">
         <span class="item1">闲钱宝|</span>
         <span class="item2">
@@ -55,10 +55,10 @@
         <span class="item4">已有账号，请</span><el-button class="item5" type="text" v-on:click.native="denglu">登录</el-button> 
       </div>
 
-    </el-main>
-    <el-footer height="40px">
-    </el-footer>
+    </div>
+      
   </el-container>
+  
 </template>
 
 <script>
@@ -92,6 +92,7 @@ export default {
   background-color: #00b38a;
   color: #333;
   line-height: 10px;
+  height: 100vh;
 }
 .el-main {
   background-color: #ffffff;
@@ -103,14 +104,28 @@ export default {
 
   z-index: 1;
 }
+.back{
+  position: absolute;
+   background-color: #ffffff;
+    border: 1.5px solid #00b38a;
+    border-radius: 16px;
+  color: #00b38a;
+  width: 60%;
+  height: 80%;
+  top:40px;
+  left:250px;
+  box-shadow:5px 5px 20px #909090;
+}
 .el-container {
-  background-color: white;
+  padding: 0,0,0,0;
+  background-color:#00b38a;
   margin-bottom: 0px;
   width: 100%;
-  height: 95vh;
+  height: 60vh;
   z-index: 1;
 }
 .el-footer {
+  position: relative;
   background-color: #999999;
   color: #ffffff;
   width: 100%;
