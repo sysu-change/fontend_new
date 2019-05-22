@@ -3,7 +3,7 @@
     
 
     <div class="back">
-      <div id="name">
+      <div id="name" class="name">
         <span class="item1">闲钱宝|</span>
         <span class="item2">
           <sub>专注中大学生赚点钱</sub>
@@ -47,11 +47,10 @@
       </div>
 
       <div>
-        <el-button class="reg_button1" type="success" v-on:click.native="nainiu">奶牛端注册</el-button>
+        <el-button class="reg_button1" type="success" v-on:click.native="reg">注册</el-button>
         <br>
         <br>
-        <el-button class="reg_button2" type="success" v-on:click.native="xuesheng">学生端注册</el-button>
-        <br>
+        
         <span class="item4">已有账号，请</span><el-button class="item5" type="text" v-on:click.native="denglu">登录</el-button> 
       </div>
 
@@ -70,11 +69,8 @@ export default {
     };
   },
   methods: {
-    nainiu: function() {
+    reg: function() {
       this.$router.push({path: '/Register'});
-    },
-    xuesheng: function() {
-       this.$router.push({path: '/Register'});
     },
     denglu: function() {
      this.$router.push({path: '/Signin'});
@@ -136,6 +132,14 @@ export default {
   color: #ffffff;
   z-index: 1;
 }
+.name {
+  position: relative;
+  margin-top: 2%;
+  margin-left: 1%;
+  margin-bottom: 5%;  
+  float: left;
+  width: 300px;
+}
 
 /* 布局 */
 .el-row {
@@ -149,8 +153,9 @@ export default {
 }
 .info {
   position: relative;
-  left: -40%;
-  bottom: -20%;
+  margin-top: 20%;
+  width: 700px;
+  float: left;
 }
 
 /* 文字 */
@@ -158,20 +163,23 @@ export default {
   color: #00b38a;
   font-size: 300%;
   position: relative;
-  left: -30%;
+  margin-left: 4%;
+  margin-top:2%; 
+  
 }
 .item2 {
   color: #00b38a;
   font-size: 100%;
   position: relative;
-  left: -30%;
+  margin-top:2%; 
+  margin-left:0%;
 }
 .item3 {
   color: #00b38a;
   font-size: 80%;
-  position: relative;
-  left: -2%;
+  position: relative;  
   margin: 2%;
+  left: 30%;
 }
 .item4 {
   color: #8e868b;
@@ -231,17 +239,6 @@ export default {
   width: 150px;
   height: 40px;
 }
-.reg_button2 {
-  position: relative;
-  background-color: #ffffff;
-  border: 1.5px solid #00b38a;
-  color: #00b38a;
-  left: 30%;
-  width: 150px;
-  height: 40px;
-  border-radius: 4px;
-  margin-bottom: 1%;
-  
-}
+
 
 </style>

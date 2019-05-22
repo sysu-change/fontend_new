@@ -12,7 +12,7 @@
     </span>
 
     <el-form
-      ref="WithdrawForm"
+      ref="Withdraw"
       :model="WithdrawForm"
       status-icon
       :rules="rules"
@@ -65,7 +65,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button class="submit" type="success" v-on:click="onSubmit('WithdrawForm')">立即充值</el-button>
+        <el-button class="submit" type="success" v-on:click="onSubmit('Withdraw')">立即充值</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -121,9 +121,13 @@ export default {
 
     RechargeforUser: function(vm) {
       var jsonData = {
-        user_phone: this.WithdrawForm.phone_num,
-        money: this.WithdrawForm.money,
-        password: this.WithdrawForm.password
+        pay_phone: this.WithdrawForm.phone_num,
+        money: parseInt(this.WithdrawForm.number),
+        password: string(require("crypto")
+          .createHash("sha512")
+          .update(this.WithdrawForm.password)
+          .digest("hex")
+          .toUpperCase())
       };
       var axios = {
         method: "post",

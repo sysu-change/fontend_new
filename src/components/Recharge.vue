@@ -12,12 +12,12 @@
     </span>
 
     <el-form
-      ref="rechargeForm"
+      ref="recharge"
       :model="rechargeForm"
       status-icon
       :rules="rules"
       label-width="80px"
-      class="login-box"
+      class="recharge-box"
     >
       <el-form-item label="充值号码" prop="phone_num">
         <el-input
@@ -34,21 +34,21 @@
           <div class="numlayout">
             <el-row :gutter="80">
               <el-col :span="6">
-                <el-radio border label="5" class="num1"></el-radio>
+                <el-radio border label=5 class="num1"></el-radio>
               </el-col>
               <el-col :span="6">
-                <el-radio border label="10" class="num2"></el-radio>
+                <el-radio border label=10 class="num2"></el-radio>
               </el-col>
               <el-col :span="6">
-                <el-radio border label="20" class="num3"></el-radio>
+                <el-radio border label=20 class="num3"></el-radio>
               </el-col>
             </el-row>
             <el-row :gutter="80">
               <el-col :span="6">
-                <el-radio border label="50" class="num4"></el-radio>
+                <el-radio border label=50 class="num4"></el-radio>
               </el-col>
               <el-col :span="6">
-                <el-radio border label="100" class="num5"></el-radio>
+                <el-radio border label=100 class="num5"></el-radio>
               </el-col>
             </el-row>
           </div>
@@ -56,7 +56,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button class="submit" type="success" v-on:click="onSubmit('rechargeForm')">立即充值</el-button>
+        <el-button class="submit" type="success" v-on:click="onSubmit('recharge')">立即充值</el-button>
       </el-form-item>
     </el-form>
 
@@ -95,7 +95,7 @@ export default {
 
     return {
       rechargeForm: {
-        number: "",
+        number: 0,
         phone_num: ""
       },
       rules: {
@@ -120,9 +120,10 @@ export default {
 
     RechargeforUser: function(vm) {
       var jsonData = {
-        user_phone: this.rechargeForm.phone_num,
-        money: this.rechargeForm.money
+        phone_num: this.rechargeForm.phone_num,
+        money: parseInt(this.rechargeForm.number)
       };
+      
       var axios = {
         method: "post",
         url: "http://localhost:8082/user/recharge",
@@ -132,6 +133,7 @@ export default {
       this.$http(axios)
         .then(function(res) {
           if (res.status == 200) {
+            
             alert(res.data.msg);
             
           } else {
