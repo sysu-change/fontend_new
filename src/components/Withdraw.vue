@@ -123,7 +123,7 @@ export default {
       var jsonData = {
         pay_phone: this.WithdrawForm.phone_num,
         money: parseInt(this.WithdrawForm.number),
-        password: string(require("crypto")
+        password: String(require("crypto")
           .createHash("sha512")
           .update(this.WithdrawForm.password)
           .digest("hex")

@@ -159,7 +159,7 @@ export default {
         grade: this.ruleForm.semester,
         major: this.ruleForm.major,
         phone_num: this.ruleForm.phone_num,
-        password: string(require("crypto")
+        password: String(require("crypto")
           .createHash("sha512")
           .update(this.ruleForm.pass)
           .digest("hex")

@@ -96,7 +96,7 @@ export default {
     SigninforUser: function(vm) {
       var jsonData = {
         phone_num: this.form.phone_num,
-        password: string(require("crypto")
+        password: String(require("crypto")
           .createHash("sha512")
           .update(this.form.password)
           .digest("hex")
