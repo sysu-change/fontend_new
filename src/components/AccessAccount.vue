@@ -1,28 +1,30 @@
 <template>
   <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="user-box">
-    <span>欢迎回来，唐先生！</span>
+    
+  <span>欢迎回来，{{username}}！</span>
 
-    <el-form-item>
-<el-upload
-  class="avatar-uploader"
-  list-type="picture-card"
-  action="https://jsonplaceholder.typicode.com/posts/"
-  :show-file-list="false"
-  :on-success="handleAvatarSuccess"
-  :before-upload="beforeAvatarUpload">
-  <img v-if="imageUrl" :src="imageUrl" class="avatar">
-  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-</el-upload></el-form-item>
+  <el-form-item>
+    <el-upload
+      class="avatar-uploader"
+      list-type="picture-card"
+      action="https://jsonplaceholder.typicode.com/posts/"
+      :show-file-list="false"
+      :on-success="handleAvatarSuccess"
+      :before-upload="beforeAvatarUpload">
+      <img v-if="imageUrl" :src="imageUrl" class="avatar">
+      <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+    </el-upload>
+  </el-form-item>
 
-<el-form-item label="姓名" prop="name" style="width:50%" >
-      <el-input v-model="ruleForm.name"></el-input>
-    </el-form-item>
+  <el-form-item label="姓名" prop="name" style="width:50%" >
+    <el-input v-model="ruleForm.name"></el-input>
+  </el-form-item>
 
-<el-tooltip class="item" effect="dark" content="学号作为凭证不能修改" placement="right-start">
+  <el-tooltip class="item" effect="dark" content="学号作为凭证不能修改" placement="right-start">
     <el-form-item label="学号" prop="number" style="width:50%">
-      <el-input  v-model="ruleForm.number" disabled="true">
-       </el-input>
-    </el-form-item></el-tooltip>
+      <el-input  v-model="ruleForm.number" disabled="true"></el-input>
+    </el-form-item>
+  </el-tooltip>
     
        
     <el-form-item label="年龄/年级" >
@@ -63,35 +65,36 @@
     </el-form-item>
 
       <el-form-item label="性别" prop="sex">
-      <el-radio-group v-model="ruleForm.sex">
-        <el-radio border label="男" class="sex1"></el-radio>
-        <el-radio border label="女" class="sex2"></el-radio>
-      </el-radio-group>
-    </el-form-item>
+       <el-radio-group v-model="ruleForm.sex">
+         <el-radio border label="男" class="sex1"></el-radio>
+         <el-radio border label="女" class="sex2"></el-radio>
+        </el-radio-group>
+      </el-form-item>
 
-<el-form-item label="专业" prop="major"  style="width:60%">
-      <el-input v-model="ruleForm.major" ></el-input>
-    </el-form-item>
+      <el-form-item label="专业" prop="major"  style="width:60%">
+       <el-input v-model="ruleForm.major" ></el-input>
+      </el-form-item>
 
   
-<el-tooltip class="item" effect="dark" content="手机号作为凭证不能修改" placement="right-start">
-    <el-form-item label="常用手机号" prop="phone_num" style="width:60%">
-      <el-input v-model="ruleForm.phone_num"  disabled="true" ></el-input>
-    </el-form-item></el-tooltip>
+      <el-tooltip class="item" effect="dark" content="手机号作为凭证不能修改" placement="right-start">
+        <el-form-item label="常用手机号" prop="phone_num" style="width:60%">
+        <el-input v-model="ruleForm.phone_num"  disabled="true" ></el-input>
+        </el-form-item>
+      </el-tooltip>
 
-<el-form-item label="账户余额"   style="width:30% " class="cash_label">
-      <span class="cash" >¥60</span>
-    </el-form-item>
+      <el-form-item label="账户余额"   style="width:30% " class="cash_label">
+        <span class="cash" >¥60</span>
+      </el-form-item>
 
-<el-form-item  class="change" style="width:50%">
-    <el-button class="reg_button1" type="success" @click="submitForm('ruleForm')">保存资料</el-button>
-    </el-form-item>
+      <el-form-item  class="change" style="width:50%">
+       <el-button class="reg_button1" type="success" @click="submitForm('ruleForm')">保存资料</el-button>
+      </el-form-item>
   </el-form>
 </template>
 
 <script>
 export default {
-    name:'AccessAccount',
+  name:'AccessAccount',
   data() {
     
     return {
@@ -124,7 +127,7 @@ export default {
   },
 
   methods: {
-       submitForm(formName) {
+    submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           alert("更改成功");
@@ -136,34 +139,32 @@ export default {
       });
     },
 
-   handleAvatarSuccess(res, file) {
+    handleAvatarSuccess(res, file) {
         this.imageUrl = URL.createObjectURL(file.raw);
       },
-      beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
 
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
-        }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
-        }
-        return isJPG && isLt2M;
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
       }
-
-      
-    
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
+    } 
   }
 };
 </script>
 <style scoped>
 .user-box{
-    margin: 180px auto;
+    margin-left: 25%;
     width: 500px;
-    height: 800px;
+    height: 600px;
     padding: 0px 50px 20px 35px;
-     border: 2px dashed #00b38a;
+    border: 2px;
     border-radius: 16px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;

@@ -27,9 +27,10 @@ export default new Router({
       component: Signin
     },
     {
-      path:'/User',
+      path:'/User/:id',
       name:'User',
-      component: User
+      component: User,
+      children:[{path:"AccessAccount",component:AccessAccount},{path:"GetJob",component:Getjob},{path:"Putjob",component:Putjob}]
     },
     {
       path: '/Register',
@@ -51,25 +52,19 @@ export default new Router({
       name: 'Withdraw',
       component: Withdraw
     },
+    
     {
-      path: '/AccessAccount',
-      name: 'AccessAccount',
-      component: AccessAccount
-    },
-    {
-      path: '/Signout',
+      path: '/User/Signout',
       name: 'Signout',
       component: Signout
     },
     {
-      path: '/Putjob',
-      name: 'Putjob',
-      component: Putjob
+      path:"/User/Part",
+      redirect:"/User/Part/Getjob"
     },
     {
-      path: '/Getjob',
-      name: 'Getjob',
-      component: Getjob
+      path:"/User",
+      redirect:"/User/Part/Getjob"
     }
 
     

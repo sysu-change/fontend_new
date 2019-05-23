@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view ></router-view>
-    <router-link to="/HelloWorld" tag="div" class="mainPage"> 返回首页 </router-link>
+    <router-link to="/HelloWorld" tag="button" class="mainPage" router-link-active> 返回首页 </router-link>
   </div>
 </template>
 
