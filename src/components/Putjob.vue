@@ -3,8 +3,8 @@
       <div class="crhead"><button class="but" @click="Create">+新建问卷</button></div>
      <el-main>
         <el-table :data="tableData">
-		  <el-table-column prop="ID" label="标号" sortable>
-		  </el-table-column>
+		      <el-table-column prop="ID" label="标号" sortable>
+		      </el-table-column>
           <el-table-column prop="date" label="日期"  sortable width="140">
           </el-table-column>
           <el-table-column prop="type" label="任务类型" width="120">
@@ -14,7 +14,6 @@
           <el-table-column prop="count" sortable  label="需求量">
           </el-table-column>
           <el-table-column prop="price" sortable label="赏金">
-          </el-table-column>
           </el-table-column>
           <el-table-column prop="status" label="状态">
           </el-table-column>
@@ -48,7 +47,7 @@ export default {
     name:'Getjob',
     data() {
         return {tableData: [{
-		  ID:'1234',
+		      ID:'1234',
           date: '2016-05-02',
           type: '问卷调查',
           descript: '这是一份调查中大学生对食堂意见的问卷',
@@ -57,7 +56,7 @@ export default {
           status:"已发布",
           statuss:true
         }, {
-		ID:'1235',
+		      ID:'1235',
           date: '2016-05-04',
           type: '问卷调查',
           descript: '这是一份调查中大学生对课程安排意见的问卷',
@@ -66,7 +65,7 @@ export default {
           status:"审核中",
           statuss:true
         }, {
-		  ID:'1236',
+		      ID:'1236',
           date: '2016-05-01',
           type: '问卷调查',
           descript: '这是一份调查中大学生对闲钱宝使用体验的问卷',
@@ -75,7 +74,7 @@ export default {
           status:"未发布",
           statuss:false
         }, {
-		  ID:'1237',
+		      ID:'1237',
           date: '2016-05-03',
           type: '问卷调查',
           descript: '这是一份针对中山大学学生睡眠情况的调查问卷',
@@ -83,23 +82,22 @@ export default {
           price:'$4',
           status:"未发布",
           statuss:false
-        }],
-		ID:[]
+        }]
         }
     },
     methods:{
       /*跳转到问卷创建页面*/
-      create:function() {
-		this.$router.push("/User/Part/Create");
+      Create:function() {
+		    this.$router.push("/User/Part/Putjob/Create");
       },
       /*进入页面详情页，并进行编辑*/
-    Edit:function(row) {
-      var ID=row.ID;
-      if(ID=="") {
-			  alert("未找到问卷标号为空");
-			  return;
-		  }
-		  this.$router.push({path:"/User/Part/"})
+      Edit:function(row) {
+        var ID=row.ID;
+        if(ID=="") {
+			    alert("未找到问卷标号为空");
+			    return;
+		    }
+		    this.$router.push({path:"/User/Part/"})
 		  
       },
       /**查看问卷 */
@@ -113,20 +111,39 @@ export default {
       Delete:function(row) {
         alert(row.ID);
       },
-	  getQuestionnaire:function(nainiu) {
+	  getQuestionnaire:function() {
         if(this.user_id==="") return;
-        var URL="http://localhost:8082/module/user/";
-        URL+=nainiu?"questionnaire_own":"questionnaire_pre";
-        var jsonData={user_id:this.user_id,number:5};
-        var axios={method:"post",url:URL,widthCredentials:false,data:jsonData};
+        var URL="http://localhost:8082/module/user/questionnaire_own";
+        var axios={method:"get",url:URL,widthCredentials:false};
         this.$http(axios).then(function(res){
           if(res.status==200) {
             if(res.data.code==200) {
               var number=res.data.number;
               var content=res.data.content;
-			  var jsonContent=content    //字符串转函数
+			        var jsonContent=content;
               for(var i=0;i<number;i++) {
-                this.tableData.push(jsonContent[i]);
+                var temp=jsonContent[i];
+                var tempIndex={ID:'',date:'',type:'',descript:'',count:0,price:'',status:'',statuss:''};
+                tempIndex.ID=String(temp.qid);
+                tempIndex.date="2016-05-04";
+                tempIndex.descript=temp.description;
+                tempIndex.type = temp.title;
+                tempIndex.price = '$'+String(temp.reward);
+                tempIndex.count = temp.quantity;
+                if(temp.edit_status == 0) {
+                  tempIndex.status = '未发布';
+                  tempIndex.statuss = false;
+                }
+                else if(temp.edit_status == 1) {
+                  tempIndex.status = '已发布'
+                  tempIndex.statuss = true;
+                }
+                else if(temp.edit_status == 2) {
+                  tempIndex.status = '审核中';
+                  tempIndex.statuss = true;
+                }
+                this.tableData.push(tempIndex);
+                
               }
             }
             else {
@@ -138,6 +155,9 @@ export default {
           console.log(err);
         });
       }
+    },
+    mounted() {
+      this.getQuestionnaire();
     }
 }
 </script>

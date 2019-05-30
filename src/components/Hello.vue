@@ -42,15 +42,11 @@
         </el-row>
       </div>
 
-      <div>
+      <div class="imgblock">
         <img class="img1" src="../assets/icon1.png">
-      </div>
-
-      <div>
         <el-button class="reg_button1" type="success" v-on:click.native="reg">注册</el-button>
         <br>
-        <br>
-        
+        <br> 
         <span class="item4">已有账号，请</span><el-button class="item5" type="text" v-on:click.native="denglu">登录</el-button> 
       </div>
 
@@ -84,32 +80,18 @@ export default {
 <style scoped>
 
 /* 布局容器 */
-.el-header {
-  background-color: #00b38a;
-  color: #333;
-  line-height: 10px;
-  height: 100vh;
-}
-.el-main {
-  background-color: #ffffff;
-  color: #333;
-  text-align: center;
-  height: 40vh;
-  margin-left: 20%;
-  margin-right: 20%;
 
-  z-index: 1;
-}
 .back{
   position: absolute;
    background-color: #ffffff;
     border: 1.5px solid #00b38a;
     border-radius: 16px;
   color: #00b38a;
-  width: 60%;
-  height: 80%;
-  top:40px;
-  left:250px;
+  width: 50%;
+  height: 70%;
+  margin-top: 5%;
+  margin-left: 22%;
+  margin-right: 20%;
   box-shadow:5px 5px 20px #909090;
 }
 .el-container {
@@ -120,13 +102,7 @@ export default {
   height: 60vh;
   z-index: 1;
 }
-.el-footer {
-  position: relative;
-  background-color: #999999;
-  color: #ffffff;
-  width: 100%;
-  height: 30vh;
-}
+
 .backcolor{
   background-color: #ffffff;
   color: #ffffff;
@@ -139,14 +115,20 @@ export default {
   margin-bottom: 5%;  
   float: left;
   width: 300px;
+  height: 60px;
+  clear:left,right;
 }
-
+.imgblock{
+  position: relative;
+  margin-top: 0%;
+  width: 44%;
+  float: right;
+  top: -50%;
+}
 /* 布局 */
 .el-row {
-  margin-left: 45%;
-
-  margin-bottom: 5%;
-  
+  margin-left: 0%;
+  margin-bottom: 5%; 
 }
 .el-col {
   border-radius: 6px;
@@ -154,8 +136,9 @@ export default {
 .info {
   position: relative;
   margin-top: 20%;
-  width: 700px;
-  float: left;
+  width: 50%;
+  margin-right: 1px;
+  
 }
 
 /* 文字 */
@@ -185,22 +168,23 @@ export default {
   color: #8e868b;
   font-size: 80%;
   position: relative;
-  left: 30%;
+  left: 0%;
   
 }
 .item5 {
   color: #00b38a;
   font-size: 80%;
   position: relative;
-  left: 30%;
+  left: 0%;
 }
 
 /* 图片 */
 .img1 {
   position: relative;
-  left: 30%;
+  left: 0%;
   top: 0%;
-  margin-top: -30%;
+  
+  
 }
 
 
@@ -234,7 +218,7 @@ export default {
   background-color: #ffffff;
   border: 1.5px solid #00b38a;
   color: #00b38a;
-  left: 30%;
+  left: 0%;
   border-radius: 4px;
   width: 150px;
   height: 40px;
