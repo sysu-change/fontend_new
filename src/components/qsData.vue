@@ -1,12 +1,21 @@
 <template>
 <div class="wrap">
-	<h2>中山大学睡眠质量调查情况</h2>
+	<h2>问卷ID:{{title}}</h2>
 	<!--  <h2>qsItem.title</h2>  -->
 <el-card class="box-card1">
 	<div slot="header" class="clearfix">
 	<!-- qsItem.type == '单选' -->
 	<span>1.您每晚几点睡？</span></div>
 	<div v-for="o in 4" :key="o" class="text_item1">
+    <!-- 
+    <div class="qu-item" v-for="(item, index) in qsData.questions">
+					<section class="qsdata">
+						<template v-if="item.type !== 2 -> 'textarea'">
+							<p v-for="option in item.options">{{ option }}</p>
+						</template> 
+            
+            <template v-if="item.type === 1 -> '单选题'">
+							<p class="outerBar" v-for="(option, optIndex) in item.options">-->
     {{'选项' + o }}
 
   </div>
@@ -38,6 +47,7 @@ export default {
     name: 'Data',
 	data() {
 		return {
+      title:this.$route.params.id,
             //通过router传递的row.ID匹配
 			qsItem: {},
 			scale: '',
@@ -58,6 +68,7 @@ var dom = document.getElementById('echarts1')
           name: '',
           type: 'pie',
           radius: '55%',
+          //router传参 get数据
           data: [{
               value: 235,
               name: '8点'
@@ -120,7 +131,12 @@ var dom = document.getElementById('echarts2')
     },
 mounted() {
 			this.getchart1(),
-			this.getchart2()
+      this.getchart2();
+      
+      let charts = document.querySelectorAll('.echart');
+		[].forEach.call(charts, (item) => {
+			this.renderEchart(item);
+		});
     },
 
 
@@ -172,4 +188,5 @@ mounted() {
   .item {
     margin-bottom: 18px;
   }
+
 </style>
