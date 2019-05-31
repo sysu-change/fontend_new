@@ -111,19 +111,21 @@ export default {
       Delete:function(row) {
         alert(row.ID);
       },
-	  getQuestionnaire:function() {
+	  getQuestionnaire:function(vm) {
         if(this.user_id==="") return;
         var URL="http://localhost:8082/module/user/questionnaire_own";
         var axios={method:"get",url:URL,widthCredentials:false};
         this.$http(axios).then(function(res){
           if(res.status==200) {
+            alert(res.data.code)
+            alert(res.data.msg)
             if(res.data.code==200) {
               var number=res.data.number;
               var content=res.data.content;
 			        var jsonContent=content;
               for(var i=0;i<number;i++) {
                 var temp=jsonContent[i];
-                var tempIndex={ID:'',date:'',type:'',descript:'',count:0,price:'',status:'',statuss:''};
+                var tempIndex={ID:'',date:'',type:'',descript:'',count:0,price:'',status:'',statuss:false};
                 tempIndex.ID=String(temp.qid);
                 tempIndex.date="2016-05-04";
                 tempIndex.descript=temp.description;
@@ -142,8 +144,7 @@ export default {
                   tempIndex.status = '审核中';
                   tempIndex.statuss = true;
                 }
-                this.tableData.push(tempIndex);
-                
+                vm.tableData.push(tempIndex);
               }
             }
             else {
@@ -157,7 +158,7 @@ export default {
       }
     },
     mounted() {
-      this.getQuestionnaire();
+      this.getQuestionnaire(this);
     }
 }
 </script>
