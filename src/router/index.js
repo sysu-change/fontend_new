@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Hello from '@/components/Hello'
 import Signin from '@/components/Signin'
 import Register from '@/components/Register'
 import User from '@/components/User'
@@ -10,15 +10,16 @@ import AccessAccount from '@/components/AccessAccount'
 import Signout from '@/components/Signout'
 import Putjob from '@/components/Putjob'
 import Getjob from '@/components/Getjob'
+import Create from '@/components/Create'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/HelloWorld',
-      name: 'HelloWorld',
-      component: HelloWorld
+      path: '/Hello',
+      name: 'Hello',
+      component: Hello
     },
     
     {
@@ -30,7 +31,8 @@ export default new Router({
       path:'/User/:id',
       name:'User',
       component: User,
-      children:[{path:"AccessAccount",component:AccessAccount},{path:"GetJob",component:Getjob},{path:"Putjob",component:Putjob}]
+      children:[{path:"AccessAccount",component:AccessAccount},{path:"GetJob",component:Getjob},{path:"Putjob",component:Putjob},
+    {path:'Putjob/Create',component:Create}]
     },
     {
       path: '/Register',
@@ -40,7 +42,7 @@ export default new Router({
     ,
     {
       path:'/',
-      redirect:'/HelloWorld'
+      redirect:'/Hello'
     },
     {
       path: '/Recharge',

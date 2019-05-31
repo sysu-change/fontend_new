@@ -31,7 +31,7 @@ npm test
 │   ├─assets：图片等静态资源
 │   ├─components：前端组件
 │   │    ├─auth：登录注册相关界面
-│   │    │   ├─HelloWorld.vue：首页
+│   │    │   ├─Hello.vue：首页
 │   │    │   ├─Signin.vue：登录页面
 │   │    │   └─Register.vue：注册页面
 │   │    ├─questionaire：
