@@ -66,8 +66,8 @@
       <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
     </el-form-item>
 
-<el-form-item label="常用邮箱" prop="mail">
-      <el-input v-model="ruleForm.mail" ></el-input>
+<el-form-item label="常用qq邮箱" prop="email">
+      <el-input v-model="ruleForm.email" ></el-input>
     </el-form-item>
 
     <el-form-item label="常用手机号" prop="phone_num">
@@ -132,7 +132,7 @@ export default {
         major: "",
         pass: "",
         checkPass: "",
-        mail:"",
+        email:"",
         phone_num: "",
         code: ""
       },
@@ -150,7 +150,7 @@ export default {
         major: [{ required: true, message: "请输入专业", trigger: "change" }],
         pass: [{ validator: validatePass, trigger: "blur" }],
         checkPass: [{ validator: validatePass2, trigger: "blur" }],
-        mail:[{required:true,message:"请输入邮箱",trigger:"blur"},
+        email:[{required:true,message:"请输入邮箱",trigger:"blur"},
          {pattern: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
             message: '请输入合法的邮箱',
            trigger: 'blur'}],
@@ -182,7 +182,7 @@ export default {
         sex: this.ruleForm.sex==='男'?"0":"1",
         grade: this.ruleForm.semester,
         major: this.ruleForm.major,
-        //mail:this.ruleForm.mail,
+        email:this.ruleForm.email,
         phone_num: this.ruleForm.phone_num,
         password: String(require("crypto")
           .createHash("sha512")

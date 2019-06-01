@@ -1,7 +1,6 @@
 <template>
   <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="user-box">
     
-  <span>欢迎回来，{{username}}！</span>
 
   <el-form-item>
     <el-upload
@@ -21,8 +20,8 @@
   </el-form-item>
 
   <el-tooltip class="item" effect="dark" content="学号作为凭证不能修改" placement="right-start">
-    <el-form-item label="学号" prop="number" style="width:50%">
-      <el-input  v-model="ruleForm.number" disabled="true"></el-input>
+    <el-form-item label="学号" prop="sid" style="width:50%">
+      <el-input  v-model="ruleForm.sid" disabled="true"></el-input>
     </el-form-item>
   </el-tooltip>
     
@@ -50,8 +49,8 @@
       </el-col>
       <el-col class="line" :span="5"></el-col>
       <el-col :span="10">
-        <el-form-item prop="semester">
-          <el-select placeholder="选择年级" v-model="ruleForm.semester" style="width: 100%;">
+        <el-form-item prop="grade">
+          <el-select placeholder="选择年级" v-model="ruleForm.grade" style="width: 100%;">
             <el-option label="大一" value="1"></el-option>
             <el-option label="大二" value="2"></el-option>
             <el-option label="大三" value="3"></el-option>
@@ -83,13 +82,17 @@
       </el-tooltip>
 
 <el-tooltip class="item" effect="dark" content="邮箱作为凭证不能修改" placement="right-start">
-        <el-form-item label="常用邮箱" prop="mail" style="width:60%">
-        <el-input v-model="ruleForm.mail"  disabled="true" ></el-input>
+        <el-form-item label="常用邮箱" prop="email" style="width:60%">
+        <el-input v-model="ruleForm.email"  disabled="true" ></el-input>
         </el-form-item>
       </el-tooltip>
 
       <el-form-item label="账户余额"   style="width:30% " class="cash_label">
-        <span class="cash" >¥60</span>
+        <span class="cash" >{{ruleForm.balance}}</span>
+      </el-form-item>
+
+<el-form-item label="信誉积分"   style="width:30% " class="cred_label">
+        <span class="credibility" >{{ruleForm.Credibility}}</span>
       </el-form-item>
 
       <el-form-item  class="change" style="width:50%">
@@ -106,16 +109,16 @@ export default {
     return {
       ruleForm: {
         imageUrl: '',
-        number: "1634xxxx",
+        sid: "1634xxxx",
         name: "唐先生",
         sex: "男",
         age: 20,
-        semester: "大三",
+        grade: "大三",
         major: "软件工程",
-        mail:"3478805208@qq.com",
+        email:"3478805208@qq.com",
         phone_num: "13684078313",
-        coin:"60¥"
-        
+        balance:60+"¥",
+        Credibility:"1000"
       },
        rules: {
         
@@ -137,8 +140,11 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("更改成功");
-          this.updateRegister();
+           this.$message({
+          message: '修改成功',
+          type: 'success'
+        });
+          this.updateRegister(this);
         } else {
           console.log("更改失败");
           return false;
@@ -161,8 +167,72 @@ export default {
         this.$message.error('上传头像图片大小不能超过 2MB!');
       }
       return isJPG && isLt2M;
-    } 
-  }
+    }, 
+
+    getUserInfo: function(vm) {
+      if (this.user_id === "") return;
+      var URL = "http://localhost:8082/module/user/userinfo";
+      
+      var axios = {
+        method: "get",
+        url: URL,
+        widthCredentials: false,
+      };
+      this.$http(axios)
+        .then(function(res) {
+          if (res.status == 200) {
+            alert(res.data.msg)
+            if (res.data.code == 200) {
+              vm.name = res.data.name;
+              vm.sid = res.data.sid;
+              vm.major=res.data.major;
+              vm.semester=res.data.grade;
+              vm.sex=res.data.sex;
+              vm.phone_num=res.data.phone_num;
+              vm.email=res.data.email;
+              vm.Credibility=res.data.Credibility;
+              vm.balance=res.data.balance+"¥";
+            } else {
+              alert("服务器出错");
+            }
+          } else alert("网络出错");
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+    },
+updateRegister:function(vm){
+      var jsonData={
+        name:this.ruleForm.name,
+        age:this.ruleForm.age,
+        sex:this.ruleForm.sex,
+        grade:this.ruleForm.grade,
+        email:this.ruleForm.email,
+        phone_num:this.ruleForm.phone_num,
+                    
+      };
+      var axios={method: "put",url: "http://localhost:8082/module/user/userInfo",widthCredentials: false,data:jsonData};
+      this.$http(axios).then(function(res){
+        if(res.status==200) {
+          alert(res.data.msg)
+          
+          vm.gotoUser();
+        }
+        else {
+          alert("request failed");
+          return false;
+        }
+      }).catch(function(err){
+        console.log(err);
+      });
+    },
+
+  },
+
+   mounted() {
+      this.getUserInfo(this);
+    }
+    
 };
 </script>
 <style scoped>
@@ -216,6 +286,14 @@ export default {
 }
 .cash{
     font: 2em sans-serif;
+}
+.cred_label{
+  position: relative;
+  top:-65%;
+   left:55%; 
+}
+.credibility{
+  font: 2em sans-serif;
 }
 </style>
 
