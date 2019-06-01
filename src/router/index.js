@@ -11,7 +11,7 @@ import Signout from '@/components/Signout'
 import Putjob from '@/components/Putjob'
 import Getjob from '@/components/Getjob'
 import Create from '@/components/Create'
-
+import qsData from '@/components/qsData'
 Vue.use(Router)
 
 export default new Router({
@@ -67,6 +67,11 @@ export default new Router({
     {
       path:"/User",
       redirect:"/User/Part/Getjob"
+    },
+    {
+      path:"/qsData",
+      name: 'qsData',
+      component: qsData
     }
 
     

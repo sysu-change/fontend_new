@@ -106,7 +106,12 @@ export default {
       },
       /**查看已回答问卷的统计数据 */
       Statics:function(row) {
-        alert(row.ID);
+         this.$router.push({
+          name: 'qsData',
+          params: {
+            id: row.ID
+          }
+        })
       },
       Delete:function(row) {
         alert(row.ID);
