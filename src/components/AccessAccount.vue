@@ -66,8 +66,8 @@
 
       <el-form-item label="性别" prop="sex">
        <el-radio-group v-model="ruleForm.sex">
-         <el-radio border label="男" class="sex1"></el-radio>
-         <el-radio border label="女" class="sex2"></el-radio>
+         <el-radio  label="男" class="sex1"></el-radio>
+         <el-radio  label="女" class="sex2"></el-radio>
         </el-radio-group>
       </el-form-item>
 
@@ -79,6 +79,12 @@
       <el-tooltip class="item" effect="dark" content="手机号作为凭证不能修改" placement="right-start">
         <el-form-item label="常用手机号" prop="phone_num" style="width:60%">
         <el-input v-model="ruleForm.phone_num"  disabled="true" ></el-input>
+        </el-form-item>
+      </el-tooltip>
+
+<el-tooltip class="item" effect="dark" content="邮箱作为凭证不能修改" placement="right-start">
+        <el-form-item label="常用邮箱" prop="mail" style="width:60%">
+        <el-input v-model="ruleForm.mail"  disabled="true" ></el-input>
         </el-form-item>
       </el-tooltip>
 
@@ -106,6 +112,7 @@ export default {
         age: 20,
         semester: "大三",
         major: "软件工程",
+        mail:"3478805208@qq.com",
         phone_num: "13684078313",
         coin:"60¥"
         
@@ -162,7 +169,7 @@ export default {
 .user-box{
     margin-left: 25%;
     width: 500px;
-    height: 600px;
+    height: 800px;
     padding: 0px 50px 20px 35px;
     border: 2px;
     border-radius: 16px;

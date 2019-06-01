@@ -66,6 +66,10 @@
       <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
     </el-form-item>
 
+<el-form-item label="常用邮箱" prop="mail">
+      <el-input v-model="ruleForm.mail" ></el-input>
+    </el-form-item>
+
     <el-form-item label="常用手机号" prop="phone_num">
       <el-input v-model="ruleForm.phone_num" autocomplete="off"></el-input>
     </el-form-item>
@@ -105,6 +109,19 @@ export default {
         callback();
       }
     };
+     var validatePass3 = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('手机号不能为空'));
+        }
+        setTimeout(() => {
+          var reg=/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|17[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
+          if(!reg.test(this.ruleForm.phone_num)) {
+            callback(new Error('请输入正确格式'));
+          }else {
+            callback();
+          } 
+        }, 1000);
+      };
     return {
       ruleForm: {
         number: "",
@@ -115,6 +132,7 @@ export default {
         major: "",
         pass: "",
         checkPass: "",
+        mail:"",
         phone_num: "",
         code: ""
       },
@@ -132,8 +150,13 @@ export default {
         major: [{ required: true, message: "请输入专业", trigger: "change" }],
         pass: [{ validator: validatePass, trigger: "blur" }],
         checkPass: [{ validator: validatePass2, trigger: "blur" }],
+        mail:[{required:true,message:"请输入邮箱",trigger:"blur"},
+         {pattern: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
+            message: '请输入合法的邮箱',
+           trigger: 'blur'}],
         phone_num: [
-          { required: true, message: "请输入手机号", trigger: "change" }
+          { required: true, message: "请输入手机号", trigger: "change" },
+          {validator: validatePass3}
         ],
         code: [{ required: true, message: "请输入验证码", trigger: "change" }]
       }
@@ -159,6 +182,7 @@ export default {
         sex: this.ruleForm.sex==='男'?"0":"1",
         grade: this.ruleForm.semester,
         major: this.ruleForm.major,
+        //mail:this.ruleForm.mail,
         phone_num: this.ruleForm.phone_num,
         password: String(require("crypto")
           .createHash("sha512")
@@ -188,7 +212,7 @@ export default {
 .regist-box{
     margin: 5px auto;
     width: 500px;
-    height: 650px;
+    height: 750px;
     padding: 0px 50px 20px 35px;
      border-radius: 5px;
     -webkit-border-radius: 5px;
