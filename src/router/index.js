@@ -11,7 +11,11 @@ import Signout from '@/components/Signout'
 import Putjob from '@/components/Putjob'
 import Getjob from '@/components/Getjob'
 import Create from '@/components/Create'
+import Edit from '@/components/Edit'
+import Check from '@/components/Check'
+import Fillin from '@/components/Fillin'
 import qsData from '@/components/qsData'
+
 Vue.use(Router)
 
 export default new Router({
@@ -21,18 +25,23 @@ export default new Router({
       name: 'Hello',
       component: Hello
     },
-    
+
     {
       path: '/Signin',
       name: 'Signin',
       component: Signin
     },
     {
-      path:'/User/:id',
-      name:'User',
+      path: '/User/:id',
+      name: 'User',
       component: User,
-      children:[{path:"AccessAccount",component:AccessAccount},{path:"GetJob",component:Getjob},{path:"Putjob",component:Putjob},
-    {path:'Putjob/Create',component:Create}]
+      children: [{ path: "AccessAccount", component: AccessAccount }, { path: "GetJob", component: Getjob }, { path: "Putjob", component: Putjob },
+      { path: 'Putjob/Create', component: Create },
+      { path: 'Putjob/Edit', component: Edit },
+      { path: 'Putjob/Check', component: Check },
+      { path: 'Getjob/Fillin', component: Fillin },
+      { path: 'Putjob/qsData',component:qsData}
+      ]
     },
     {
       path: '/Register',
@@ -41,8 +50,8 @@ export default new Router({
     }
     ,
     {
-      path:'/',
-      redirect:'/Hello'
+      path: '/',
+      redirect: '/Hello'
     },
     {
       path: '/Recharge',
@@ -54,26 +63,21 @@ export default new Router({
       name: 'Withdraw',
       component: Withdraw
     },
-    
+
     {
       path: '/User/Signout',
       name: 'Signout',
       component: Signout
     },
     {
-      path:"/User/Part",
-      redirect:"/User/Part/Getjob"
+      path: "/User/Part",
+      redirect: "/User/Getjob"
     },
     {
-      path:"/User",
-      redirect:"/User/Part/Getjob"
-    },
-    {
-      path:"/qsData",
-      name: 'qsData',
-      component: qsData
+      path: "/User",
+      redirect: "/User/Part/Getjob"
     }
 
-    
+
   ]
 })

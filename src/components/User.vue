@@ -78,7 +78,7 @@
         // 充值框显示和隐藏
         dialogVisible1: false,
         dialogVisible2: false,
-        user_name:"唐育涛",
+        user_name:"唐..",
         user_id:"",
         user_phone:""
       }
@@ -90,6 +90,7 @@
       },
       signout() {
         this.$router.push("/Signin");
+        sessionStorage.clear()
       },
       goGetjob() {
         this.$router.push("/User/Part/Getjob");
@@ -110,53 +111,26 @@
       withDraw(){
          this.dialogVisible2 = true;
       },
-      getQuestionnaire:function(nainiu) {
-        if(this.user_id==="") return;
-        var URL="http://localhost:8082/module/user/";
-        URL+=nainiu?"questionnaire_own":"questionnaire_pre";
-        var jsonData={user_id:this.user_id,number:5};
-        var axios={method:"post",url:URL,widthCredentials:false,data:jsonData};
-        this.$http(axios).then(function(res){
+      getUserInfo(vm) {
+        var URL="http://localhost:8082/module/user/userinfo";
+        var axios={method: "get",url:URL,widthCredentials: false};
+        vm.$http(axios).then(function(res){
           if(res.status==200) {
-            if(res.data.code==200) {
-              var number=res.data.number;
-              var content=res.data.content;
-              for(var i=0;i<number;i++) {
-                this.tableData.push(content[i]);
-              }
-            }
-            else {
-              alert("服务器出错");
-            }
+            vm.user_name=res.data.name;
+            vm.user_id=res.data.sid;
+            sessionStorage.setItem('user', String(vm.user_id));
           }
-          else alert("网络出错");
+          else {
+            alert("服务器未能返回数据");
+          }
         }).catch(function(err){
           console.log(err);
+          alert("An Err Happened");
         });
       }
     },
     mounted() {
-      //this.$router.push({path:"/Getjob"});
-      this.user_phone=this.$route.params.user_phone;
-      var URL="http://localhost:8082/module/login/";
-      URL+=this.user_phone;
-      var axios={method: "get",url:URL,widthCredentials: false};
-      this.$http(axios).then(function(res){
-        if(res.status==200) {
-          if(res.data.code==200) {
-            this.user_name=res.data.s_name;
-            this.user_id=res.data.s_ID;
-          }
-          else {
-            alert("Err happened");
-          }
-        }
-        else {
-          alert("网络出错");
-        }
-      }).catch(function(err){
-        console.log(err);
-      });
+      this.getUserInfo(this);
     }
   };
 </script>

@@ -7,14 +7,12 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'  //引入组件库 'npm i element-ui -S'
 import axios from 'axios'
 import crypto from 'crypto'
-import Echarts from 'echarts'
 
-Vue.use(Echarts)
 Vue.use(crypto);
 Vue.use(ElementUI);
 Vue.config.productionTip = false
 Vue.prototype.$http = axios;
-Vue.prototype.echarts = Echarts
+
 
 /* eslint-disable no-new */
 

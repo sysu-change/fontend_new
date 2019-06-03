@@ -102,27 +102,28 @@ export default{
       },
 
     SigninforUser:function(vm){
-      var jsonData={phone_num:this.form.phone_num,password:String(require("crypto")
+      var jsonData={phone_num:vm.form.phone_num,password:String(require("crypto")
           .createHash("sha512")
-          .update(this.form.password)
+          .update(vm.form.password)
           .digest("hex")
           .toUpperCase())};
       var axios={method: "post",url: "http://localhost:8082/module/login",widthCredentials: false,data:jsonData};
-      this.$http(axios).then(function(res){
+      vm.$http(axios).then(function(res){
         if(res.status==200) {
-          alert(res.data.msg)
-          vm.gotoUser();
+          if(res.data.code==200) {
+            vm.gotoUser();
+          }
+          else alert(res.data.msg);
         }
         else {
           alert("request failed");
-          return false;
         }
       }).catch(function(err){
         console.log(err);
       });
     },
     gotoUser:function() {
-      this.$router.push({path: '/User',params:{user_phone:this.form.phone_num}});
+      this.$router.push('/User');
     }
   }
 }

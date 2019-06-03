@@ -129,7 +129,7 @@ export default {
       description:"有偿问卷",
       putForward:0,
       quantity:"100",
-      reward:"1.5"
+      reward:"1.0"
     };
   },
   methods: {
@@ -281,21 +281,14 @@ export default {
       this.showDialog = false;
       this.putForward=0;
     },
-    dateToString() {
-      var date=new Date();
-      var year=date.getFullYear();
-      var month=date.getMonth()+1;
-      var day=date.getDate();
-      return ""+year+"-"+month+"-"+day;
-    },
+
     //上传问卷
     uploadWenjuan(vm) {
-        var dda=vm.dateToString();
-        var wenjuan={type:1,title:vm.titleValue,description:vm.description,edit_status:vm.putForward,reward:parseFloat(vm.reward),
-        quantity:parseInt(vm.quantity),pub_time:dda};
+        var wenjuan={qid:this.qid,title:vm.titleValue,description:vm.description,edit_status:vm.putForward,reward:parseFloat(vm.reward),
+        quantity:parseInt(vm.quantity),pub_time:"2019.05.05"};
         wenjuan.content=vm.qsItem;
-        var URL="http://localhost:8082/module/user/create_questionnaire";
-        var axios={method:"post",url:URL,widthCredentials:false,data:wenjuan};
+        var URL="http://localhost:8082/module/user/edit_questionnaire";
+        var axios={method:"put",url:URL,widthCredentials:false,data:wenjuan};
         vm.$http(axios).then(function(res){
           if(res.status==200) {
             if(res.data.code!=200) alert(res.data.msg);
@@ -326,10 +319,6 @@ export default {
         alert("问卷数量请输入整数数字");
         return false;
       }
-      else if(parseInt(this.quantity)==0&&this.putForward==1) {
-        alert("问卷数不能为0");
-        return false;
-      }
       if(parseFloat(this.reward).toString() == "NaN") {
         alert("问卷数量请输入数字");
         return false;
@@ -339,16 +328,39 @@ export default {
     //上传问卷并跳转回发布也买你
     jump() {
       if(this.checkRight()) this.uploadWenjuan(this);
+    },
+    getWenjuan(vm){
+      var URL = "http://localhost:8082/module/user/questionnaire/" + this.qid;
+      var axios = { method: "get", url: URL, widthCredentials: false };
+      this.$http(axios)
+      .then(function(res) {
+        if (res.status == 200) {
+          if (res.data.code == 200) {
+            vm.titleValue = res.data.content.title;
+            vm.description = res.data.content.description;
+            vm.reward = res.data.content.reward;
+            vm.quantity = res.data.content.quantity;
+            vm.status = res.data.content.edit_status;
+            var contentjs = res.data.content.content;
+            vm.qsItem = contentjs;
+          } else alert(res.data.msg);
+         
+        } else alert("网络错误");
+      })
+      .catch(function(err) {
+        console.log(err);
+        alert("发生了一个异常");
+      });
     }
-
   },
+  mounted() {
+    this.qid = this.$route.query.ID;
+    //alert(this.qid);
+    this.getWenjuan(this);
+  }
 };
 </script>
-
-
-
 <style scoped>
-
 .edit-container {
   width: 80%;
   margin: 1rem auto;
