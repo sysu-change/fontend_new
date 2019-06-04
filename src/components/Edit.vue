@@ -252,12 +252,13 @@ export default {
       let qsTitle = this.qsInputTitle.trim();
       if (qsTitle === "") return alert("题目不能为空");
       if (true) {
-        this.qsItem.push({
+        var neww={
           question: qsTitle,
           choice_type: this.addOptionType,
           must_edit: true,
           choice_item:[]
-        });
+        };
+        this.qsItem.push(neww);
         this.showAddQsDialog = false;
       }
     },
@@ -281,11 +282,17 @@ export default {
       this.showDialog = false;
       this.putForward=0;
     },
-
+    dateToString() {
+      var date=new Date();
+      var year=date.getFullYear();
+      var month=date.getMonth()+1;
+      var day=date.getDate();
+      return ""+year+"-"+month+"-"+day;
+    },
     //上传问卷
     uploadWenjuan(vm) {
         var wenjuan={qid:this.qid,title:vm.titleValue,description:vm.description,edit_status:vm.putForward,reward:parseFloat(vm.reward),
-        quantity:parseInt(vm.quantity),pub_time:"2019.05.05"};
+        quantity:parseInt(vm.quantity),pub_time:vm.dateToString()};
         wenjuan.content=vm.qsItem;
         var URL="http://localhost:8082/module/user/edit_questionnaire";
         var axios={method:"put",url:URL,widthCredentials:false,data:wenjuan};

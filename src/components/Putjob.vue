@@ -4,7 +4,7 @@
       <button class="but" @click="Create">+新建问卷</button>
     </div>
     <el-main>
-      <el-table :data="tableData">
+      <el-table :data="tableData" v-loading="loading">
         <el-table-column prop="ID" label="标号" sortable></el-table-column>
         <el-table-column prop="date" label="日期" sortable width="140"></el-table-column>
         <el-table-column prop="type" label="任务类型" width="120"></el-table-column>
@@ -48,7 +48,8 @@ export default {
   data() {
     return {
       tableData: [
-      ]
+      ],
+      loading:false
     };
   },
   methods: {
@@ -82,7 +83,14 @@ export default {
     },
     /**查看已回答问卷的统计数据 */
     Statics: function(row) {
-      //alert(row.ID);
+      if (row.ID == "") {
+        alert("未找到问卷标号为空");
+        return;
+      }
+      this.$router.push({
+        path: "/User/Part/Putjob/Dajuanlist",
+        query: { ID: parseInt(row.ID) }
+      });
     },
     Delete: function(row) {
       //alert(row.ID);
@@ -116,6 +124,7 @@ export default {
         });
     },
     getQuestionnaire: function(vm) {
+      vm.loading=true;
       if (this.user_id === "") return;
       var URL = "http://localhost:8082/module/user/questionnaire_own";
       var axios = { method: "get", url: URL, widthCredentials: false };
@@ -156,6 +165,7 @@ export default {
                 }
                 vm.tableData.push(tempIndex);
               }
+              vm.loading=false;
             } else {
               alert("服务器出错");
             }
@@ -180,7 +190,7 @@ export default {
   color: white;
   font-size: 20px;
   border-radius: 3px;
-  background-color: #ee7141;
+  background-color: #409EFF;
 }
 .crhead {
   margin-top: 3px;

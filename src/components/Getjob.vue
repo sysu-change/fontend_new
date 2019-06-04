@@ -1,6 +1,6 @@
 <template>
   <el-main>
-    <el-table :data="tableData">
+    <el-table :data="tableData" v-loading="loading">
       <el-table-column prop="ID" label="标号" sortable></el-table-column>
       <el-table-column prop="date" label="日期" sortable width="140"></el-table-column>
       <el-table-column prop="type" label="任务类型" width="120"></el-table-column>
@@ -22,12 +22,14 @@ export default {
   data() {
     return {
       tableData: [
-      ]
+      ],
+      loading:false
     };
   },
   methods: {
     getWenjuan: function(vm) {
       if (this.user_id === "") return;
+      vm.loading=true;
       var URL = "http://localhost:8082/module/user/questionnaire_pre";
       var jsonData = { offset: 0, number: 15 };
       var axios = {
@@ -61,6 +63,7 @@ export default {
                 tempIndex.price = "$" + String(temp.reward);
                 vm.tableData.push(tempIndex);
               }
+              vm.loading=false;
             } else {
               alert(res.data.msg);
             }

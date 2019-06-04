@@ -252,12 +252,13 @@ export default {
       let qsTitle = this.qsInputTitle.trim();
       if (qsTitle === "") return alert("题目不能为空");
       if (true) {
-        this.qsItem.push({
+        var neww={
           question: qsTitle,
           choice_type: this.addOptionType,
           must_edit: true,
           choice_item:[]
-        });
+        };
+        this.qsItem.push(neww);
         this.showAddQsDialog = false;
       }
     },

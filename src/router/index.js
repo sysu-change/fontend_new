@@ -14,7 +14,8 @@ import Create from '@/components/Create'
 import Edit from '@/components/Edit'
 import Check from '@/components/Check'
 import Fillin from '@/components/Fillin'
-import qsData from '@/components/qsData'
+import Dajuanlist from '@/components/Dajuanlist'
+
 
 Vue.use(Router)
 
@@ -40,7 +41,7 @@ export default new Router({
       { path: 'Putjob/Edit', component: Edit },
       { path: 'Putjob/Check', component: Check },
       { path: 'Getjob/Fillin', component: Fillin },
-      { path: 'Putjob/qsData',component:qsData}
+      { path: 'Putjob/Dajuanlist',component:Dajuanlist},
       ]
     },
     {

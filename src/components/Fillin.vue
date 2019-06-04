@@ -21,8 +21,9 @@
               <input
                 type="radio"
                 :name="`${index}`"
+                :value="`${index1}`"
                 v-if="qus.choice_type === 1"
-                v-model="(qsItem[index]).choiced[index1]"
+                v-model="(qsItem[index]).indexCh"
               >
               <input
                 type="checkbox"
@@ -34,7 +35,7 @@
             </label>
           </p>
           <p v-if="qus.choice_type === 0">
-            <textarea></textarea>
+            <textarea v-model="(qsItem[index]).innertext"></textarea>
           </p>
         </div>
       </div>
@@ -89,14 +90,33 @@ export default {
     save() {
       this.uploadWenjuan(this);
     },
+    dateToString() {
+      var date=new Date();
+      var year=date.getFullYear();
+      var month=date.getMonth()+1;
+      var day=date.getDate();
+      return ""+year+"-"+month+"-"+day;
+    },
     uploadWenjuan(vm) {
-        var wenjuan = { qid: vm.qid, sid: sessionStorage.getItem("user"), ans_time: Date() };
+        var wenjuan = { qid: vm.qid, sid: sessionStorage.getItem("user"), ans_time: vm.dateToString() };
         var ans = [];
         for (var i = 0; i < vm.qsItem.length; i++) {
             var inner = [];
-            for (var d = 0; d < vm.qsItem[i].choice_item.length; d++) {
-                if (vm.qsItem[i].choiced[d] == true) {
-                    inner.push(vm.qsItem[i].choice_item[d]);
+            if((vm.qsItem[i]).choice_type==0) {
+              inner.push((vm.qsItem[i]).innertext);
+              ans.push(inner);
+              continue;
+            }
+            else if((vm.qsItem[i]).choice_type==1) {
+              inner.push((vm.qsItem[i]).choice_item[(vm.qsItem[i]).indexCh]);
+              //alert((vm.qsItem[i]).choice_item[(vm.qsItem[i]).indexCh]);
+              ans.push(inner);
+              continue;
+            }
+            for (var d = 0; d < (vm.qsItem[i]).choice_item.length; d++) {
+                //alert((vm.qsItem[i]).choice_item[d]+"+"+(vm.qsItem[i]).choiced[d]);
+                if ((vm.qsItem[i]).choiced[d] == true &&(vm.qsItem[i]).choice_type==2) {
+                  inner.push((vm.qsItem[i]).choice_item[d]);
                 }
             }
             ans.push(inner);
@@ -132,11 +152,20 @@ export default {
                 var contentjs = res.data.content.content;
                 vm.qsItem = contentjs;
                 for (var i = 0; i < contentjs.length; i++) {
-                    vm.qsItem[i].choiced = [];
-                  for (var d = 0; d < vm.qsItem[i].choice_item.length; d++) {
-                        vm.qsItem[i].choiced.push(false);
+                  if((vm.qsItem[i]).choice_type==2) {
+                    (vm.qsItem[i]).choiced = [];
+                    for (var d = 0; d < (vm.qsItem[i]).choice_item.length; d++) {
+                      (vm.qsItem[i]).choiced.push(false);
+                    }
+                  }
+                  else if((vm.qsItem[i]).choice_type==1) {
+                    (vm.qsItem[i]).indexCh=0;
+                  }
+                  else {
+                    (vm.qsItem[i]).innertext="input some words";
                   }
                 }
+          
               } else alert(res.data.msg);
             } else alert("网络错误");
         }).catch(function(err) {
