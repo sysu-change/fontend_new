@@ -94,7 +94,7 @@ export default {
     },
     Delete: function(row) {
       //alert(row.ID);
-      this.DeleteDatabase(parseInt(row.ID,this));
+      this.DeleteDatabase(parseInt(row.ID),this);
     },
     DeleteDatabase: function(id, vm) {
       var param = { qid: id };
