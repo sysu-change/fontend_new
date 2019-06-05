@@ -106,6 +106,20 @@ export default {
         callback();
       }
     };
+     var validatePass3 = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('手机号不能为空'));
+        }
+        setTimeout(() => {
+          var reg=/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|17[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
+          if(!reg.test(this.ruleForm.phone_num)) {
+            callback(new Error('请输入正确格式'));
+          }else {
+            callback();
+          } 
+        }, 1000);
+      };
+
     return {
       ruleForm: {
         number: "",
@@ -151,20 +165,20 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           alert("submit");
-          this.updateRegister();
+          this.updateRegister(this);
         } else {
           console.log("error submit!!");
           return false;
         }
       });
     },
-    updateRegister: function() {
+    updateRegister: function(vm) {
       var jsonData = {
         sid: this.ruleForm.number,
         name: this.ruleForm.name,
-        age: this.ruleForm.age,
-        sex: this.ruleForm.sex==='男'?"0":"1",
-        grade: this.ruleForm.semester,
+        age: parseInt(this.ruleForm.age),
+        sex: parseInt(this.ruleForm.sex==='男'?"0":"1"),
+        grade: parseInt(this.ruleForm.semester),
         major: this.ruleForm.major,
         phone_num: this.ruleForm.phone_num,
         password: String(require("crypto")
@@ -178,6 +192,9 @@ export default {
       this.$http(axios).then(function(res) {
           if (res.status == 200) {
             alert(res.data.msg);
+            if (res.data.msg=='successful'){
+              vm.$router.push("/Signin");
+            }
           } else {
             alert("Failed");
           }

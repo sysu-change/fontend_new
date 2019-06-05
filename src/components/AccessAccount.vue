@@ -114,7 +114,7 @@ export default {
         name: "唐先生",
         sex: "男",
         age: 20,
-        semester: 0,
+        semester: 1,
         major: "软件工程",
         phone_num: "13684078313",
         coin:0,
@@ -148,7 +148,7 @@ export default {
     updateUserInfo(vm) {
       var jsonData={name:vm.ruleForm.name,age:parseInt(vm.ruleForm.age),
       sex:0,grade:parseInt(vm.ruleForm.semester),email:vm.ruleForm.email,major:vm.ruleForm.major};
-      jsonData.sex=vm.ruleForm.sex=='男'?0:1;
+      jsonData.sex=parseInt(vm.ruleForm.sex=='男'?0:1);
       var axios={method:"put",url:"http://localhost:8082/module/user/userInfo",widthCredentials:false,data:jsonData};
       vm.$http(axios).then(function(res){
         if(res.status==200) {
@@ -187,7 +187,7 @@ export default {
         vm.ruleForm.major=res.data.major;
         vm.ruleForm.age=res.data.age;
         vm.ruleForm.phone_num=res.data.phone_num;
-        vm.ruleForm.sex=(res.data.sex==0)?"男":"女";
+        vm.ruleForm.sex=res.data.sex;
         vm.ruleForm.email=res.data.email;
       }
       else {
