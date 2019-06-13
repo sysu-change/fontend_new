@@ -69,7 +69,7 @@ npm test
 └─index.html
 └─package.json
 ```
-## 闲钱宝管理员结构
+
 
 
 
