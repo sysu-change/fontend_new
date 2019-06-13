@@ -58,14 +58,12 @@ export default{
           } 
         }, 1000);
       };
-
 		return { 
 			    form: {
           phone_num: '',
           password: '',
           code:''
         },
-
         rules: {
           phone_num: [
             
@@ -77,9 +75,7 @@ export default{
           code:[
             { required: true, message: '验证码不可为空', trigger: 'blur'}
         ]
-
         },
-
         // 对话框显示和隐藏
         dialogVisible: false
 		}
@@ -100,7 +96,6 @@ export default{
           }
         });
       },
-
     SigninforUser:function(vm){
       var jsonData={phone_num:vm.form.phone_num,password:String(require("crypto")
           .createHash("sha512")
@@ -127,7 +122,6 @@ export default{
     }
   }
 }
-
 </script>
 
 <style scoped>
@@ -150,22 +144,20 @@ export default{
     -moz-border-radius: 5px;
     box-shadow: 0 0 25px #909399;
   }
-
   .submit{
     position: relative;
+    
     width: 200px;
     top:-60px;
     left: -25px;
   }
   
  
-
 .login-title {
     text-align: left;
     font: 1em sans-serif;
     color: #00b38a;
   }
-
 .login_button{
   position: absolute;
   left: 150px;
@@ -173,9 +165,7 @@ export default{
   height: 40px;
   top: 260px;
 }
-
 .cc{
   background-color: azure;
 }
-
 </style>

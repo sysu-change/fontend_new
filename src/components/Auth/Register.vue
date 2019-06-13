@@ -119,7 +119,6 @@ export default {
           } 
         }, 1000);
       };
-
     return {
       ruleForm: {
         number: "",
@@ -140,7 +139,6 @@ export default {
           { min: 8, max: 8, message: "请输入8位学号", trigger: "change" }
         ],
         name: [{ required: true, message: "请输入姓名", trigger: "change" }],
-
         age: [{ required: true, message: "请输入年龄", trigger: "change" }],
         semester: [
           { required: true, message: "请选择年级", trigger: "change" }
@@ -202,7 +200,6 @@ export default {
           console.log(err);
         });
     },
-
     onLogin() {
       this.$router.push("/Signin");
     }
@@ -223,15 +220,16 @@ export default {
   }
   .regist-button{
     position: relative;
+    background-color: #ffffff;
+  border: 1.5px solid #00b38a;
+  color: #00b38a;
      left: -15px;
     width: 60%;
-
   }
 .link {
   position: relative;
   left: 20px;
 }
-
 .sex1{
   position: relative;
   left:-110px;
