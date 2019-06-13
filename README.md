@@ -6,7 +6,10 @@
 
 ``` bash
 # install dependencies
-npm install
+npm install axios
+npm install element-ui
+npm install vue-router
+npm install vue-resource
 
 # serve with hot reload at localhost:8080
 npm run dev
@@ -23,7 +26,7 @@ npm run unit
 # run all tests
 npm test
 ```
-## 闲钱宝客户端结构
+## 项目结构
 ```txt
 ├─build：存放构建用到的相关文件
 ├─config：存放配置文件
