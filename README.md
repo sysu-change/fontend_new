@@ -2,7 +2,7 @@
 
 > 测试更新中 
 
-## Build Setup
+## 项目依赖
 
 ``` bash
 # install dependencies
@@ -23,7 +23,7 @@ npm run unit
 # run all tests
 npm test
 ```
-
+## 闲钱宝客户端结构
 ```txt
 ├─build：存放构建用到的相关文件
 ├─config：存放配置文件
@@ -66,5 +66,7 @@ npm test
 └─index.html
 └─package.json
 ```
+## 闲钱宝管理员结构
+
 
 
