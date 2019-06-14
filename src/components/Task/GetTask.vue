@@ -6,7 +6,9 @@
   <el-breadcrumb-item :to="{ path: '/User/Part/GetTask'}">其他任务</el-breadcrumb-item>
   <el-breadcrumb-item></el-breadcrumb-item>
 </el-breadcrumb>
-    <el-table :data="tableData">
+    <el-table 
+      :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+      v-loading="loading">
       <el-table-column prop="ID" label="任务号" sortable></el-table-column>
       <el-table-column prop="type" label="任务类型" width="120"></el-table-column>
       <el-table-column prop="descript" label="任务简介"></el-table-column>
@@ -24,9 +26,14 @@
       </el-table-column>
     </el-table>
     <el-pagination
-  background
-  layout="prev, pager, next"
-  :total="1000">
+    background
+  @size-change="handleSizeChange"
+  @current-change="handleCurrentChange"
+  :current-page="currentPage"
+  :page-sizes="[5, 10]" 
+  :page-size="pagesize"         
+  layout="total, sizes, prev, pager, next, jumper"
+  :total="200">
 </el-pagination>
   </el-main>
 </template>
@@ -36,49 +43,84 @@ export default {
   name: "Task",
   data() {
     return {
-      tableData: [
-        {
-          ID: "101",
-          type: "取快递",
-          descript: "帮忙取快递送到明九楼下",
-          count: 1,
-          price: "$2"
-        },
-        {
-           ID: "102",
-          type: "陪运动",
-          descript: "东校羽毛球场陪练",
-          count: 1,
-          price: "$1"
-        },
-        {
-          ID: "103",
-          type: "辅导",
-          descript: "求计算机网络课程辅导通过考试",
-          count: 1,
-          price: "$1"
-        },
-        {
-          ID: "104",
-          type: "代购",
-          descript: "去贝岗买水果，价格到付",
-          count: 1,
-          price: "$1"
-        }
-      ]
+      tableData: [],
+      loading:false,
+      currentPage:1, //初始页
+      pagesize:5    //    每页的数据
     };
   },
   methods: {
-    TaskView:function(row){
-        this.$router.push({
-          name: 'TaskDetail',
-          params: {
-            id: row.ID
-          }
+    //学生端挑选任务，查看到目前系统所有的其他类型任务
+    getTask: function(vm) {
+      if (this.user_id === "") return;
+      vm.loading=true;
+      var URL = "http://localhost:8082/module/user/select_task";
+      var jsonData = { offset: 0, number: 100 };
+      var axios = {
+        method: "get",
+        url: URL,
+        widthCredentials: false,
+        params: jsonData
+      };
+      this.$http(axios)
+        .then(function(res) {
+          if (res.status == 200) {
+            if (res.data.code == 200) {
+              var number = res.data.number;
+              var content = res.data.content;
+              var jsonContent = content;
+              for (var i = 0; i < number; i++) {
+                var temp = jsonContent[i];
+                var tempIndex = {
+                  ID: "",
+                  type: "",
+                  descript: "",
+                  count: 0,
+                  price: ""
+                };
+                tempIndex.ID = String(temp.tid);
+                tempIndex.type = temp.type;
+                tempIndex.descript = temp.description;
+                tempIndex.count = temp.quantity;
+                tempIndex.price = "$" + String(temp.reward);
+                vm.tableData.push(tempIndex);
+              }
+              vm.loading=false;
+            } else {
+              alert(res.data.msg);
+            }
+          } else alert("网络出错");
         })
-    }
+        .catch(function(err) {
+          console.log(err);
+        });
+    },
+
+    TaskView:function(row){
+        if (row.ID == "") {
+        alert("未找到问卷标号为空");
+        return;
+      }
+      this.$router.push({
+        path: "/TaskDetail",
+        query: { ID: parseInt(row.ID) }
+      });
+    },
+
+    handleSizeChange: function (size) {
+                this.pagesize = size;
+                console.log(this.pagesize)  //每页下拉显示数据
+        },
+        handleCurrentChange: function(currentPage){
+                this.currentPage = currentPage;
+                console.log(this.currentPage)  //点击第几页
+        },
   },
- 
+   
+
+ created() {
+    this.getTask(this);
+  },
 };
 </script>
 
