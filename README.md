@@ -46,7 +46,7 @@ npm test
 |   |    |   └─Fillin.vue：学生端回答问卷
 │   │    ├─Set：问卷/任务列表
 |   |    |   ├─Getjob.vue：学生端获取问卷/任务
-|   |    |   └─Fillin.vue：奶牛端获取问卷/任务页面（编辑）
+|   |    |   └─Putjob.vue：奶牛端获取问卷/任务页面（编辑）
 |   |    ├─Task：任务操作页面
 │   │    |   ├─CreateTask.vue：奶牛端创建任务
 |   |    |   ├─GetTask.vue：获取任务
@@ -69,7 +69,7 @@ npm test
 └─index.html
 └─package.json
 ```
-## 闲钱宝管理员结构
+
 
 
 
