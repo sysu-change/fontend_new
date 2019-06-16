@@ -1,15 +1,19 @@
 <template>
   <div>
-    <div class="crhead">
-      <button class="but" @click="Create">+新建问卷</button>
-    </div>
     <el-main>
+       <h3 align="left">奶牛端</h3>
+      <el-breadcrumb separator="/">
+  <el-breadcrumb-item :to="{ path: '/User/Part/Putjob' }">问卷任务</el-breadcrumb-item>
+  <el-breadcrumb-item :to="{ path: '/User/Part/Putjob/TodoTask' }">进行中的任务</el-breadcrumb-item>
+  <el-breadcrumb-item :to="{ path: '/User/Part/Putjob/DoneTask' }">已完成的任务</el-breadcrumb-item>
+  <el-breadcrumb-item></el-breadcrumb-item>
+      </el-breadcrumb>
       <el-table :data="tableData" v-loading="loading">
         <el-table-column prop="ID" label="标号" sortable></el-table-column>
         <el-table-column prop="date" label="日期" sortable width="140"></el-table-column>
-        <el-table-column prop="type" label="任务类型" width="120"></el-table-column>
+        <el-table-column prop="type" label="标题" width="120"></el-table-column>
         <el-table-column prop="descript" label="任务描述"></el-table-column>
-        <el-table-column prop="count" sortable label="需求量"></el-table-column>
+        <el-table-column prop="count" sortable label="需求量" width="100"></el-table-column>
         <el-table-column prop="price" sortable label="赏金"></el-table-column>
         <el-table-column prop="status" label="状态"></el-table-column>
         <el-table-column>
@@ -37,7 +41,11 @@
             <el-button size="mini" type="info" @click="Statics(scope.row)">数据</el-button>
           </template>
         </el-table-column>
+        
       </el-table>
+      <div class="crhead">
+      <button class="but" @click="Create">+新建问卷</button>
+    </div>
     </el-main>
   </div>
 </template>
@@ -94,10 +102,23 @@ export default {
     },
     Delete: function(row) {
       //alert(row.ID);
-      this.DeleteDatabase(parseInt(row.ID),this);
+      this.$confirm('确定放弃吗？', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        
+       this.DeleteDatabase(parseInt(row.ID),this);
+       
+        this.$message({
+          type: 'success',
+          message: '已放弃任务!'
+        })
+      })
+      
     },
     DeleteDatabase: function(id, vm) {
-      var param = { qid: id };
+       var param = { qid: id };
       var URL = "http://localhost:8082/module/user/delete_questionnaire";
       var axios = {
         method: "delete",
@@ -122,6 +143,7 @@ export default {
         .catch(function(err) {
           console.log(err);
         });
+      
     },
     getQuestionnaire: function(vm) {
       vm.loading=true;

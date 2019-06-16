@@ -12,10 +12,10 @@
       ref="titleInput"
     >
 
-    <div class="content">
-      <div class="questions" v-for="(qus, index) in qsItem">
+    <div class="content" v-loading.fullscreen.lock="loading">
+      <div class="questions" v-for="(qus, index) in qsItem" >
         <div class="qs-left">
-          <p class="qs-title">{{index+1}}. {{qus.question}}{{getMsg(qus.choice_type)}}</p>
+          <p class="qs-title">{{index+1}}. {{qus.question}}{{getMsg(qus.choice_type)}}<span style='color:red' v-if="qus.must_edit">*</span></p>
           <p v-for="(option,index1) in qus.choice_item" class="option">
             <label>
               <input
@@ -31,11 +31,12 @@
                 v-if="qus.choice_type === 2"
                 v-model="(qsItem[index]).choiced[index1]"
               >
-              <span>{{(qsItem[index]).choice_item[index1]}}</span><br/>
+              <span>{{(qsItem[index]).choice_item[index1]}}</span>
+              <br>
             </label>
           </p>
           <p v-if="qus.choice_type === 0">
-            <textarea v-model="(qsItem[index]).innertext"></textarea>
+            <textarea v-model="(qsItem[index]).innertext" placeholder="input some words"></textarea>
           </p>
         </div>
       </div>
@@ -68,7 +69,8 @@ export default {
       qid: 0,
       edit_status: 0,
       reward: 0.1,
-      quantity: 100
+      quantity: 100,
+      loading: true
     };
   },
   methods: {
@@ -86,91 +88,142 @@ export default {
     back() {
       this.$router.push("/User/Part/Getjob");
     },
+    check(vm) {
+      for (var i = 0; i < this.qsItem.length; i++) {
+        if (vm.qsItem[i].must_edit == true) {
+          if (vm.qsItem[i].choice_type == 2) {
+            //多选
+            var choice_num = 0;
+            for (var d = 0; d < vm.qsItem[i].choice_item.length; d++) {
+              
+                if (vm.qsItem[i].choiced[d]==true){
+                  choice_num++;
+                }
+            
+            }
+      
+            if(choice_num < 1) {
+              return false;
+            }
+          } else if (vm.qsItem[i].choice_type == 1) {
+            //单选
+            if (vm.qsItem[i].indexCh == -1) {
+              return false;
+            }
+          
+          } else {
+            if (vm.qsItem[i].innertext == ""){
+              return false;
+            }
+            
+          }
+        }
+      }
+      return true;
+    },
 
     save() {
-      this.uploadWenjuan(this);
+      if (this.check(this)){
+        this.uploadWenjuan(this);
+      }
+      else {
+        alert("请完成所有必填项");
+      }
     },
     dateToString() {
-      var date=new Date();
-      var year=date.getFullYear();
-      var month=date.getMonth()+1;
-      var day=date.getDate();
-      return ""+year+"-"+month+"-"+day;
+      var date = new Date();
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var day = date.getDate();
+      return "" + year + "-" + month + "-" + day;
     },
     uploadWenjuan(vm) {
-        var wenjuan = { qid: vm.qid, sid: sessionStorage.getItem("user"), ans_time: vm.dateToString() };
-        var ans = [];
-        for (var i = 0; i < vm.qsItem.length; i++) {
-            var inner = [];
-            if((vm.qsItem[i]).choice_type==0) {
-              inner.push((vm.qsItem[i]).innertext);
-              ans.push(inner);
-              continue;
-            }
-            else if((vm.qsItem[i]).choice_type==1) {
-              inner.push((vm.qsItem[i]).choice_item[(vm.qsItem[i]).indexCh]);
-              //alert((vm.qsItem[i]).choice_item[(vm.qsItem[i]).indexCh]);
-              ans.push(inner);
-              continue;
-            }
-            for (var d = 0; d < (vm.qsItem[i]).choice_item.length; d++) {
-                //alert((vm.qsItem[i]).choice_item[d]+"+"+(vm.qsItem[i]).choiced[d]);
-                if ((vm.qsItem[i]).choiced[d] == true &&(vm.qsItem[i]).choice_type==2) {
-                  inner.push((vm.qsItem[i]).choice_item[d]);
-                }
-            }
-            ans.push(inner);
+      var wenjuan = {
+        qid: vm.qid,
+        sid: sessionStorage.getItem("user"),
+        ans_time: vm.dateToString()
+      };
+      var ans = [];
+      for (var i = 0; i < vm.qsItem.length; i++) {
+        var inner = [];
+        if (vm.qsItem[i].choice_type == 0) {
+          inner.push(vm.qsItem[i].innertext);
+          ans.push(inner);
+          continue;
+        } else if (vm.qsItem[i].choice_type == 1) {
+          inner.push(vm.qsItem[i].choice_item[vm.qsItem[i].indexCh]);
+          //alert((vm.qsItem[i]).choice_item[(vm.qsItem[i]).indexCh]);
+          ans.push(inner);
+          continue;
         }
-        wenjuan.content = ans;
+        for (var d = 0; d < vm.qsItem[i].choice_item.length; d++) {
+          //alert((vm.qsItem[i]).choice_item[d]+"+"+(vm.qsItem[i]).choiced[d]);
+          if (
+            vm.qsItem[i].choiced[d] == true &&
+            vm.qsItem[i].choice_type == 2
+          ) {
+            inner.push(vm.qsItem[i].choice_item[d]);
+          }
+        }
+        ans.push(inner);
+      }
+      wenjuan.content = ans;
 
-        var URL = "http://localhost:8082/module/user/answer_put_forward";
-        var axios = {method: "post",url: URL,widthCredentials: false,data: wenjuan};
-        vm.$http(axios).then(function(res) {
-            if (res.status == 200) {
-                if (res.data.code == 200) {
-                    alert("成功");
-                } else alert(res.data.msg);
+      var URL = "http://localhost:8082/module/user/answer_put_forward";
+      var axios = {
+        method: "post",
+        url: URL,
+        widthCredentials: false,
+        data: wenjuan
+      };
+      vm.$http(axios)
+        .then(function(res) {
+          if (res.status == 200) {
+            if (res.data.code == 200) {
+              alert("成功");
+            } else alert(res.data.msg);
             vm.showDialog = false;
             vm.$router.push({ path: "/User/Part/Getjob" });
-            } else alert("网络错误");
-        }).catch(function(err) {
-            console.log(err);
-            alert("发生了一个异常");
+          } else alert("网络错误");
+        })
+        .catch(function(err) {
+          console.log(err);
+          alert("发生了一个异常");
         });
     },
     getWenjuan(vm) {
-        var URL = "http://localhost:8082/module/user/questionnaire/" + this.qid;
-        var axios = { method: "get", url: URL, widthCredentials: false };
-        this.$http(axios).then(function(res) {
-            if (res.status == 200) {
-              if (res.data.code == 200) {
-                vm.titleValue = res.data.content.title;
-                vm.description = res.data.content.description;
-                vm.reward = res.data.content.reward;
-                vm.quantity = res.data.content.quantity;
-                vm.status = res.data.content.edit_status;
-                var contentjs = res.data.content.content;
-                vm.qsItem = contentjs;
-                for (var i = 0; i < contentjs.length; i++) {
-                  if((vm.qsItem[i]).choice_type==2) {
-                    (vm.qsItem[i]).choiced = [];
-                    for (var d = 0; d < (vm.qsItem[i]).choice_item.length; d++) {
-                      (vm.qsItem[i]).choiced.push(false);
-                    }
+      var URL = "http://localhost:8082/module/user/questionnaire/" + this.qid;
+      var axios = { method: "get", url: URL, widthCredentials: false };
+      this.$http(axios)
+        .then(function(res) {
+          if (res.status == 200) {
+            if (res.data.code == 200) {
+              vm.titleValue = res.data.content.title;
+              vm.description = res.data.content.description;
+              vm.reward = res.data.content.reward;
+              vm.quantity = res.data.content.quantity;
+              vm.status = res.data.content.edit_status;
+              var contentjs = res.data.content.content;
+              vm.qsItem = contentjs;
+              for (var i = 0; i < contentjs.length; i++) {
+                if (vm.qsItem[i].choice_type == 2) {
+                  vm.qsItem[i].choiced = [];
+                  for (var d = 0; d < vm.qsItem[i].choice_item.length; d++) {
+                    vm.qsItem[i].choiced.push(false);
                   }
-                  else if((vm.qsItem[i]).choice_type==1) {
-                    (vm.qsItem[i]).indexCh=0;
-                  }
-                  else {
-                    (vm.qsItem[i]).innertext="input some words";
-                  }
+                } else if (vm.qsItem[i].choice_type == 1) {
+                  vm.qsItem[i].indexCh = -1;
+                } else {
+                  vm.qsItem[i].innertext = "";
                 }
-          
-              } else alert(res.data.msg);
-            } else alert("网络错误");
-        }).catch(function(err) {
-            console.log(err);
-            alert("发生了一个异常");
+              }
+              vm.loading = false;
+            } else alert(res.data.msg);
+          } else alert("网络错误");
+        })
+        .catch(function(err) {
+          console.log(err);
+          alert("发生了一个异常");
         });
     }
   },
@@ -179,7 +232,7 @@ export default {
     //alert(this.qid);
     this.getWenjuan(this);
   }
-}
+};
 </script>
 <style scoped>
 .edit-container {

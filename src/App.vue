@@ -1,14 +1,66 @@
 <template>
   <div id="app">
+    <el-header 
+       style="font-size: 15px;"
+        class="elheader"
+        v-if="$route.path!=='/Signin' 
+             && $route.path!=='/Hello'
+             && $route.path!=='/Register'">
+      
+      <el-row><el-col :span="4">
+          <span style="font-size:30px">闲钱宝</span>
+        </el-col>
+
+      <el-dropdown style="left:35%;color:#ffffff">
+        <i class="el-icon-s-custom" style="margin-right: 15px"></i>
+        <el-dropdown-menu slot="dropdown">
+          <router-link :to="{ path: '/AccessAccount'}">
+          <el-dropdown-item >个人信息</el-dropdown-item>
+          </router-link >
+          <router-link :to="{ path: '/Signin'}">
+          <el-dropdown-item >注销</el-dropdown-item>
+          </router-link>
+        </el-dropdown-menu>
+        <span >{{user_name}}</span>
+      </el-dropdown>
+      </el-row>
+    </el-header>
+
     <router-view ></router-view>
-    <router-link to="/Hello" tag="button" class="mainPage" router-link-active> 返回首页 </router-link>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
-}
+  name: 'App',
+  data(){
+    return {
+        user_name:"唐育涛"
+    }
+  },
+   methods:{
+     getUserinfo(vm) {
+      var axios={method:"get",url:"http://localhost:8082/module/user/userinfo",widthCredentials: false};
+      vm.$http(axios).then(function(res){
+      if(res.status==200) {
+        
+        vm.user_name=res.data.name;
+       
+      }
+      else {
+        alert("网络错误");
+      }
+    }).catch(function(err) {
+      console.log(err);
+      alert("An Err Happened");
+    });
+    }
+   },
+    created() {
+    this.getUserinfo(this);
+  }
+  }
+  
 </script>
 
 <style>
@@ -33,4 +85,5 @@ html, body, #app {
   width:80px;
   border-color:#00B38A;
 }
+
 </style>

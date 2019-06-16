@@ -1,34 +1,32 @@
 <template>
+<div class="background">
+  <br/>
+  <br/>
+<br/>
+  <br/>
+  <el-row >
+    <el-col :span="11" >
+    <h3 align="left">个人设置</h3>
+    </el-col>
+  </el-row>
   <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="user-box">
-    
-  <span>欢迎回来，{{username}}！</span>
+    <div class="avatar">
+      <img   >
+    </div>
 
-  <el-form-item>
-    <el-upload
-      class="avatar-uploader"
-      list-type="picture-card"
-      action="https://jsonplaceholder.typicode.com/posts/"
-      :show-file-list="false"
-      :on-success="handleAvatarSuccess"
-      :before-upload="beforeAvatarUpload">
-      <img v-if="imageUrl" :src="imageUrl" class="avatar">
-      <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-    </el-upload>
-  </el-form-item>
-
-  <el-form-item label="姓名" prop="name" style="width:50%" >
+  <el-form-item label="姓名" prop="name" style="width:40%" >
     <el-input v-model="ruleForm.name"></el-input>
   </el-form-item>
 
   <el-tooltip class="item" effect="dark" content="学号作为凭证不能修改" placement="right-start">
-    <el-form-item label="学号" prop="number" style="width:50%">
+    <el-form-item label="学号" prop="number" style="width:40%">
       <el-input  v-model="ruleForm.number" disabled="true"></el-input>
     </el-form-item>
   </el-tooltip>
     
        
     <el-form-item label="年龄/年级" >
-      <el-col :span="10">
+      <el-col :span="5">
         <el-form-item prop="age">
           <el-select placeholder="选择年龄" v-model="ruleForm.age" style="width: 100%;">
             
@@ -48,27 +46,31 @@
           </el-select>
         </el-form-item>
       </el-col>
-      <el-col class="line" :span="5"></el-col>
-      <el-col :span="10">
+      <el-col  :span="1">-</el-col>
+      <el-col :span="5">
         <el-form-item prop="semester">
           <el-select placeholder="选择年级" v-model="ruleForm.semester" style="width: 100%;">
-            <el-option label="大一" value="1"></el-option>
-            <el-option label="大二" value="2"></el-option>
-            <el-option label="大三" value="3"></el-option>
-            <el-option label="大四" value="4"></el-option>
-            <el-option label="研一" value="5"></el-option>
-            <el-option label="研二" value="6"></el-option>
-            <el-option label="研三" value="7"></el-option>
+            <el-option label="大一" value=1></el-option>
+            <el-option label="大二" value=2></el-option>
+            <el-option label="大三" value=3></el-option>
+            <el-option label="大四" value=4></el-option>
+            <el-option label="研一" value=5></el-option>
+            <el-option label="研二" value=6></el-option>
+            <el-option label="研三" value=7></el-option>
           </el-select>
         </el-form-item>
       </el-col>
     </el-form-item>
 
       <el-form-item label="性别" prop="sex">
-       <el-radio-group v-model="ruleForm.sex">
+        
+        <el-col :span="12">
+       <el-radio-group v-model="ruleForm.sex" style="width:100%" >
+         
          <el-radio border label="男" class="sex1"></el-radio>
          <el-radio border label="女" class="sex2"></el-radio>
         </el-radio-group>
+        </el-col>
       </el-form-item>
 
       <el-form-item label="专业" prop="major"  style="width:60%">
@@ -89,7 +91,9 @@
       </el-tooltip>
 
       <el-form-item label="信誉积分"   style="width:30% " class="cred_label">
+        <el-col :span="5">
         <span class="credibility" >{{ruleForm.Credibility}}</span>
+        </el-col>
       </el-form-item>
 
       <el-form-item label="账户余额"   style="width:30% " class="cash_label">
@@ -100,6 +104,7 @@
        <el-button class="reg_button1" type="success" @click="submitForm('ruleForm')">保存资料</el-button>
       </el-form-item>
   </el-form>
+</div>
 </template>
 
 <script>
@@ -124,7 +129,6 @@ export default {
        rules: {
         
         name: [{ required: true, message: "请输入姓名", trigger: "change" }],
-
         age: [{ required: true, message: "请输入年龄", trigger: "change" }],
         semester: [
           { required: true, message: "请选择年级", trigger: "change" }
@@ -136,7 +140,6 @@ export default {
     
     };
   },
-
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
@@ -145,7 +148,7 @@ export default {
         }
       });
     },
-    updateUserInfo(vm) {
+     updateUserInfo(vm) {
       var jsonData={name:vm.ruleForm.name,age:parseInt(vm.ruleForm.age),
       sex:0,grade:parseInt(vm.ruleForm.semester),email:vm.ruleForm.email,major:vm.ruleForm.major};
       jsonData.sex=parseInt(vm.ruleForm.sex=='男'?0:1);
@@ -163,11 +166,9 @@ export default {
     handleAvatarSuccess(res, file) {
         this.imageUrl = URL.createObjectURL(file.raw);
       },
-
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg';
       const isLt2M = file.size / 1024 / 1024 < 2;
-
       if (!isJPG) {
         this.$message.error('上传头像图片只能是 JPG 格式!');
       }
@@ -205,10 +206,18 @@ export default {
 };
 </script>
 <style scoped>
+.background{
+  position: relative;
+   width: 600px;
+   height: 700px;
+   left: 10%;
+   top:-10%
+}
+
 .user-box{
-    margin-left: 25%;
-    width: 500px;
-    height: 600px;
+    
+    width: 150%;
+    height: 100%;
     padding: 0px 50px 20px 35px;
     border: 2px;
     border-radius: 16px;
@@ -222,8 +231,8 @@ export default {
   background-color: #ffffff;
   border: 1.5px solid #00b38a;
   color: #00b38a;
-  left: 50%;
-  top:10px;
+  left: 60%;
+  top:0px;
   border-radius: 4px;
   width: 150px;
   height: 40px;
@@ -242,19 +251,32 @@ export default {
   left:-110px;
 }
 
-.avatar-uploader{
+.avatar{
     position: relative;
-    left: -40px;
+    border: 1px solid #00b38a;
+    width: 70px;
+    height: 70px;
+    left: 70%;
+    top:10%
 }
 
 /*账户余额*/
 .cash_label{
    position: relative;
-   top:10px;
-   left:30%;   
+   top:-5%;
+   left:40%;   
 }
 .cash{
     font: 2em sans-serif;
+}
+
+.cred_label{
+  position: relative;
+  left: 70%;
+  top:-35%
+}
+.credibility{
+  font: 2em sans-serif;
 }
 </style>
 

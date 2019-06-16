@@ -8,13 +8,13 @@
       name="qsTitle"
       v-if="titleChange"
       v-model="titleValue"
-      @blur="onblur"
       @keyup.enter="onsubmit"
       ref="titleInput"
+      placeholder="问卷标题"
     >
     <div class="des">
       <h4>问卷描述</h4>
-      <textarea v-model="description"></textarea>
+      <textarea v-model="description" placeholder="问卷描述"></textarea>
     </div> 
     <div class="content">
       <div class="questions" v-for="(qus, index) in qsItem">
@@ -24,7 +24,7 @@
             <label>
               <input type="radio" :name="`${index}`" v-if="qus.choice_type === 1" >
               <input type="checkbox" :name="`${index}`" v-if="qus.choice_type === 2">
-              <input type="text" v-model="(qsItem[index]).choice_item[index1]">
+              <input class="qsitem" placeholder="选项内容" type="text" v-model="(qsItem[index]).choice_item[index1]">
             </label>
           </p>
           <p v-if="qus.choice_type === 0">
@@ -243,7 +243,7 @@ export default {
 
     //为指定的问题添加新的选项
     addmore(index) {
-      (this.qsItem[index]).choice_item.push("???");
+      (this.qsItem[index]).choice_item.push("");
       //(this.qsItem[index]).choiced.push(false);
     },
     
@@ -379,12 +379,12 @@ h2:hover {
 
 input[name="qsTitle"] {
   height: 20px;
-  width: 100%;
+  width: 60%;
   margin-bottom: 2px;
   font-size: 20px;
   text-align: center;
   border: 1px solid #ccc;
-  background-color: #ccc;
+  background-color: #ffffff;
 }
 
 
@@ -404,6 +404,9 @@ input[name="qsTitle"] {
   margin-bottom: 5px;
   border:solid 1px #CCCCCC;
   border-radius:5px;
+}
+.qsitem {
+  margin: 1%;
 }
 .questions:hover {
     background-color: #fcf0e5;
@@ -453,7 +456,9 @@ input[name="qsTitle"] {
 }
 
 .add {
-  border: 0.2rem solid #cccccc;
+  border: 0.1rem solid #a9a9a9;
+  width: 60%;
+  margin-left: 20%;
 }
 
 
@@ -470,26 +475,25 @@ input[name="qsTitle"] {
     height: 25px;
     width: 50px;
     margin-left: 4rem;
-    border: 0.2rem solid #ccc;
-    background-color: #eee;
+    border: 0.1rem solid #a9a9a9;
+    background-color: #ffffff;
     cursor: pointer;
 }
 
 
 .add-item {
   width:100%;
-  height:1rem;
-  line-height: 1rem;
+  height:1.5rem;
   text-align: center;
-  background-color: #eee;
+  background-color: #ffffff;
   cursor: pointer;
 }
 .add-item span {
-    font-size: 5px;
+    font-size: 15px;
 }
 
 .des textarea{
-  width:80%;
+  width:60%;
   border-radius: 5px;
 }
 
@@ -572,8 +576,8 @@ button:hover{
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 40rem;
-    height: 28rem;
+    width: 34rem;
+    height: 22rem;
     transform: translateX(-50%) translateY(-50%);
     border-radius: 0.5rem;
     box-shadow: 0 0 5px #555;

@@ -1,22 +1,28 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
-import Signin from '@/components/Signin'
-import Register from '@/components/Register'
+import Signin from '../components/Auth/Signin'
+import Register from '../components/Auth/Register'
 import User from '@/components/User'
-import Recharge from '@/components/Recharge'
-import Withdraw from '@/components/Withdraw'
-import AccessAccount from '@/components/AccessAccount'
-import Signout from '@/components/Signout'
-import Putjob from '@/components/Putjob'
-import Getjob from '@/components/Getjob'
-import Create from '@/components/Create'
-import Edit from '@/components/Edit'
-import Check from '@/components/Check'
-import Fillin from '@/components/Fillin'
-import Dajuanlist from '@/components/Dajuanlist'
-
-
+import AccessAccount from '../components/Auth/AccessAccount'
+import Signout from '../components/Auth/Signout'
+import Putjob from '../components/Set/Putjob'
+import Getjob from '../components/Set/Getjob'
+import Create from '../components/Ques/Create'
+import Edit from '../components/Ques/Edit'
+import Check from '../components/Ques/Check'
+import Fillin from '../components/Ques/Fillin'
+import Dajuanlist from '../components/Ques/Dajuanlist'
+import GetTask from '../components/Task/GetTask'
+import CreateTask from '../components/Task/CreateTask'
+import TaskDetail from '../components/Task/TaskDetail'
+import TodoTask from '../components/Task/TodoTask'
+import DoneTask from '../components/Task/DoneTask'
+import myTodoTask from '../components/Task/myTodoTask'
+import myDoneTask from '../components/Task/myDoneTask'
+import Complain from '../components/User/Complain'
+import Recharge from '../components/User/Recharge'
+import Withdraw from '../components/User/Withdraw'
 Vue.use(Router)
 
 export default new Router({
@@ -36,24 +42,41 @@ export default new Router({
       path: '/User/:id',
       name: 'User',
       component: User,
-      children: [{ path: "AccessAccount", component: AccessAccount }, { path: "GetJob", component: Getjob }, { path: "Putjob", component: Putjob },
+      children: [
+        
+        { path: "GetJob", component: Getjob }, 
+        { path: "Putjob", component: Putjob },
       { path: 'Putjob/Create', component: Create },
       { path: 'Putjob/Edit', component: Edit },
       { path: 'Putjob/Check', component: Check },
       { path: 'Getjob/Fillin', component: Fillin },
       { path: 'Putjob/Dajuanlist',component:Dajuanlist},
+     // { path: 'Getjob/TaskDetail', component: TaskDetail },
+
+      { path: 'GetTask', component: GetTask },
+      { path: 'myTodoTask', component: myTodoTask },
+      { path: 'myDoneTask', component: myDoneTask },
+      { path: 'Putjob/TodoTask',component:TodoTask},
+      { path: 'Putjob/DoneTask',component:DoneTask},
+      { path: 'Putjob/CreateTask', component:CreateTask},
+      
+     
       ]
     },
     {
       path: '/Register',
       name: 'Register',
       component: Register
-    }
+    },
+    { path: "/AccessAccount",
+    name: 'AccessAccount',
+    component: AccessAccount }, 
     ,
     {
       path: '/',
       redirect: '/Hello'
     },
+    
     {
       path: '/Recharge',
       name: 'Recharge',
@@ -64,7 +87,14 @@ export default new Router({
       name: 'Withdraw',
       component: Withdraw
     },
-
+     {
+      path: '/TaskDetail',
+      name: 'TaskDetail',
+      component: TaskDetail
+     },
+     { path: '/Complain', 
+     name: 'Complain',
+     component: Complain },
     {
       path: '/User/Signout',
       name: 'Signout',

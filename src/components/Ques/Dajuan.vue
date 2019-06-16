@@ -46,7 +46,7 @@ export default {
         },
         changeVerify(vm) {
             var URL = "http://localhost:8082/module/user/answer_review";
-            var jsondata={qid:vm.qid,sid:vm.sid,verify:1};
+            var jsondata={qid:parseInt(vm.qid),sid:vm.sid,verify:parseInt(1)};
             var axios = {
                 method: "put",
                 url: URL,
@@ -58,7 +58,7 @@ export default {
                 if(res.data.code==200) {
                     for(var i=0;i<vm.tableData.length;i++) {
                     var t=vm.tableData[i];
-                    if(t.sid==row.sid) (vm.tableData[i]).vers="已通过";
+                    if(t.sid==vm.sid) (vm.tableData[i]).vers="已通过";
                     }
                 }
                 else alert(res.data.msg);

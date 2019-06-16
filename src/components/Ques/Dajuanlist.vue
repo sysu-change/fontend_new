@@ -11,7 +11,7 @@
       </el-table-column>
       <el-table-column>
         <template slot-scope="scope">
-          <el-button @click="changedd(scope.row)" type="danger" disabled="scope.row.verify">通过</el-button>
+          <el-button @click="changedd(scope.row)" type="danger" v-bind:disabled="scope.row.verify">通过</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -63,6 +63,7 @@ export default {
                 tempIndex.sid=temp.sid;
                 tempIndex.ans_time=temp.ans_time;
                 tempIndex.vers=(temp.verify==0)?"未审核":"已通过";
+                tempIndex.verify=(temp.verify==0)?false:true;
                 vm.tableData.push(tempIndex);
               }
               vm.loading=false;
@@ -86,7 +87,7 @@ export default {
     },
     changeVerify(row,vm) {
       var URL = "http://localhost:8082/module/user/answer_review";
-      var jsondata={qid:this.qid,sid:row.sid,verify:1};
+      var jsondata={qid:parseInt(this.qid),sid:row.sid,verify:parseInt(1)};
       var axios = {
         method: "put",
         url: URL,
