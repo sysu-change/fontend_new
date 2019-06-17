@@ -97,7 +97,7 @@ export default {
         return;
       }
     this.$router.push({
-        path: "/User/Part/Getjob/Fillin",
+        path: "/Fillin",
         query: { ID: parseInt(row.ID) }
       });
   },
