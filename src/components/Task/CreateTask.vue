@@ -1,13 +1,18 @@
 <template>
+<div>
+  <br/>
+  <br/>
+<div class="box">
 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="createBox">
   
   <el-form-item label="任务类型" prop="type">
     <el-col :span="11">
     <el-select v-model="ruleForm.type" placeholder="请选任务类型">
-      <el-option label="取快递" value="1"></el-option>
-      <el-option label="陪运动" value="2"></el-option>
-      <el-option label="求辅导" value="3"></el-option>
-      <el-option label="其他" value="4"></el-option>
+      <el-option label="取快递" value="2"></el-option>
+      <el-option label="陪运动" value="3"></el-option>
+      <el-option label="求辅导" value="4"></el-option>
+      <el-option label="求夸业务" value="5"></el-option>
+      <el-option label="其他业务" value="6"></el-option>
     </el-select>
     </el-col>
   </el-form-item>
@@ -77,6 +82,8 @@
     
   </el-form-item>
 </el-form>
+</div>
+</div>
 </template>
   
 
@@ -154,7 +161,7 @@
           if (res.status == 200) {
             alert(res.data.msg);
             if (res.data.msg=='successful'){
-              vm.$router.push("TodoTask");
+              vm.$router.push('/User/Part/Putjob/TodoTask');
             }
           } else {
             alert("Failed");
@@ -166,3 +173,13 @@
     }
   }
 </script>
+
+<style scoped>
+    .box{
+      position: relative;
+     border: 1.5px solid #eee;
+      left: 30%;
+      width: 600px;
+      height: 700px;
+    }
+</style>

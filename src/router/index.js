@@ -54,7 +54,6 @@ export default new Router({
       { path: 'myDoneTask', component: myDoneTask },
       { path: 'Putjob/TodoTask',component:TodoTask},
       { path: 'Putjob/DoneTask',component:DoneTask},
-      { path: 'Putjob/CreateTask', component:CreateTask},
       
      
       ]
@@ -63,6 +62,8 @@ export default new Router({
       { path: '/Edit', component: Edit },
       { path: '/Check', component: Check },
       { path: '/Fillin', component: Fillin },
+
+      { path: '/CreateTask', component:CreateTask},
 
     {
       path: '/Register',

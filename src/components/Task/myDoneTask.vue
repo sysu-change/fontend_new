@@ -3,7 +3,15 @@
       <h2 align="left">已完成的任务:</h2>
     <el-table :data="tableData"  v-loading="loading">
       <el-table-column prop="ID" label="任务编号" sortable></el-table-column>
-      <el-table-column prop="type" label="任务类型" width="120"></el-table-column>
+      <el-table-column prop="type" label="任务类型" width="120">
+        <template slot-scope="scope">
+         <span style="color:#00b38a"  v-if="scope.row.type==2">取快递</span>
+          <span style="color:orange"  v-if="scope.row.type==3">运动业务</span>
+          <span style="color:green"  v-if="scope.row.type==4">学习业务</span>
+          <span style="color:red"  v-if="scope.row.type==5">求夸夸业务</span>
+          <span   v-if="scope.row.type==6">其他业务</span>
+         </template>
+      </el-table-column>
       <el-table-column prop="publisher" label="发布者"></el-table-column>
       <el-table-column prop="deadline" sortable label="截止时间"></el-table-column>
       <el-table-column prop="price" sortable label="赏金"></el-table-column>

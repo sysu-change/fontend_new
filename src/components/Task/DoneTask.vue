@@ -7,13 +7,32 @@
   <el-breadcrumb-item :to="{ path: '/User/Part/Putjob/DoneTask'}">已完成的任务</el-breadcrumb-item>
   <el-breadcrumb-item></el-breadcrumb-item>
 </el-breadcrumb>
-    <el-table :data="tableData">
+    <el-table :data="tableData" v-loading="loading">
       <el-table-column prop="ID" label="任务编号" sortable  width="100"></el-table-column>
-      <el-table-column prop="type" label="任务类型" ></el-table-column>
+      <el-table-column prop="type" label="任务类型" >
+         <template slot-scope="scope">
+         <span style="color:#00b38a"  v-if="scope.row.type==2">取快递</span>
+          <span style="color:orange"  v-if="scope.row.type==3">运动业务</span>
+          <span style="color:green"  v-if="scope.row.type==4">学习业务</span>
+          <span style="color:red"  v-if="scope.row.type==5">求夸夸业务</span>
+          <span   v-if="scope.row.type==6">其他业务</span>
+         </template>
+      </el-table-column>
       <el-table-column prop="price" sortable label="任务赏金" width="100"></el-table-column>
       <el-table-column prop="number"  label="接单者学号" width="150"></el-table-column>
-      <el-table-column prop="state"  label="任务状态"></el-table-column>
-      <el-table-column prop="state_s"  label="审核状态"></el-table-column>
+      <el-table-column prop="state"  label="任务状态">
+        <template slot-scope="scope">
+         <span style="color:orange"  v-if="scope.row.state==0">进行中</span>
+          <span style="color:#00b38a"  v-if="scope.row.state==1">已完成</span>
+         </template>
+      </el-table-column>
+      <el-table-column prop="state_s"  label="审核状态">
+         <template slot-scope="scope">
+         <span style="color:orange"  v-if="scope.row.state==0">未审核</span>
+          <span style="color:#00b38a"  v-if="scope.row.state==1">通过</span>
+           <span style="color:red"  v-if="scope.row.state==2">不通过</span>
+         </template>
+      </el-table-column>
       <el-table-column>
         <template slot-scope="scope">
           <el-button size="mini"  @click="Pass(scope.row)">通过</el-button>
@@ -38,40 +57,106 @@ export default {
   name: "Task",
   data() {
     return {
-      tableData: [
-        {
-          ID: "101",
-          type: "取快递业务",
-          price: "$2.5",
-          number:"16341018",
-          state:"已完成",
-          state_s:"未审核"
-        },
-        {
-           ID: "102",
-          type: "陪运动业务",
-         price: "$2.5",
-          number:"16341018",
-          state:"已完成",
-          state_s:"审核通过"
-        },
-        {
-          ID: "103",
-          type: "辅导业务",
-          price: "$2.5",
-          number:"16341018",
-          state:"已完成",
-          state_s:"审核不通过"
-        }
-      ]
+      tableData: [ ]
     };
   },
   methods: {
-    Pass:function(row){
-       
+
+    //奶牛端端查看目前系统所有的已完成任务
+    getTask: function(vm) {
+      if (this.user_id === "") return;
+      vm.loading=true;
+      var URL = "http://localhost:8082/module/user/provider_task_done";
+      var jsonData = { offset: 0, number: 100 };
+      var axios = {
+        method: "get",
+        url: URL,
+        widthCredentials: false,
+        params: jsonData
+      };
+      this.$http(axios)
+        .then(function(res) {
+          if (res.status == 200) {
+            if (res.data.code == 200) {
+              var number = res.data.number;
+              var content = res.data.content;
+              var jsonContent = content;
+              for (var i = 0; i < number; i++) {
+                var temp = jsonContent[i];
+                var tempIndex = {
+                  ID: 0,
+                  type: 0,
+                  price:"",
+                  number:"",
+                  state:0,
+                  state_s:0
+                };
+                tempIndex.ID = temp.tid;
+                tempIndex.type = temp.type;
+                tempIndex.price = "$" + String(temp.reward);
+                tempIndex.number = temp.sid;
+                tempIndex.state=temp.accept_status;
+                tempIndex.state_s=temp.verify;
+                
+                vm.tableData.push(tempIndex);
+              }
+              vm.loading=false;
+            } else {
+              alert(res.data.msg);
+            }
+          } else alert("网络出错");
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
     },
+
+    Pass:function(row){
+        var jsonData = {
+        tid: parseInt(row.ID),
+        sid:row.number,
+        verify:1
+      };
+var axios = {
+        method: "put",
+        url: "http://localhost:8082/module/user/task_verify",
+        widthCredentials: false,
+        data: jsonData
+      };
+     
+    this.$http(axios).then(function(res){
+          if(res.status==200) {
+           alert("已提交！");
+          }
+          else alert("网络错误");
+        }).catch(function(err){
+          console.log(err);
+          alert("发生了一个异常");
+        });
+    },
+
     Reject:function(row){
-      
+       var jsonData = {
+        tid: parseInt(row.ID),
+        sid:row.number,
+        verify:2
+      };
+var axios = {
+        method: "put",
+        url: "http://localhost:8082/module/user/task_verify",
+        widthCredentials: false,
+        data: jsonData
+      };
+     
+    this.$http(axios).then(function(res){
+          if(res.status==200) {
+           alert("已提交！");
+          }
+          else alert("网络错误");
+        }).catch(function(err){
+          console.log(err);
+          alert("发生了一个异常");
+        });
     },
 
     Complain:function(row){
@@ -90,7 +175,9 @@ export default {
         });
     }
   },
- 
+ created() {
+    this.getTask(this);
+  },
 };
 </script>
 
