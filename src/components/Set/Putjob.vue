@@ -63,7 +63,7 @@ export default {
   methods: {
     /*跳转到问卷创建页面*/
     Create: function() {
-      this.$router.push("/User/Part/Putjob/Create");
+      this.$router.push("/Create");
     },
     /*进入页面详情页，并进行编辑*/
     Edit: function(row) {
@@ -74,7 +74,7 @@ export default {
         return;
       }
       this.$router.push({
-        path: "/User/Part/Putjob/Edit",
+        path: "/Edit",
         query: { ID: parseInt(row.ID) }
       });
     },
@@ -85,7 +85,7 @@ export default {
         return;
       }
       this.$router.push({
-        path: "/User/Part/Putjob/Check",
+        path: "/Check",
         query: { ID: parseInt(row.ID) }
       });
     },
