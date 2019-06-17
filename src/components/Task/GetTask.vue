@@ -72,13 +72,13 @@ export default {
               for (var i = 0; i < number; i++) {
                 var temp = jsonContent[i];
                 var tempIndex = {
-                  ID: "",
+                  ID: 0,
                   type: "",
                   descript: "",
                   count: 0,
                   price: ""
                 };
-                tempIndex.ID = String(temp.tid);
+                tempIndex.ID = temp.tid;
                 tempIndex.type = temp.type;
                 tempIndex.descript = temp.description;
                 tempIndex.count = temp.quantity;
@@ -95,7 +95,8 @@ export default {
           console.log(err);
         });
     },
-
+    
+    //查看任务
     TaskView:function(row){
         if (row.ID == "") {
         alert("未找到问卷标号为空");
@@ -105,6 +106,31 @@ export default {
         path: "/TaskDetail",
         query: { ID: parseInt(row.ID) }
       });
+    },
+    
+    //申请任务
+    TaskAccept(row){
+      
+       var jsonData = {
+        tid: parseInt(row.ID)
+      };
+var axios = {
+        method: "post",
+        url: "http://localhost:8082/module/user/apply",
+        widthCredentials: false,
+        data: jsonData
+      };
+     
+    this.$http(axios).then(function(res){
+          if(res.status==200) {
+            if(res.code!=200) alert(res.msg);
+            this.$router.push({ path: "Putjob/TodoTask" });
+          }
+          else alert("网络错误");
+        }).catch(function(err){
+          console.log(err);
+          alert("发生了一个异常");
+        });
     },
 
     handleSizeChange: function (size) {

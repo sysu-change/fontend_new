@@ -27,7 +27,13 @@
   <el-form-item label="截止时间" required>
     <el-col :span="8">
       <el-form-item prop="deadline">
-        <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.deadline" style="width: 100%;"></el-date-picker>
+        <el-date-picker 
+           type="date" 
+            placeholder="选择日期" 
+            v-model="ruleForm.deadline" 
+            format="yyyy-MM-dd" 
+            value-format="yyyy-MM-dd"
+            style="width: 100%;"></el-date-picker>
       </el-form-item>
     </el-col>
     
@@ -50,17 +56,19 @@
       </el-col>
   </el-form-item>
 
-  <el-form-item label="需求份数" prop="requirement">
+  <el-form-item label="需求份数" prop="need">
     <el-col :span="5">
       <el-input  
                 v-model="ruleForm.need"
                 style="width:100%"></el-input>
       </el-col>
-      <el-col :span="2">-赏金</el-col>
-      <el-col :span="5">
+      
+      <el-col :span="11">
+        <el-form-item label="赏金" prop="price">
       <el-input 
                 v-model="ruleForm.price"
                 style="width:100%"></el-input>
+        </el-form-item>
       </el-col>
   </el-form-item>
   
@@ -103,7 +111,10 @@
           weixin: [
             { required: true, message: '必填', trigger: 'blur' }
           ],
-          requirement: [
+          need: [
+            { required: true, message: '必填', trigger: 'blur' }
+          ],
+           price: [
             { required: true, message: '必填', trigger: 'blur' }
           ]
         }
@@ -114,6 +125,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!');
+            this.updateTask(this);
           } else {
             console.log('error submit!!');
             return false;
@@ -122,7 +134,35 @@
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
-      }
+      },
+
+       updateTask: function(vm) {
+      var jsonData = {
+        type: parseInt(this.ruleForm.type),
+        description: this.ruleForm.descript,
+        detail: this.ruleForm.detail,
+        deadline: this.ruleForm.deadline,
+        phone_num: this.ruleForm.phone_num,
+        wechat: this.ruleForm.weixin,
+        quantity:parseInt(this.ruleForm.need),
+        reward:parseFloat(this.ruleForm.price)
+      };
+      var axios={method: "post",url: "http://localhost:8082/module/user/create_task",
+                widthCredentials: false,
+                  data: jsonData};
+      this.$http(axios).then(function(res) {
+          if (res.status == 200) {
+            alert(res.data.msg);
+            if (res.data.msg=='successful'){
+              vm.$router.push("TodoTask");
+            }
+          } else {
+            alert("Failed");
+          }
+        }).catch(function(err) {
+          console.log(err);
+        });
+    },
     }
   }
 </script>
