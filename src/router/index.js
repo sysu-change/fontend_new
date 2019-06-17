@@ -46,10 +46,6 @@ export default new Router({
         
         { path: "GetJob", component: Getjob }, 
         { path: "Putjob", component: Putjob },
-      { path: 'Putjob/Create', component: Create },
-      { path: 'Putjob/Edit', component: Edit },
-      { path: 'Putjob/Check', component: Check },
-      { path: 'Getjob/Fillin', component: Fillin },
       { path: 'Putjob/Dajuanlist',component:Dajuanlist},
      // { path: 'Getjob/TaskDetail', component: TaskDetail },
 
@@ -63,6 +59,11 @@ export default new Router({
      
       ]
     },
+    { path: '/Create', component: Create },
+      { path: '/Edit', component: Edit },
+      { path: '/Check', component: Check },
+      { path: '/Fillin', component: Fillin },
+
     {
       path: '/Register',
       name: 'Register',
