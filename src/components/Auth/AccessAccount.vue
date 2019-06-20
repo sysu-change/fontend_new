@@ -11,7 +11,7 @@
   </el-row>
   <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="user-box">
     <div class="avatar">
-      <img   >
+      <img class="icon" src="/static/user.jpg">
     </div>
 
   <el-form-item label="姓名" prop="name" style="width:40%" >
@@ -101,7 +101,8 @@
       </el-form-item>
 
       <el-form-item  class="change" style="width:50%">
-       <el-button class="reg_button1" type="success" @click="submitForm('ruleForm')">保存资料</el-button>
+        <el-button @click="$router.go(-1)">返回</el-button>
+        <el-button class="reg_button1" type="success" @click="submitForm('ruleForm')">保存资料</el-button>
       </el-form-item>
   </el-form>
 </div>
@@ -190,6 +191,7 @@ export default {
         vm.ruleForm.phone_num=res.data.phone_num;
         vm.ruleForm.sex=res.data.sex;
         vm.ruleForm.email=res.data.email;
+        alert(vm.ruleForm.semester);
       }
       else {
         alert("网络错误");
@@ -253,10 +255,10 @@ export default {
 
 .avatar{
     position: relative;
-    border: 1px solid #00b38a;
+    
     width: 70px;
     height: 70px;
-    left: 70%;
+    left: 73%;
     top:10%
 }
 

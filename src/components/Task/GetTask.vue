@@ -60,17 +60,17 @@ export default {
   methods: {
     //学生端挑选任务，查看到目前系统所有的其他类型任务
     getTask: function(vm) {
-      if (this.user_id === "") return;
+      if (vm.user_id === "") return;
       vm.loading=true;
       var URL = "http://localhost:8082/module/user/select_task";
-      var jsonData = { offset: 0, number: 100 };
+      var jsonData = { offset: Number(0), number: Number(100) };
       var axios = {
         method: "get",
         url: URL,
         widthCredentials: false,
         params: jsonData
       };
-      this.$http(axios)
+      vm.$http(axios)
         .then(function(res) {
           if (res.status == 200) {
             if (res.data.code == 200) {
@@ -106,53 +106,52 @@ export default {
     
     //查看任务
     TaskView:function(row){
-        if (row.ID == "") {
+      if (row.ID == "") {
         alert("未找到问卷标号为空");
         return;
       }
+      //this.$router.meta.keepAlive=true;
       this.$router.push({
         path: "/TaskDetail",
-        query: { ID: parseInt(row.ID) }
+        params: { ID: parseInt(row.ID) }
       });
     },
     
     //申请任务
     TaskAccept(row){
       
-       var jsonData = {
+      var jsonData = {
         tid: parseInt(row.ID)
       };
-var axios = {
+      var axios = {
         method: "post",
         url: "http://localhost:8082/module/user/apply",
         widthCredentials: false,
         data: jsonData
       };
      
-    this.$http(axios).then(function(res){
+      this.$http(axios).then(function(res){
           if(res.status==200) {
-           
-            this.$router.push({ path: "Putjob/TodoTask" });
+            alert("申请成功");
+            //this.$router.push({ path: "Putjob/TodoTask" });
           }
           else alert("网络错误");
         }).catch(function(err){
           console.log(err);
           alert("发生了一个异常");
-        });
+      });
     },
-
     handleSizeChange: function (size) {
-                this.pagesize = size;
-                console.log(this.pagesize)  //每页下拉显示数据
-        },
-        handleCurrentChange: function(currentPage){
-                this.currentPage = currentPage;
-                console.log(this.currentPage)  //点击第几页
-        },
+      this.pagesize = size;
+      console.log(this.pagesize)  //每页下拉显示数据
+    },
+    handleCurrentChange: function(currentPage){
+      this.currentPage = currentPage;
+      console.log(this.currentPage)  //点击第几页
+    },
   },
    
-
- created() {
+  created() {
     this.getTask(this);
   },
 };

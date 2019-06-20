@@ -8,37 +8,51 @@
   </el-row>
   
 <el-form ref="form" :model="form" label-width="100px" class="complain_box">
-  <el-form-item label="投诉任务号" style="width:40%">
-    <el-input v-model="form.ID"></el-input>
-  </el-form-item>
-  <el-form-item label="投诉人学号" style="width:40%">
-    <el-input v-model="form.from_number"></el-input>
-  </el-form-item>
-  <el-form-item label="被投诉人学号">
-   <el-input v-model="form.to_number"></el-input>
-  </el-form-item>
-  <el-form-item label="投诉原因" style="height:100px">
-    <el-input type="textarea"  v-model="form.desc" style="height:100%"></el-input>
+
+  <el-form-item label="投诉任务号" style="width:100%">
+    <el-input disabled v-model="form.tid"></el-input>
   </el-form-item>
 
-<el-form-item >
-  <el-upload
-  class="upload-demo"
-  action="https://jsonplaceholder.typicode.com/posts/"
-  :on-preview="handlePreview"
+  <el-form-item label="投诉人学号" style="width:100%">
+    <el-input disabled v-model="form.sid1"></el-input>
+  </el-form-item>
+  <el-form-item label="被投诉人学号" style="width:100%">
+   <el-input disabled v-model="form.sid2"></el-input>
+  </el-form-item>
+  <el-form-item label="投诉原因" style="height:100px">
+    <el-input type="textarea"  v-model="form.reason" style="height:100%"></el-input>
+  </el-form-item>
+
+  <el-form-item label="截图">
+    <el-upload
+     :action="uploadUrl()"
+    :data="data"
+     ref="upload"
+    :http-request="imgRequest"
+  list-type="picture-card"
+  :limit="6"
+   :on-exceed="handleExceed"
+   :on-change="getFile"
+  :on-preview="handlePictureCardPreview"
   :on-remove="handleRemove"
-  :file-list="fileList"
-  list-type="picture">
-  <el-button size="small" class="subpict" type="success">上传图片</el-button>
-  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+   :before-upload="beforeUpload"
+  :auto-upload="false">
+  <i class="el-icon-plus"></i>
+    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不能超过1m</div>
+ 
 </el-upload>
-</el-form-item>
+<el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+<el-dialog :visible.sync="dialogVisible">
+  <img width="100%" :src="dialogImageUrl" alt="">
+</el-dialog>
+  </el-form-item>
 
   <el-form-item>
     <el-button type="success" @click="submitForm('form')" class="submit">提交</el-button>
     <el-button  @click="back()">返回</el-button>
   </el-form-item>
 </el-form>
+
 </div>
 </template>
 <script>
@@ -46,37 +60,163 @@
     data() {
       return {
         form: {
-          ID:"",
-          from_number:"",
-          to_number:'',
-          desc:"",
-        fileList: ''
-        }
+          tid: 0,
+          sid1:'',
+          sid2:'',
+          reason:'', 
+        },
+        fileList: [],
+        dialogImageUrl: '',
+        dialogVisible: false,
+        
       }
     },
     methods: {
-      onSubmit() {
+      submitForm(formName) {
          this.$refs[formName].validate(valid => {
         if (valid) {
           alert("submit");
-          this.updateComplain();
+          this.updateComplain(this);
         } else {
           console.log("error submit!!");
           return false;
         }
       });
       },
+//投诉
+    updateComplain: function(vm) {
+      
+      var jsonData = this.form;
+      var axios={method: "post",
+                url: "http://localhost:8082/module/user/complaint",
+                widthCredentials: false,
+                data: jsonData};
+      this.$http(axios).then(function(res) {
+          if (res.status == 200) {
+            alert(res.data.msg);
+            if (res.data.msg=='successful'){
+              
+            }
+          } else {
+            alert("Failed");
+          }
+        }).catch(function(err) {
+          console.log(err);
+        });
+    },
 
-      back(){
-          
+   //图片处理
+handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+
+      handlePictureCardPreview(file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      },
+
+       handleExceed(files, fileList) {
+        this.$message.warning('最多上传 6 个文件');
+      },
+//上传图片
+getBase64(file) {
+      return new Promise(function(resolve, reject) {
+        let reader = new FileReader();
+        let imgResult = "";
+        reader.readAsDataURL(file);
+        reader.onload = function() {
+          imgResult = reader.result;
+        };
+        reader.onerror = function(error) {
+          reject(error);
+        };
+        reader.onloadend = function() {
+          resolve(imgResult);
+        };
+      });
+    },
+
+getFile(file) {
+    
+      const isIMAGE = (file.raw.type === 'image/jpeg' || file.raw.type === 'image/png');
+    const isLt1M = file.size / 1024 / 1024 < 1;
+
+    if (!isIMAGE) {
+      this.$message.error('只能上传jpg/png图片!');
+      return false;
+    }
+    if (!isLt1M) {
+      this.$message.error('上传文件大小不能超过 1MB!');
+      return false;
+    }
+    var reader = new FileReader();
+    reader.readAsDataURL(file.raw);
+    reader.onload = function(e){
+        console.log(this.result)//图片的base64数据
+    }
+    },
+
+uploadUrl:function(){
+    return "http://localhost:8082/module/picture/upload";
+},
+
+   submitUpload() {
+        this.$refs.upload.submit();
+      },
+imgRequest (options) {
+  
+      let file = options.file
+      let filename = file.name
+      if (file) {
+        this.fileReader.readAsDataURL(file)
+      }
+      this.fileReader.onload = () => {
+        let base64Str = this.fileReader.result
+        var axios = {
+          method:"post",
+          url:"http://localhost:8082/module/picture/upload",
+          widthCredentials: false,
+          // file: file,
+          data: {
+            tid:this.form.tid,
+            sid1:this.form.sid1,
+            sid2:this.form.sid2,
+            photo: base64Str.split(',')[1],
+          },
+         
+        } 
+      this.$http(axios).then(function(res) {
+          if (res.status == 200) {
+            alert(res.data.msg);
+            if (res.data.msg=='successful'){
+              
+            }
+          } else {
+            alert("Failed");
+          }
+        }).catch(function(err) {
+          console.log(err);
+        });
+      }
+    },
+     //返回
+      back(){    
           this.$router.push("/User/Part/myDoneTask");
       },
 
-      //提交投诉
-      updateComplain(){
-
-      }
+    
+    },
+   mounted () {
+    if (!window.FileReader) {
+      console.error('Your browser does not support FileReader API!')
     }
+    this.fileReader = new FileReader()
+  },
+  created() {
+    this.form.tid = parseInt(this.$route.params.id);
+    this.form.sid2 = this.$route.params.publisher;
+    this.form.sid1 = sessionStorage.getItem("user");
+  }
   }
 </script>
 

@@ -162,7 +162,7 @@ export default {
   font-size: 80%;
   position: relative;  
   margin: 2%;
-  left: 30%;
+  left: 0%;
 }
 .item4 {
   color: #8e868b;
@@ -181,6 +181,8 @@ export default {
 /* 图片 */
 .img1 {
   position: relative;
+  width: 70%;
+  height: 70%;
   left: 0%;
   top: 0%;
   
@@ -220,7 +222,7 @@ export default {
   color: #00b38a;
   left: 0%;
   border-radius: 4px;
-  width: 150px;
+  width: 60%;
   height: 40px;
 }
 

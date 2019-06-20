@@ -1,12 +1,12 @@
 <template>
   <el-main>
     <h3 align="left">奶牛端</h3>
-       <el-breadcrumb separator="/">
+    <el-breadcrumb separator="/">
       <el-breadcrumb-item :to="{ path: '/User/Part/Putjob'}">问卷任务</el-breadcrumb-item>
-  <el-breadcrumb-item :to="{ path: '/User/Part/Putjob/TodoTask'}">进行中的任务</el-breadcrumb-item>
-  <el-breadcrumb-item :to="{ path: '/User/Part/Putjob/DoneTask'}">已完成的任务</el-breadcrumb-item>
-  <el-breadcrumb-item></el-breadcrumb-item>
-</el-breadcrumb>
+      <el-breadcrumb-item :to="{ path: '/User/Part/Putjob/TodoTask'}">进行中的任务</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/User/Part/Putjob/DoneTask'}">已完成的任务</el-breadcrumb-item>
+      <el-breadcrumb-item></el-breadcrumb-item>
+    </el-breadcrumb>
     <el-table :data="tableData" v-loading="loading" >
       <el-table-column prop="ID" label="任务编号" sortable></el-table-column>
       <el-table-column prop="type" label="任务类型" >
@@ -50,23 +50,23 @@ export default {
   name: "TodoTask",
   data() {
     return {
-      tableData: []
+      tableData: [],
+      loading:false
     };
   },
   methods: {
-      TaskView(row){
-       this.$router.push({
-          name: 'TaskDetail',
-          params: {
-            id: row.ID
-          }
-        })
-      },
-
+    TaskView(row){
+      this.$router.push({
+        name: 'TaskDetail',
+        params: {
+          id: row.ID
+        }
+      })
+    },
       //创建任务
-      Create(){
+    Create(){
       this.$router.push('/CreateTask') 
-      },
+    },
 
       //奶牛端查看已接单但未完成，和发布中未被接单的任务
     getTask: function(vm) {
@@ -105,13 +105,14 @@ export default {
                 tempIndex.total = temp.accept_num;
                 vm.tableData.push(tempIndex);
               }
-              vm.loading=false;
             } else {
               alert(res.data.msg);
             }
           } else alert("网络出错");
+          vm.loading=false;
         })
         .catch(function(err) {
+          vm.loading=false;
           console.log(err);
         });
     },
@@ -135,7 +136,7 @@ export default {
       
     },
     DeleteDatabase: function(id, vm) {
-       var param = { tid: id };
+      var param = { tid: id };
       var URL = "http://localhost:8082/module/user/delete_task";
       var axios = {
         method: "delete",

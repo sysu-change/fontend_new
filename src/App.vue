@@ -18,6 +18,9 @@
           <el-dropdown-item >个人信息</el-dropdown-item>
           </router-link >
           <router-link :to="{ path: '/Signin'}">
+          <el-dropdown-item >登录</el-dropdown-item>
+          </router-link>
+          <router-link :to="{ path: '/Signout'}">
           <el-dropdown-item >注销</el-dropdown-item>
           </router-link>
         </el-dropdown-menu>

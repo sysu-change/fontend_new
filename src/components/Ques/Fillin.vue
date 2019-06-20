@@ -86,7 +86,7 @@ export default {
       return item.isNeed ? `${msg} *` : msg;
     },
     back() {
-      this.$router.push("/User/Part/Getjob");
+      this.$router.go(-1);
     },
     check(vm) {
       for (var i = 0; i < this.qsItem.length; i++) {

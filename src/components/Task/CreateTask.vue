@@ -78,8 +78,8 @@
   </el-form-item>
   
   <el-form-item>
+    <el-button @click="goBack">返回上一级</el-button>
     <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-    
   </el-form-item>
 </el-form>
 </div>
@@ -142,22 +142,23 @@
       resetForm(formName) {
         this.$refs[formName].resetFields();
       },
-
-       updateTask: function(vm) {
-      var jsonData = {
-        type: parseInt(this.ruleForm.type),
-        description: this.ruleForm.descript,
-        detail: this.ruleForm.detail,
-        deadline: this.ruleForm.deadline,
-        phone_num: this.ruleForm.phone_num,
-        wechat: this.ruleForm.weixin,
-        quantity:parseInt(this.ruleForm.need),
-        reward:parseFloat(this.ruleForm.price)
-      };
-      var axios={method: "post",url: "http://localhost:8082/module/user/create_task",
-                widthCredentials: false,
-                  data: jsonData};
-      this.$http(axios).then(function(res) {
+      //返回上一级
+      goBack:function() {
+        this.$router.go(-1);
+      },
+      updateTask: function(vm) {
+        var jsonData = {
+          type: parseInt(this.ruleForm.type),
+          description: this.ruleForm.descript,
+          detail: this.ruleForm.detail,
+          deadline: this.ruleForm.deadline,
+          phone_num: this.ruleForm.phone_num,
+          wechat: this.ruleForm.weixin,
+          quantity:parseInt(this.ruleForm.need),
+          reward:parseFloat(this.ruleForm.price)
+        };
+        var axios={method: "post",url: "http://localhost:8082/module/user/create_task",widthCredentials: false,data: jsonData};
+        this.$http(axios).then(function(res) {
           if (res.status == 200) {
             alert(res.data.msg);
             if (res.data.msg=='successful'){

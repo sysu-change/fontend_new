@@ -44,7 +44,8 @@ export default {
     return {
       tableData: [
         
-      ]
+      ],
+      loading:false
     };
   },
   methods: {
@@ -60,7 +61,7 @@ export default {
         widthCredentials: false,
         params: jsonData
       };
-      this.$http(axios)
+      vm.$http(axios)
         .then(function(res) {
           if (res.status == 200) {
             if (res.data.code == 200) {
@@ -112,10 +113,12 @@ export default {
 
     Complain:function(row){
         this.$router.push({
-          path: '/Complain',
+          name: 'Complain',
           params: {
-            id: row.ID
+            id: row.ID,
+            publisher: row.publisher
           }
+          
         })
       
       const h = this.$createElement;

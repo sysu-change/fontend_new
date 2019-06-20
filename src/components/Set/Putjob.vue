@@ -44,7 +44,7 @@
         
       </el-table>
       <div class="crhead">
-      <button class="but" @click="Create">+新建问卷</button>
+      <el-button type="primary" plain class="but" @click="Create">新建问卷</el-button>
     </div>
     </el-main>
   </div>
@@ -206,13 +206,14 @@ export default {
 
 <style scoped>
 .but {
-  width: 10%;
-  height: 30px;
-  border: 0px;
-  color: white;
-  font-size: 20px;
-  border-radius: 3px;
-  background-color: #409EFF;
+  position: relative;
+  border: 1px solid #409EFF;
+  color: #409EFF;
+  left: 0%;
+  border-radius: 4px;
+  width: 130px;
+  height: 40px;
+  margin: 3%;
 }
 .crhead {
   margin-top: 3px;

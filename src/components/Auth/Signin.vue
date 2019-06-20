@@ -11,14 +11,14 @@
         <el-input type="password" placeholder="请输入密码" v-model="form.password"/>
       </el-form-item>
       <el-form-item label="验证码" prop="code">
-        <el-input type="text" placeholder="请输入验证码" v-model="form.code"/>
+        <!--<el-input type="text" placeholder="请输入验证码" v-model="form.code"/>-->
+        <verify v-on:passedVerify="havePassed"></verify>
       </el-form-item>
         <el-form-item>
           <el-divider direction="vertical"></el-divider>
-           
         </el-form-item>
       <el-form-item>
-        <el-button class="submit" type="success" v-on:click="onSubmit('loginForm')">登录</el-button>
+        <el-button class="submit" type="success" v-on:click="onSubmit('loginForm')" :disabled="!form.havepass">登录</el-button>
       </el-form-item>
        
        <router-link to='/Register'>
@@ -43,7 +43,9 @@
 
 
 <script>
+import verify from "./verify"
 export default{
+  components:{verify},
 	data() {
     var validatePass = (rule, value, callback) => {
         if (!value) {
@@ -62,7 +64,7 @@ export default{
 			    form: {
           phone_num: '',
           password: '',
-          code:''
+          havepass:false
         },
         rules: {
           phone_num: [
@@ -71,20 +73,13 @@ export default{
           ],
           password: [
             {required: true, message: '密码不可为空', trigger: 'blur'}
-          ],
-          code:[
-            { required: true, message: '验证码不可为空', trigger: 'blur'}
-        ]
+          ]
         },
         // 对话框显示和隐藏
         dialogVisible: false
 		}
 	},
 	methods:{
-    Sign:function() {
-      alert(this.phone_num+" "+this.password+" "+this.code);
-    },
-    
     onSubmit(formName) {
         // 为表单绑定验证功能
         this.$refs[formName].validate((valid) => {
@@ -96,6 +91,9 @@ export default{
           }
         });
       },
+    havePassed(pass) {
+      this.form.havepass=pass;
+    },
     SigninforUser:function(vm){
       var jsonData={phone_num:vm.form.phone_num,password:String(require("crypto")
           .createHash("sha512")
@@ -108,7 +106,9 @@ export default{
           if(res.data.code==200) {
             vm.gotoUser();
           }
-          else alert(res.data.msg);
+          else {
+            vm.$router.go(0);
+          };
         }
         else {
           alert("request failed");

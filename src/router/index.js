@@ -98,7 +98,7 @@ export default new Router({
      name: 'Complain',
      component: Complain },
     {
-      path: '/User/Signout',
+      path: '/Signout',
       name: 'Signout',
       component: Signout
     },

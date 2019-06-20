@@ -66,11 +66,13 @@ export default {
                 tempIndex.verify=(temp.verify==0)?false:true;
                 vm.tableData.push(tempIndex);
               }
-              vm.loading=false;
+              
             }
           } else alert("网络出错");
+          vm.loading=false;
         })
         .catch(function(err) {
+          vm.loading=false;
           console.log(err);
         });
     },

@@ -44,14 +44,15 @@ export default {
   name: "Task",
   data() {
     return {
-      tableData: []
+      tableData: [],
+      loading:false
     };
   },
   methods: {
 
     //学生查看已完成的任务，查看到目前系统所有的其他类型任务
     getTask: function(vm) {
-      if (this.user_id === "") return;
+      if (vm.user_id === "") return;
       vm.loading=true;
       var URL = "http://localhost:8082/module/user/student_task_in_progress";
       var jsonData = { offset: 0, number: 100 };
@@ -61,7 +62,7 @@ export default {
         widthCredentials: false,
         params: jsonData
       };
-      this.$http(axios)
+      vm.$http(axios)
         .then(function(res) {
           if (res.status == 200) {
             if (res.data.code == 200) {
@@ -109,9 +110,7 @@ export default {
 
  //完成任务
     TaskComplete(row){
-        var jsonData = {
-        tid: parseInt(row.ID)
-      };
+      var jsonData = {tid: parseInt(row.ID)};
       
       var axios = {
         method: "post",
@@ -183,7 +182,7 @@ export default {
     },
   },
 
- created() {
+  created() {
     this.getTask(this);
   },
 

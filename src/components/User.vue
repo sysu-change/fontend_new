@@ -1,14 +1,16 @@
 <template>
 <div>
-    <br/>
+  <br/>
   <el-row  v-if="$route.path=='/User/Part/GetTask' 
         || $route.path=='/User/Part/Getjob'">
-  <el-col  :lg="22"  offset="1">
-    <el-carousel height="150px" >
-      <el-carousel-item v-for="item in 4" :key="item">
-        <h3 class="small">{{ item }}</h3>
-      </el-carousel-item>
-    </el-carousel></el-col></el-row>
+    <el-col  :lg="22"  offset="1">
+      <el-carousel height="150px">
+        <el-carousel-item v-for="(item,index) in imgArr" :key="item">
+          <img class="small" v-bind:src="imgArr[index]" />
+        </el-carousel-item>
+      </el-carousel>
+    </el-col>
+  </el-row>
 <br/>
 <el-container style="width:95%; border: 1px solid #eee" class="userBox">
   <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
@@ -18,7 +20,6 @@
         <el-menu-item-group>
           <el-menu-item index="1-1" v-on:click.native="goGetjob">兼职任务端</el-menu-item>
           <el-menu-item index="1-2" v-on:click.native="goPutjob">奶牛任务端</el-menu-item>
-         
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="2">
@@ -27,7 +28,6 @@
           <el-menu-item index="2-1"  v-on:click.native="getCash">充值</el-menu-item>
           <el-menu-item index="2-2" v-on:click.native="withDraw">提现</el-menu-item>
         </el-menu-item-group>
-        
       </el-submenu>
       <el-submenu index="3">
         <template slot="title"><i class="el-icon-s-order"></i>我的任务</template>
@@ -35,13 +35,7 @@
           <el-menu-item index="3-1" v-on:click.native="getDone">已完成</el-menu-item>
           <el-menu-item index="3-2" v-on:click.native="getTodo">进行中</el-menu-item>
         </el-menu-item-group>
-        <el-menu-item-group title="分组2">
-          <el-menu-item index="3-3">选项3</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="3-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="3-4-1">选项4-1</el-menu-item>
-        </el-submenu>
+       
       </el-submenu>
     </el-menu>
   </el-aside>
@@ -75,7 +69,7 @@
       return {
           /*tableData: Array(20).fill(item)*/
 
-      
+        imgArr:["/static/p1.jpg","/static/p2.jpg","/static/p3.jpg","/static/p4.jpg"],
         // 充值框显示和隐藏
         dialogVisible1: false,
         dialogVisible2: false,
@@ -88,10 +82,6 @@
     methods: {
       goAccountInfo() {
         this.$router.push('/User/Part/AccessAccount');
-      },
-      signout() {
-        this.$router.push("/Signin");
-        sessionStorage.clear()
       },
       goGetjob() {
         this.$router.push("/User/Part/Getjob");
@@ -173,13 +163,14 @@
     margin: 0;
   }
 
-  .el-carousel__item:nth-child(2n) {
-     background-color: #00b38a;
-     opacity: 0.5;
+  .el-carousel__item{
+     background-color: white;
+     opacity: 1.0;
   }
   
-  .el-carousel__item:nth-child(2n+1) {
-     background-color:#00b38a;
+  .small{
+    width:40%;
+    height: 100%;
   }
 </style>
 

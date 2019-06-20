@@ -57,7 +57,8 @@ export default {
   name: "Task",
   data() {
     return {
-      tableData: [ ]
+      tableData: [],
+      loading:false
     };
   },
   methods: {
@@ -74,7 +75,7 @@ export default {
         widthCredentials: false,
         params: jsonData
       };
-      this.$http(axios)
+      vm.$http(axios)
         .then(function(res) {
           if (res.status == 200) {
             if (res.data.code == 200) {
@@ -100,31 +101,32 @@ export default {
                 
                 vm.tableData.push(tempIndex);
               }
-              vm.loading=false;
+              
             } else {
               alert(res.data.msg);
             }
           } else alert("网络出错");
+          vm.loading=false;
         })
         .catch(function(err) {
+          vm.loading=false;
           console.log(err);
         });
     },
 
     Pass:function(row){
-        var jsonData = {
+      var jsonData = {
         tid: parseInt(row.ID),
         sid:row.number,
         verify:1
       };
-var axios = {
+      var axios = {
         method: "put",
         url: "http://localhost:8082/module/user/task_verify",
         widthCredentials: false,
         data: jsonData
       };
-     
-    this.$http(axios).then(function(res){
+      this.$http(axios).then(function(res){
           if(res.status==200) {
            alert("已提交！");
           }
@@ -136,48 +138,47 @@ var axios = {
     },
 
     Reject:function(row){
-       var jsonData = {
+      var jsonData = {
         tid: parseInt(row.ID),
         sid:row.number,
         verify:2
       };
-var axios = {
+      var axios = {
         method: "put",
         url: "http://localhost:8082/module/user/task_verify",
         widthCredentials: false,
         data: jsonData
       };
      
-    this.$http(axios).then(function(res){
-          if(res.status==200) {
-           alert("已提交！");
-          }
-          else alert("网络错误");
-        }).catch(function(err){
+      this.$http(axios).then(function(res){
+        if(res.status==200) {
+          alert("已提交！");
+        }
+        else alert("网络错误");}).catch(function(err){
           console.log(err);
           alert("发生了一个异常");
-        });
+      });
     },
 
     Complain:function(row){
-        this.$router.push({
-          path: '/Complain',
-          params: {
-            id: row.ID
-          }
-        })
-      
+      this.$router.push({
+        name: 'Complain',
+        params: {
+          id: row.ID,
+          publisher: row.number
+        }
+      })
       const h = this.$createElement;
-        this.$notify({
-          title: '投诉须知',
-          message: h('i', { style: 'color: teal'}, 
-          '您填写的内容对我们的审核结果非常关键，请您尽可能详细的填写，投诉的结果我们将会以邮箱短信的方式告知您和您投诉的人'),
-        });
+      this.$notify({
+        title: '投诉须知',
+        message: h('i', { style: 'color: teal'}, 
+        '您填写的内容对我们的审核结果非常关键，请您尽可能详细的填写，投诉的结果我们将会以邮箱短信的方式告知您和您投诉的人'),
+      });
     }
   },
- created() {
+  created() {
     this.getTask(this);
-  },
+  }
 };
 </script>
 

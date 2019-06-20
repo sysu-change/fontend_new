@@ -77,8 +77,8 @@
 
     <el-form-item>
       <el-button class="regist-button" type="success" @click="submitForm('ruleForm')">注册</el-button>
+      <el-button @click="authority" :disabled="haveSend" type="primary">{{codeInfo}}</el-button>
     </el-form-item>
-
     <el-link class="link" type="success" @click="onLogin">已有账号？立即登录！</el-link>
   </el-form>
   </div>
@@ -106,7 +106,7 @@ export default {
         callback();
       }
     };
-     var validatePass3 = (rule, value, callback) => {
+    var validatePass3 = (rule, value, callback) => {
         if (!value) {
           return callback(new Error('手机号不能为空'));
         }
@@ -131,8 +131,12 @@ export default {
         checkPass: "",
         phone_num: "",
         code: "",
-        email:""
+        email:"318015961@qq.com"
       },
+      authCode:"",
+      haveSend:false,
+      codeInfo:"发送验证码",
+      total:Number(60),
       rules: {
         number: [
           { required: true, message: "请输入8位学号", trigger: "change" },
@@ -162,13 +166,90 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit");
-          this.updateRegister(this);
+          if(this.authCode==this.ruleForm.code) this.updateRegister(this);
+          else {
+            this.$message({
+              showClose: true,
+              message: "验证码错误",
+              type: 'error'
+            });
+          }
         } else {
-          console.log("error submit!!");
+          $message({
+              showClose: true,
+              message: "表单验证未通过",
+              type: 'error'
+            });
           return false;
         }
       });
+    },
+    countDown(vm) {
+      vm.total=Number(60);
+      let clock = window.setInterval(() => {
+        vm.total--;
+        vm.codeInfo = vm.total + 's后重新发送';
+        if(vm.total<=0) window.clearInterval(clock);
+      },1000)
+    },
+    authority() {
+      if(this.checkEmail(this)) this.getCode(this);
+      else {
+        this.$message({
+          showClose: true,
+          message: "邮箱格式有误",
+          type: 'error'
+        });
+      }
+    },
+    getCode:function(vm) {
+      vm.haveSend=true;
+      vm.countDown(this);
+      var axios={method:"post",url:"http://localhost:8082/module/user/sent_verify",widthCredentials:false,data:{email:this.ruleForm.email}};
+      vm.$message({
+        showClose: true,
+        message: "验证码已发送到你所填的邮箱当中，注意查收"
+      });
+      vm.$http(axios).then(function(res){
+        if(res.status==200) {
+          if(res.data.code==200) {
+            vm.authCode=res.data.verify_code;
+          }
+          else {
+            vm.$message({
+              showClose: true,
+              message: "操作失败",
+              type: 'error'
+            });
+          }
+        }
+        else {
+          vm.$message({
+              showClose: true,
+              message: "网络异常",
+              type: 'error'
+          });
+        }
+      }).catch(function(err){
+        vm.$message({
+            showClose: true,
+            message: "发生了一个异常",
+            type: 'error'
+        });
+        console.log(err);
+      }); 
+    },
+    checkEmail:function(vm) {
+      var reg = new RegExp("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$");
+      if(vm.ruleForm.email==="") {
+        vm.$message({
+          showClose: true,
+          message: "邮箱格式有误",
+          type: 'error'
+        });
+        return false;
+      }
+      else return reg.test(vm.ruleForm.email);
     },
     updateRegister: function(vm) {
       var jsonData = {
@@ -189,19 +270,41 @@ export default {
       var axios={method: "post",url: "http://localhost:8082/module/register",widthCredentials: false,data: jsonData};
       this.$http(axios).then(function(res) {
           if (res.status == 200) {
-            alert(res.data.msg);
+            this.$message({
+              showClose: true,
+              message: res.data.mgs,
+              type: 'success'
+            });
             if (res.data.msg=='successful'){
               vm.$router.push("/Signin");
             }
           } else {
-            alert("Failed");
+            this.$message({
+              showClose: true,
+              message: "操作失败",
+              type: 'error'
+            });
           }
         }).catch(function(err) {
+          $message({
+            showClose: true,
+            message: "发生了一个异常",
+            type: 'error'
+          });
           console.log(err);
         });
     },
     onLogin() {
       this.$router.push("/Signin");
+    }
+  },
+  watch:{
+    "total":function() {
+      if(this.total==0) {
+        this.haveSend=false;
+        this.codeInfo="重新发送";
+        this.total=Number(60);
+      }
     }
   }
 };
@@ -210,9 +313,8 @@ export default {
 .regist-box{
     margin: 5px auto;
     width: 500px;
-    height: 650px;
     padding: 0px 50px 20px 35px;
-     border-radius: 5px;
+    border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     box-shadow: 0 0 25px #909399;
@@ -221,8 +323,8 @@ export default {
   .regist-button{
     position: relative;
     background-color: #ffffff;
-  border: 1.5px solid #00b38a;
-  color: #00b38a;
+    border: 1.5px solid #00b38a;
+    color: #00b38a;
      left: -15px;
     width: 60%;
   }
@@ -239,7 +341,8 @@ export default {
   left:-110px;
 }
 .headder{
-  color:#85CE61
+  color:#85CE61;
+  text-align: center;
 }
 div{
   background-color: azure;
