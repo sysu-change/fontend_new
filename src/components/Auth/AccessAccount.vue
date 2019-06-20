@@ -184,14 +184,13 @@ export default {
       if(res.status==200) {
         vm.ruleForm.number=res.data.sid;
         vm.ruleForm.coin=res.data.balance;
-        vm.ruleForm.semester=res.data.grade;
+        vm.ruleForm.semester=String(res.data.grade);
         vm.ruleForm.name=res.data.name;
         vm.ruleForm.major=res.data.major;
         vm.ruleForm.age=res.data.age;
         vm.ruleForm.phone_num=res.data.phone_num;
         vm.ruleForm.sex=res.data.sex;
         vm.ruleForm.email=res.data.email;
-        alert(vm.ruleForm.semester);
       }
       else {
         alert("网络错误");

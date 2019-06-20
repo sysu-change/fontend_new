@@ -59,8 +59,13 @@ export default {
     });
     }
    },
-    created() {
-    this.getUserinfo(this);
+    
+  watch:{
+    $route(to,from) {
+      if(to.path=="/User/Part/Getjob") {
+        this.getUserinfo(this);
+      }
+    }
   }
   }
   
