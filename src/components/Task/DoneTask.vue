@@ -28,9 +28,9 @@
       </el-table-column>
       <el-table-column prop="state_s"  label="审核状态">
          <template slot-scope="scope">
-         <span style="color:orange"  v-if="scope.row.state==0">未审核</span>
-          <span style="color:#00b38a"  v-if="scope.row.state==1">通过</span>
-           <span style="color:red"  v-if="scope.row.state==2">不通过</span>
+         <span style="color:orange"  v-if="scope.row.state_s==0">未审核</span>
+          <span style="color:#00b38a"  v-if="scope.row.state_s==1">通过</span>
+           <span style="color:red"  v-if="scope.row.state_s==2">不通过</span>
          </template>
       </el-table-column>
       <el-table-column>

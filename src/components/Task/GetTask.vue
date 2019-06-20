@@ -110,11 +110,12 @@ export default {
         alert("未找到问卷标号为空");
         return;
       }
-      //this.$router.meta.keepAlive=true;
-      this.$router.push({
-        path: "/TaskDetail",
-        params: { ID: parseInt(row.ID) }
-      });
+     this.$router.push({
+          name: 'TaskDetail',
+          params: {
+            id: row.ID
+          }
+        })
     },
     
     //申请任务
@@ -132,8 +133,8 @@ export default {
      
       this.$http(axios).then(function(res){
           if(res.status==200) {
-            alert("申请成功");
-            //this.$router.push({ path: "Putjob/TodoTask" });
+           
+            alert("已申请");
           }
           else alert("网络错误");
         }).catch(function(err){

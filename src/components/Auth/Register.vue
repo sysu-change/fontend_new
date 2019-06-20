@@ -71,8 +71,14 @@
     <el-form-item label="常用手机号" prop="phone_num">
       <el-input v-model="ruleForm.phone_num" autocomplete="off"></el-input>
     </el-form-item>
-    <el-form-item label="验证码" prop="code">
+    <el-form-item  prop="code">
+      <el-col :span="10">
+      <el-button type="success" @click="getVerify()">获取邮箱验证码</el-button>
+      </el-col>
+      <el-col :span="2"></el-col>
+      <el-col :span="10">
       <el-input v-model="ruleForm.code" autocomplete="off"></el-input>
+      </el-col>
     </el-form-item>
 
     <el-form-item>
@@ -97,6 +103,7 @@ export default {
         callback();
       }
     };
+
     var validatePass2 = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请再次输入密码"));
@@ -119,6 +126,7 @@ export default {
           } 
         }, 1000);
       };
+      
     return {
       ruleForm: {
         number: "",
@@ -163,6 +171,7 @@ export default {
     };
   },
   methods: {
+    //表单提交
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -294,6 +303,33 @@ export default {
           console.log(err);
         });
     },
+
+     //获取邮箱验证码
+     getVerify: function(vm) {
+      var jsonData = {email: this.ruleForm.email}
+        
+      var axios = {
+        method: "post",
+        url: "http://localhost:8082/module/user/sent_verify",
+        widthCredentials: false,
+        data: jsonData
+      };
+      this.$http(axios)
+        .then(function(res) {
+          if (res.status == 200) {
+            
+            alert("验证码已发送到邮箱");
+            
+          } else {
+            alert("request failed");
+            return false;
+          }
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+    },
+
     onLogin() {
       this.$router.push("/Signin");
     }

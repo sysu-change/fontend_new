@@ -123,7 +123,14 @@ export default {
           if (res.status == 200) {
             
             alert("已提交");
-            this.tableData.splice( parseInt(row.ID), 1);
+           
+           var table = this.tableData;
+              for (var i = 0; i < table.length; i++) {
+                if (table[i].ID == id) {
+                  this.tableData.splice(i, 1);
+                  break;
+                }
+              }
           } else {
             alert("request failed");
             return false;
@@ -132,6 +139,7 @@ export default {
         .catch(function(err) {
           console.log(err);
         });
+        
     },
 
     //放弃任务
