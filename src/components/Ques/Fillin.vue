@@ -1,16 +1,14 @@
 
 <template>
   <div class="edit-container">
-    <h2 class="h2" v-if="!titleChange">{{qsItem.title}}</h2>
+    
 
-    <input
+    <h2
       type="text"
       readonly="readonly"
       name="qsTitle"
-      v-if="titleChange"
-      v-model="titleValue"
       ref="titleInput"
-    >
+    >{{titleValue}}</h2>
 
     <div class="content" v-loading.fullscreen.lock="loading">
       <div class="questions" v-for="(qus, index) in qsItem" >
@@ -36,7 +34,7 @@
             </label>
           </p>
           <p v-if="qus.choice_type === 0">
-            <textarea v-model="(qsItem[index]).innertext" placeholder="input some words"></textarea>
+            <textarea v-model="(qsItem[index]).innertext" placeholder="说点什么吧"></textarea>
           </p>
         </div>
       </div>
@@ -236,7 +234,7 @@ export default {
 </script>
 <style scoped>
 .edit-container {
-  width: 80%;
+  width: 60%;
   margin: 1rem auto;
   padding: 1rem;
   color: #666;
@@ -255,18 +253,14 @@ h2 {
   cursor: pointer;
 }
 
-h2:hover {
-  background-color: #fcf0e5;
-}
+
 
 input[name="qsTitle"] {
   height: 20px;
   width: 100%;
   margin-bottom: 2px;
   font-size: 20px;
-  text-align: center;
-  border: 1px solid #ccc;
-  background-color: #ccc;
+  text-align: center; 
 }
 
 .content {
@@ -282,12 +276,9 @@ input[name="qsTitle"] {
   justify-content: space-between;
   padding: 2px 2px;
   margin-bottom: 5px;
-  border: solid 1px #cccccc;
-  border-radius: 5px;
+ 
 }
-.questions:hover {
-  background-color: #fcf0e5;
-}
+
 .questions p {
   margin-top: 2px;
   margin-bottom: 2px;
@@ -328,9 +319,7 @@ input[name="qsTitle"] {
 .questions .qs-right p span {
   cursor: pointer;
 }
-.questions .qs-right p span:hover {
-  color: orange;
-}
+
 
 .add {
   border: 0.2rem solid #cccccc;
@@ -342,9 +331,7 @@ input[name="qsTitle"] {
   line-height: 3rem;
   text-align: center;
 }
-.add-option:hover {
-  box-shadow: 0 0 0.4rem #aaa;
-}
+
 .add-option button {
   height: 25px;
   width: 50px;
@@ -463,19 +450,7 @@ button:hover {
 .shadow header span:nth-of-type(1) {
   font-weight: 700;
 }
-.shadow header .close-btn {
-  position: absolute;
-  right: 3rem;
-  color: #bbb;
-  cursor: pointer;
-}
-.shadow header .close-btn:hover {
-  color: orange;
-}
-.shadow .add-qs-dialog p,
-.dialog p {
-  margin: 3rem 0 2rem 3rem;
-}
+
 .shadow label {
   display: block;
   margin-left: 3rem;
@@ -495,15 +470,7 @@ button:hover {
   text-align: center;
   line-height: 6rem;
 }
-.shadow .btn-box .yes {
-  margin-right: 1rem;
-  color: #fff;
-  background-color: #ee7419;
-  border: 1px solid orange;
-}
-.shadow .btn-box .yes:hover {
-  box-shadow: 0 0 5px orange;
-}
+
 
 .addb {
   width: 80px;

@@ -7,7 +7,7 @@
   <el-breadcrumb-item :to="{ path: '/User/Part/Putjob/DoneTask'}">已完成的任务</el-breadcrumb-item>
   <el-breadcrumb-item></el-breadcrumb-item>
 </el-breadcrumb>
-    <el-table :data="tableData" v-loading="loading" >
+    <el-table :data="tableData" v-loading="loading"   >
       <el-table-column prop="ID" label="任务编号" sortable></el-table-column>
       <el-table-column prop="type" label="任务类型" >
         <template slot-scope="scope">
@@ -42,6 +42,16 @@
     <div class="crhead">
       <el-button class="but" @click="Create">+新建任务</el-button>
     </div>
+
+    <el-dialog title="联系方式"
+      :visible.sync="dialogVisible"
+      width="30%"
+      >
+     
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+</el-dialog>
   </el-main>
 </template>
 
@@ -50,7 +60,9 @@ export default {
   name: "TodoTask",
   data() {
     return {
-      tableData: []
+      tableData: [],
+      // 对话框显示和隐藏
+        dialogVisible: false
     };
   },
   methods: {
@@ -119,7 +131,7 @@ export default {
  //删除
     Delete: function(row) {
       //alert(row.ID);
-      this.$confirm('确定放弃吗？', {
+      this.$confirm('确定删除吗？', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -162,6 +174,10 @@ export default {
         });
       
     },
+
+    Conact(row){
+       this.dialogVisible = true;
+    }
   },
  created() {
     this.getTask(this);

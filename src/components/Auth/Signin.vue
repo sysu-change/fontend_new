@@ -31,7 +31,7 @@
       title="温馨提示"
       :visible.sync="dialogVisible"
       width="30%"
-      :before-close="handleClose">
+     >
       <span>请输入正确信息</span>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>

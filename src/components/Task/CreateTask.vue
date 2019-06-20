@@ -10,7 +10,7 @@
     <el-select v-model="ruleForm.type" placeholder="请选任务类型">
       <el-option label="取快递" value="2"></el-option>
       <el-option label="陪运动" value="3"></el-option>
-      <el-option label="求辅导" value="4"></el-option>
+      <el-option label="学习业务" value="4"></el-option>
       <el-option label="求夸业务" value="5"></el-option>
       <el-option label="其他业务" value="6"></el-option>
     </el-select>

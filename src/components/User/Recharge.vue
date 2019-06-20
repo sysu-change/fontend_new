@@ -24,7 +24,6 @@
           class="input_phone"
           type="text"
           placeholder="请输入手机号"
-          @input="checkThePhone"
           v-model="rechargeForm.phone_num"
         />
       </el-form-item>
@@ -64,7 +63,7 @@
       title="温馨提示"
       :visible.sync="dialogVisible"
       width="30%"
-      :before-close="handleClose">
+      >
       <span>请输入正确信息</span>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>

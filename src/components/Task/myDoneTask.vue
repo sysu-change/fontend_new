@@ -112,11 +112,12 @@ export default {
 
     Complain:function(row){
         this.$router.push({
-          path: '/Complain',
+           name: 'Complain',
           params: {
-            id: row.ID
+            id: row.ID,
           }
         })
+      
       
       const h = this.$createElement;
         this.$notify({

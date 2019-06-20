@@ -10,25 +10,32 @@
     </el-timeline-item>
     <el-timeline-item  placement="top" type="success">
       <el-card>
-          <h3 align="left">任务简介:</h3>
-        <p></p>
+          <h3  align="left" v-if="type==2">取快递</h3>
+          <h3 align="left"  v-if="type==3">运动业务</h3>
+          <h3   align="left" v-if="type==4">学习业务</h3>
+          <h3  align="left" v-if="type==5">求夸夸业务</h3>
+          <h3   align="left" v-if="type==6">其他业务</h3>
+        <p align="left">{{descript}}</p>
       </el-card>
     </el-timeline-item>
     <el-timeline-item  placement="top">
       <el-card>
           <h3 align="left">任务详情:</h3>
+          <p align="left">{{detail}}</p>
       </el-card>
     </el-timeline-item>
     <el-timeline-item  placement="top">
       <el-card>
           <h3 align="left">任务截止时间:</h3>
+          <p align="left">{{deadline}}</p>
       </el-card>
     </el-timeline-item>
     <el-timeline-item  placement="top">
       <el-card>
           <h3 align="left">联系方式:</h3>
-          <p align="left">手机:</p>
-          <p align="left">微信:</p>
+          <div>
+          <p align="left">手机:{{phone_num}}</p>
+          <p align="left">微信:{{weixin}}</p></div>
       </el-card>
     </el-timeline-item>
 
@@ -45,15 +52,53 @@ export default {
     data(){
         return{
             ID:this.$route.params.id,
-            type:"取快递",
+            type:"",
+            descript:"",
+            detail:"",
+            deadline:"",
+            phone_num:"",
+            weixin:""
         }
     },
     methods:{
-       
+      //任务详情
+        getTask: function(vm) {
+     
+      vm.loading=true;
+      var URL = "http://localhost:8082/module/user/task/"+parseInt(vm.ID);
+      
+      var axios = {
+        method: "get",
+        url: URL,
+        widthCredentials: false,
+      };
+       vm.$http(axios).then(function(res){
+      if(res.status==200) {
+         if (res.data.code == 200) {
+        vm.type=res.data.content.type;
+        vm.descript=res.data.content.description;
+        vm.detail=res.data.content.detail;
+        vm.deadline=res.data.content.deadline;
+        vm.phone_num=res.data.content.phone_num;
+        vm.weixin= res.data.content.wechat;
+        }
+      }
+      else {
+        alert("网络错误");
+      }
+    }).catch(function(err) {
+      console.log(err);
+      alert("An Err Happened");
+    });
+    },
+
        back(){
          this.$router.push('/User/Part/myDoneTask' )
        }
-    }
+    },
+    created() {
+    this.getTask(this);
+  },
    
 }
 </script>
