@@ -76,31 +76,29 @@
 <script>
 export default {
   name: "Withdraw",
-  
+
   data() {
-      var validatePass = (rule, value, callback) => {
-        if (!value) {
-          return callback(new Error('手机号不能为空'));
+    var validatePass = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("手机号不能为空"));
+      }
+      setTimeout(() => {
+        var reg = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|17[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
+        if (!reg.test(this.WithdrawForm.phone_num)) {
+          callback(new Error("请输入正确格式"));
+        } else {
+          callback();
         }
-        setTimeout(() => {
-          var reg=/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|17[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
-          if(!reg.test(this.WithdrawForm.phone_num)) {
-            callback(new Error('请输入正确格式'));
-          }else {
-            callback();
-          } 
-        }, 1000);
-      };
+      }, 1000);
+    };
     return {
       WithdrawForm: {
-        number: "",
+        number: "5",
         phone_num: "",
         password: ""
       },
       rules: {
-        phone_num: [
-          { validator: validatePass, trigger: 'blur' }
-        ],
+        phone_num: [{ validator: validatePass, trigger: "blur" }],
         password: [{ required: true, message: "密码不可为空", trigger: "blur" }]
       }
     };
@@ -114,9 +112,10 @@ export default {
           this.RechargeforUser(this);
         } else {
           this.$message({
-            type:"warning",
-            message:"请输入正确信息"
-          })
+            showClose: true,
+            type: "warning",
+            message: "请输入正确信息"
+          });
           return false;
         }
       });
@@ -126,11 +125,13 @@ export default {
       var jsonData = {
         pay_phone: this.WithdrawForm.phone_num,
         money: parseInt(this.WithdrawForm.number),
-        password: String(require("crypto")
-          .createHash("sha512")
-          .update(this.WithdrawForm.password)
-          .digest("hex")
-          .toUpperCase())
+        password: String(
+          require("crypto")
+            .createHash("sha512")
+            .update(this.WithdrawForm.password)
+            .digest("hex")
+            .toUpperCase()
+        )
       };
       var axios = {
         method: "post",
@@ -141,8 +142,19 @@ export default {
       this.$http(axios)
         .then(function(res) {
           if (res.status == 200) {
-            alert(res.data.msg);
-            
+            if (res.data.msg == "successful") {
+              vm.$message({
+                showClose: true,
+                message: res.data.msg,
+                type: "success"
+              });
+            } else {
+              vm.$message({
+                showClose: true,
+                message: res.data.msg,
+                type: "error"
+              });
+            }
           } else {
             alert("request failed");
             return false;
@@ -151,8 +163,7 @@ export default {
         .catch(function(err) {
           console.log(err);
         });
-    },
-    
+    }
   }
 };
 </script>
@@ -193,7 +204,7 @@ export default {
 /* 充值金额按钮 */
 .el-row {
   margin-left: 15%;
-left: -3%;
+  left: -3%;
   margin-bottom: 5%;
 }
 .el-col {

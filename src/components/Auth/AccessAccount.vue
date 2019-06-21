@@ -64,7 +64,7 @@
 
       <el-form-item label="性别" prop="sex">
         
-        <el-col :span="12">
+        <el-col :span="8">
        <el-radio-group v-model="ruleForm.sex" style="width:100%" >
          
          <el-radio border label="男" class="sex1"></el-radio>
@@ -252,11 +252,11 @@ export default {
 
 .sex1{
   position: relative;
-  left:-110px;
+  left:0px;
 }
 .sex2{
   position: relative;
-  left:-110px;
+  left:0px;
 }
 
 .avatar{

@@ -33,21 +33,21 @@
           <div class="numlayout">
             <el-row :gutter="80">
               <el-col :span="6">
-                <el-radio border label=5 class="num1"></el-radio>
+                <el-radio border label="5" class="num1"></el-radio>
               </el-col>
               <el-col :span="6">
-                <el-radio border label=10 class="num2"></el-radio>
+                <el-radio border label="10" class="num2"></el-radio>
               </el-col>
               <el-col :span="6">
-                <el-radio border label=20 class="num3"></el-radio>
+                <el-radio border label="20" class="num3"></el-radio>
               </el-col>
             </el-row>
             <el-row :gutter="80">
               <el-col :span="6">
-                <el-radio border label=50 class="num4"></el-radio>
+                <el-radio border label="50" class="num4"></el-radio>
               </el-col>
               <el-col :span="6">
-                <el-radio border label=100 class="num5"></el-radio>
+                <el-radio border label="100" class="num5"></el-radio>
               </el-col>
             </el-row>
           </div>
@@ -59,11 +59,7 @@
       </el-form-item>
     </el-form>
 
-    <el-dialog
-      title="温馨提示"
-      :visible.sync="dialogVisible"
-      width="30%"
-      >
+    <el-dialog title="温馨提示" :visible.sync="dialogVisible" width="30%">
       <span>请输入正确信息</span>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -94,7 +90,7 @@ export default {
 
     return {
       rechargeForm: {
-        number: 0,
+        number: "5",
         phone_num: ""
       },
       rules: {
@@ -111,10 +107,19 @@ export default {
         if (valid) {
           this.RechargeforUser(this);
         } else {
-          this.$message({
-            type:"warning",
-            message:"请输入正确信息"
-          })
+          if (res.data.msg == "successful") {
+              vm.$message({
+                showClose: true,
+                message: res.data.msg,
+                type: "success"
+              });
+            } else {
+              vm.$message({
+                showClose: true,
+                message: res.data.msg,
+                type: "error"
+              });
+            }
           return false;
         }
       });
@@ -125,7 +130,7 @@ export default {
         phone_num: this.rechargeForm.phone_num,
         money: parseInt(this.rechargeForm.number)
       };
-      
+
       var axios = {
         method: "post",
         url: "http://localhost:8082/user/recharge",
@@ -135,9 +140,11 @@ export default {
       this.$http(axios)
         .then(function(res) {
           if (res.status == 200) {
-            
-            alert("充值成功");
-            
+            vm.$message({
+              showClose: true,
+              message: res.data.msg,
+              type: "success"
+            });
           } else {
             alert("request failed");
             return false;
@@ -146,8 +153,7 @@ export default {
         .catch(function(err) {
           console.log(err);
         });
-    },
-    
+    }
   }
 };
 </script>
