@@ -17,11 +17,11 @@
           <router-link :to="{ path: '/AccessAccount'}">
           <el-dropdown-item >个人信息</el-dropdown-item>
           </router-link >
-          <router-link :to="{ path: '/Signin'}">
-          <el-dropdown-item >登录</el-dropdown-item>
+          <router-link :to="{ path: '/Hello'}">
+          <el-dropdown-item >返回首页</el-dropdown-item>
           </router-link>
           <router-link :to="{ path: '/Signout'}">
-          <el-dropdown-item >注销</el-dropdown-item>
+          <el-dropdown-item >用户注销</el-dropdown-item>
           </router-link>
         </el-dropdown-menu>
         <span >{{user_name}}</span>
@@ -59,7 +59,9 @@ export default {
     });
     }
    },
-    
+  created() {
+    this.getUserinfo(this);
+  },
   watch:{
     $route(to,from) {
       if(to.path=="/User/Part/Getjob") {
@@ -67,6 +69,7 @@ export default {
       }
     }
   }
+  
   }
   
 </script>

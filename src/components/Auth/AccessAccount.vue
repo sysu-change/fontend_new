@@ -91,13 +91,15 @@
       </el-tooltip>
 
       <el-form-item label="信誉积分"   style="width:30% " class="cred_label">
-        <el-col :span="5">
+        <el-col :span="10">
         <span class="credibility" >{{ruleForm.Credibility}}</span>
         </el-col>
       </el-form-item>
 
       <el-form-item label="账户余额"   style="width:30% " class="cash_label">
+        <el-col :span="10">
         <span class="cash" >{{ruleForm.coin}}¥</span>
+        </el-col>
       </el-form-item>
 
       <el-form-item  class="change" style="width:50%">
@@ -209,9 +211,10 @@ export default {
 <style scoped>
 .background{
   position: relative;
-   width: 600px;
-   height: 700px;
-   left: 10%;
+   width: 500px;
+   height: 600px;
+   margin-left: 20%;
+   margin-right: 20%;
    top:-10%
 }
 
@@ -232,11 +235,15 @@ export default {
   background-color: #ffffff;
   border: 1.5px solid #00b38a;
   color: #00b38a;
-  left: 60%;
+  left: 50%;
   top:0px;
   border-radius: 4px;
   width: 150px;
   height: 40px;
+}
+.change {
+  position: relative;
+  top:-15%;
 }
 .link {
   position: relative;
@@ -254,18 +261,17 @@ export default {
 
 .avatar{
     position: relative;
-    
     width: 70px;
     height: 70px;
-    left: 73%;
+    left: 75%;
     top:10%
 }
 
 /*账户余额*/
 .cash_label{
    position: relative;
-   top:-5%;
-   left:40%;   
+   top:-30%;
+   left:70%;   
 }
 .cash{
     font: 2em sans-serif;
