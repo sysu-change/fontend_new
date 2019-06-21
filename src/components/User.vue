@@ -80,18 +80,11 @@
       
     },
     methods: {
-      goAccountInfo() {
-        this.$router.push('/User/Part/AccessAccount');
-      },
       goGetjob() {
         this.$router.push("/User/Part/Getjob");
       },
       goPutjob() {
         this.$router.push("/User/Part/Putjob");
-      },
-      
-      Answer(){
-        this.$router.push("qsEdit");
       },
       getUser(){
         this.$router.push("/AccessAccount");
@@ -118,11 +111,19 @@
             sessionStorage.setItem('user', String(vm.user_id));
           }
           else {
-            alert("服务器未能返回数据");
+            vm.$message({
+              showClose: true,
+              message: "服务器未能返回数据",
+              type: "error"
+            });
           }
         }).catch(function(err){
           console.log(err);
-          alert("An Err Happened");
+          vm.$message({
+              showClose: true,
+              message: "request failed",
+              type: "error"
+            });
         });
       }
     },

@@ -108,18 +108,18 @@ export default {
           this.RechargeforUser(this);
         } else {
           if (res.data.msg == "successful") {
-              vm.$message({
-                showClose: true,
-                message: res.data.msg,
-                type: "success"
-              });
-            } else {
-              vm.$message({
-                showClose: true,
-                message: res.data.msg,
-                type: "error"
-              });
-            }
+            vm.$message({
+              showClose: true,
+              message: res.data.msg,
+              type: "success"
+            });
+          } else {
+            vm.$message({
+              showClose: true,
+              message: res.data.msg,
+              type: "error"
+            });
+          }
           return false;
         }
       });
@@ -146,7 +146,11 @@ export default {
               type: "success"
             });
           } else {
-            alert("request failed");
+            vm.$message({
+              showClose: true,
+              message: "request failed",
+              type: "error"
+            });
             return false;
           }
         })

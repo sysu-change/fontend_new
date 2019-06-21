@@ -156,7 +156,11 @@ export default {
               });
             }
           } else {
-            alert("request failed");
+            vm.$message({
+              showClose: true,
+              message: "request failed",
+              type: "error"
+            });
             return false;
           }
         })
