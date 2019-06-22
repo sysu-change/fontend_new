@@ -27,11 +27,7 @@
           <el-button size="mini"  @click="TaskView(scope.row)">任务详情</el-button>
         </template>
       </el-table-column>
-      <el-table-column>
-        <template slot-scope="scope">
-          <el-button size="mini" @click="Conact(scope.row)">催单</el-button>
-        </template>
-      </el-table-column>
+      
       <el-table-column>
         <template slot-scope="scope">
           <el-button size="mini" @click="Delete(scope.row)">删除任务</el-button>

@@ -3,7 +3,13 @@
     <el-table :data="tableData" v-loading="loading">
       <el-table-column prop="sid" label="答题人ID" sortable></el-table-column>
       <el-table-column prop="ans_time" label="答题日期" sortable width="140"></el-table-column>
-      <el-table-column prop="vers" label="审核状态" width="120"></el-table-column>
+      <el-table-column prop="vers" label="审核状态" width="120">
+        <template slot-scope="scope">
+          <i style="color:#00b38a" class="el-icon-check" v-if="scope.row.vers=='已通过'"></i>
+          <i style="color:orange" class="el-icon-time" v-if="scope.row.vers=='未审核'"></i>
+          <span style="margin-left: 10px">{{ scope.row.vers }}</span>
+        </template>
+      </el-table-column>
       <el-table-column>
         <template slot-scope="scope">
           <el-button @click="View(scope.row)" type="primary">查看</el-button>

@@ -4,7 +4,7 @@
     <br/>
 <div class="block">
     
-  <el-timeline>
+  <el-timeline v-loading.fullscreen.lock="loading">
     <el-timeline-item  placement="top" type="success"> 
           <h1 >任务编号:{{ID}}</h1>
     </el-timeline-item>
@@ -27,15 +27,19 @@
     <el-timeline-item  placement="top">
       <el-card>
           <h3 align="left">任务截止时间:</h3>
-          <p align="left">{{deadline}}</p>
+          <p align="left">
+           <i  style="color:orange" class="el-icon-time" ></i>{{deadline}}</p>
       </el-card>
     </el-timeline-item>
     <el-timeline-item  placement="top">
       <el-card>
           <h3 align="left">联系方式:</h3>
           <div>
-          <p align="left">手机:{{phone_num}}</p>
-          <p align="left">微信:{{weixin}}</p></div>
+              <p align="left">
+               <i  style="color:#00b38a" class="el-icon-phone" ></i>手机:{{phone_num}}</p>
+               <p align="left">
+          <i style="color:#00b38a" class="el-icon-chat-dot-square" ></i>微信:{{weixin}}</p>
+          </div>
       </el-card>
     </el-timeline-item>
 
@@ -57,7 +61,8 @@ export default {
             detail:"",
             deadline:"",
             phone_num:"",
-            weixin:""
+            weixin:"",
+            loading: true
         }
     },
     methods:{
@@ -81,6 +86,7 @@ export default {
         vm.deadline=res.data.content.deadline;
         vm.phone_num=res.data.content.phone_num;
         vm.weixin= res.data.content.wechat;
+        vm.loading = false;
         }
       }
       else {

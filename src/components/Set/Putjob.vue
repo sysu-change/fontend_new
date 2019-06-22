@@ -10,12 +10,18 @@
       </el-breadcrumb>
       <el-table :data="tableData" v-loading="loading">
         <el-table-column prop="ID" label="标号" sortable></el-table-column>
-        <el-table-column prop="date" label="日期" sortable width="140"></el-table-column>
+        <el-table-column prop="date" label="日期" sortable width="100"></el-table-column>
         <el-table-column prop="type" label="标题" width="120"></el-table-column>
         <el-table-column prop="descript" label="任务描述"></el-table-column>
         <el-table-column prop="count" sortable label="需求量" width="100"></el-table-column>
         <el-table-column prop="price" sortable label="赏金"></el-table-column>
-        <el-table-column prop="status" label="状态"></el-table-column>
+        <el-table-column prop="status" label="状态" width="120">
+         <template slot-scope="scope">
+          <i style="color:#00b38a" class="el-icon-check" v-if="scope.row.status=='已发布'"></i>
+          <i style="color:orange" class="el-icon-time" v-if="scope.row.status=='未发布'"></i>
+          <span style="margin-left: 10px">{{ scope.row.status }}</span>
+        </template>
+        </el-table-column>
         <el-table-column>
           <template slot-scope="scope">
             <el-button
@@ -33,18 +39,19 @@
         </el-table-column>
         <el-table-column>
           <template slot-scope="scope">
-            <el-button size="mini" type="success" @click="Check(scope.row)">查看</el-button>
+            <el-button size="mini" type="info" @click="Statics(scope.row)">数据</el-button>
           </template>
         </el-table-column>
         <el-table-column>
           <template slot-scope="scope">
-            <el-button size="mini" type="info" @click="Statics(scope.row)">数据</el-button>
+            <el-button size="mini" type="success" @click="Check(scope.row)">查看</el-button>
           </template>
         </el-table-column>
+       
         
       </el-table>
       <div class="crhead">
-      <el-button type="primary" plain class="but" @click="Create">新建问卷</el-button>
+      <el-button   class="but" @click="Create">+新建问卷</el-button>
     </div>
     </el-main>
   </div>
@@ -207,13 +214,17 @@ export default {
 <style scoped>
 .but {
   position: relative;
-  border: 1px solid #409EFF;
-  color: #409EFF;
+  border: 1px solid #00b38a;
+  color: #00b38a;
+  background-color: #ffffff;
   left: 0%;
   border-radius: 4px;
   width: 130px;
   height: 40px;
   margin: 3%;
+}
+.but:hover{
+  color:#00b38a
 }
 .crhead {
   margin-top: 3px;

@@ -1,20 +1,16 @@
 
 <template>
   <div class="edit-container">
-    <h2 class="h2" @click="titleClick" v-if="!titleChange">{{qsItem.title}}</h2>
-
     <input
       type="text"
       name="qsTitle"
-      v-if="titleChange"
       v-model="titleValue"
-      @blur="onblur"
-      @keyup.enter="onsubmit"
       ref="titleInput"
+      placeholder="问卷标题"
     >
     <div class="des">
-      <h4>问卷描述</h4>
-      <textarea v-model="description"></textarea>
+      
+      <input  placeholder="问卷描述" v-model="description">
     </div> 
     <div class="content">
       <div class="questions" v-for="(qus, index) in qsItem">
@@ -145,29 +141,6 @@ export default {
         msg = "(文本题)";
       }
       return item.isNeed ? `${msg} *` : msg;
-    },
-
-    //标题修改实时判断
-    onblur() {
-      this.titleValue = this.titleValue.trim();
-      this.qsItem.title = this.titleValue === "" ? this.qsItem.title : this.titleValue;
-      this.titleChange = false;
-    },
-
-    //问卷题目提交
-    onsubmit() {
-      this.titleValue = this.titleValue.trim();
-      this.qsItem.title =
-        this.titleValue === "" ? this.qsItem.title : this.titleValue;
-      this.titleChange = false;
-    },
-
-    //标题点击事件
-    titleClick() {
-      this.titleChange = !this.titleChange;
-      setTimeout(() => {
-        this.$refs.titleInput.focus();
-      }, 150);
     },
 
     //交换相邻的两个选项
@@ -369,7 +342,7 @@ export default {
 </script>
 <style scoped>
 .edit-container {
-  width: 80%;
+  width: 60%;
   margin: 1rem auto;
   padding: 1rem;
   color: #666;
@@ -402,13 +375,13 @@ input[name="qsTitle"] {
   font-size: 20px;
   text-align: center;
   border: 1px solid #ccc;
-  background-color: #ccc;
+ 
 }
 
 
 .content {
   padding: 3rem;
-  border-top: 0.2rem solid #ccc;
+  border-top: 0.1rem dashed #ccc;
   border-bottom: 0.2rem solid #ccc;
 }
 
@@ -552,7 +525,7 @@ footer .issue:hover {
   transition: all 0.5s;
 }
 .slide-enter-active {
-  height: 8rem;
+  height: 4rem;
 }
 .slide-enter,.slide-leave-active {
   opacity: 0;
@@ -643,12 +616,12 @@ button:hover{
 }
 .shadow .btn-box .yes {
     margin-right: 1rem;
-    color: #fff;
-    background-color: #ee7419;
-    border: 1px solid orange;
+    color: #00b38a;
+    background-color: #ffffff;
+    border: 1px solid #00b38a;
 }
 .shadow .btn-box .yes:hover {
-    box-shadow: 0 0 5px orange;
+    box-shadow: 0 0 5px #00b38a;
 }
 
 .addb{

@@ -9,7 +9,7 @@
       name="qsTitle"
       ref="titleInput"
     >{{titleValue}}</h2>
-
+           <h6>{{description}}</h6>
     <div class="content" v-loading.fullscreen.lock="loading">
       <div class="questions" v-for="(qus, index) in qsItem" >
         <div class="qs-left">
@@ -40,7 +40,7 @@
       </div>
     </div>
     <footer>
-      <span>问卷截止日期</span>
+     
       <div class="btn-box">
         <button class="save" @click="save">提交</button>
         <button class="save" @click="back">返回</button>
@@ -56,7 +56,7 @@
  * @author oyh(Reusjs)
  */
 export default {
-  name: "Create",
+  name: "Fillin",
   components: {},
   data() {
     return {
@@ -265,8 +265,7 @@ input[name="qsTitle"] {
 
 .content {
   padding: 3rem;
-  border-top: 0.2rem solid #ccc;
-  border-bottom: 0.2rem solid #ccc;
+  border-top: 0.1rem dashed #ccc;
 }
 
 .questions {
@@ -320,39 +319,6 @@ input[name="qsTitle"] {
   cursor: pointer;
 }
 
-
-.add {
-  border: 0.2rem solid #cccccc;
-}
-
-.add-option {
-  width: 100%;
-  height: 3rem;
-  line-height: 3rem;
-  text-align: center;
-}
-
-.add-option button {
-  height: 25px;
-  width: 50px;
-  margin-left: 4rem;
-  border: 0.2rem solid #ccc;
-  background-color: #eee;
-  cursor: pointer;
-}
-
-.add-item {
-  width: 100%;
-  height: 1rem;
-  line-height: 1rem;
-  text-align: center;
-  background-color: #eee;
-  cursor: pointer;
-}
-.add-item span {
-  font-size: 5px;
-}
-
 footer {
   position: relative;
   height: 6rem;
@@ -377,29 +343,6 @@ footer .save,
 }
 footer .save:hover {
   box-shadow: 0 0 0.5rem #aaa;
-}
-footer .issue {
-  margin-left: 4rem;
-  color: #fff;
-  border: 0.1rem solid orange;
-  background-color: orange;
-}
-footer .issue:hover {
-  box-shadow: 0 0 0.5rem orange;
-}
-
-.slide-enter-active,
-.slide-leave-active {
-  transition: all 0.5s;
-}
-.slide-enter-active {
-  height: 8rem;
-}
-.slide-enter,
-.slide-leave-active {
-  opacity: 0;
-  height: 0;
-  transform: translateY(-3rem);
 }
 
 button {
@@ -427,54 +370,5 @@ button:hover {
   height: 100%;
   background: rgba(85, 85, 85, 0.7);
 }
-.shadow .add-qs-dialog,
-.dialog {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 40rem;
-  height: 28rem;
-  transform: translateX(-50%) translateY(-50%);
-  border-radius: 0.5rem;
-  box-shadow: 0 0 5px #555;
-  background-color: #fff;
-}
-.shadow header {
-  height: 5rem;
-  padding-left: 3rem;
-  padding-right: 3rem;
-  line-height: 5rem;
-  border-radius: 0.5rem;
-  background-color: #f7f7f7;
-}
-.shadow header span:nth-of-type(1) {
-  font-weight: 700;
-}
 
-.shadow label {
-  display: block;
-  margin-left: 3rem;
-  margin-bottom: 2rem;
-}
-.shadow label:nth-of-type(2) {
-  margin-left: 5.7rem;
-}
-.shadow label input {
-  margin-left: 1rem;
-}
-.shadow .btn-box {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 6rem;
-  text-align: center;
-  line-height: 6rem;
-}
-
-
-.addb {
-  width: 80px;
-  height: 20px;
-  border: 1px solid white;
-}
 </style>

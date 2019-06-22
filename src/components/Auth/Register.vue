@@ -65,18 +65,22 @@
         <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="常用邮箱" prop="email">
-        <el-input v-model="ruleForm.email"></el-input>
+        <el-col :span="11">
+        <el-input v-model="ruleForm.email"></el-input></el-col>
+          <el-col :span="8">
+        <el-button @click="authority" :disabled="haveSend" type="success">{{codeInfo}}</el-button></el-col>
+      </el-form-item>
+      <el-form-item label="验证码" prop="code" style="width:50%">
+        <el-input v-model="ruleForm.code" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="常用手机号" prop="phone_num">
         <el-input v-model="ruleForm.phone_num" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="验证码" prop="code">
-        <el-input v-model="ruleForm.code" autocomplete="off"></el-input>
-      </el-form-item>
+      
 
       <el-form-item>
         <el-button class="regist-button" type="success" @click="submitForm('ruleForm')">注册</el-button>
-        <el-button @click="authority" :disabled="haveSend" type="primary">{{codeInfo}}</el-button>
+        
       </el-form-item>
       <el-link class="link" type="success" @click="onLogin">已有账号？立即登录！</el-link>
     </el-form>
@@ -361,6 +365,7 @@ export default {
   text-align: center;
 }
 div {
-  background-color: azure;
+  height: 30%;
+  background-color: #fff;
 }
 </style>

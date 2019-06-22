@@ -1,14 +1,10 @@
 
 <template>
   <div class="edit-container">
-    <h2 class="h2" @click="titleClick" v-if="!titleChange">{{qsItem.title}}</h2>
-
     <input
       type="text"
       name="qsTitle"
-      v-if="titleChange"
       v-model="titleValue"
-      @keyup.enter="onsubmit"
       ref="titleInput"
       placeholder="问卷标题"
     >
@@ -147,28 +143,7 @@ export default {
       return item.isNeed ? `${msg} *` : msg;
     },
 
-    //标题修改实时判断
-    onblur() {
-      this.titleValue = this.titleValue.trim();
-      this.qsItem.title = this.titleValue === "" ? this.qsItem.title : this.titleValue;
-      this.titleChange = false;
-    },
-
-    //问卷题目提交
-    onsubmit() {
-      this.titleValue = this.titleValue.trim();
-      this.qsItem.title =
-        this.titleValue === "" ? this.qsItem.title : this.titleValue;
-      this.titleChange = false;
-    },
-
-    //标题点击事件
-    titleClick() {
-      this.titleChange = !this.titleChange;
-      setTimeout(() => {
-        this.$refs.titleInput.focus();
-      }, 150);
-    },
+   
 
     //交换相邻的两个选项
     swapItems(oldIndex, newIndex) {
@@ -337,7 +312,7 @@ export default {
       }
       return true;
     },
-    //上传问卷并跳转回发布也买你
+    //上传问卷并跳转回发布页面
     jump() {
       if(this.checkRight()) this.uploadWenjuan(this);
     }
@@ -351,7 +326,7 @@ export default {
 <style scoped>
 
 .edit-container {
-  width: 80%;
+  width: 60%;
   margin: 1rem auto;
   padding: 1rem;
   color: #666;
@@ -372,10 +347,6 @@ h2 {
 }
 
 
-h2:hover {
-  background-color: #fcf0e5;
-}
-
 
 input[name="qsTitle"] {
   height: 20px;
@@ -390,8 +361,8 @@ input[name="qsTitle"] {
 
 .content {
   padding: 3rem;
-  border-top: 0.2rem solid #ccc;
-  border-bottom: 0.2rem solid #ccc;
+  border-top: 0.1rem dashed #ccc;
+  border-bottom: 0.1rem solid #ccc;
 }
 
 
@@ -465,12 +436,11 @@ input[name="qsTitle"] {
 .add-option {
   width:100%;
   height: 3rem;
+   margin-left: -10%;
   line-height: 3rem;
   text-align: center;
 }
-.add-option:hover{
-    box-shadow: 0 0 0.4rem #aaa;
-}
+
 .add-option button{
     height: 25px;
     width: 50px;
@@ -484,7 +454,7 @@ input[name="qsTitle"] {
 .add-item {
   width:100%;
   height:1.5rem;
-  text-align: center;
+  
   background-color: #ffffff;
   cursor: pointer;
 }
@@ -524,12 +494,12 @@ footer .save:hover {
 }
 footer .issue{
     margin-left: 4rem;
-    color: #fff;
-    border: 0.1rem solid orange;
-    background-color: orange;
+    color: #00b38a;
+    border: 0.1rem solid #00b38a;
+    background-color:#ffffff;
 }
 footer .issue:hover {
-    box-shadow: 0 0 0.5rem orange;
+    box-shadow: 0 0 0.5rem #00b38a;
 }
 
 
@@ -538,7 +508,7 @@ footer .issue:hover {
   transition: all 0.5s;
 }
 .slide-enter-active {
-  height: 8rem;
+  height: 4rem;
 }
 .slide-enter,.slide-leave-active {
   opacity: 0;
@@ -610,7 +580,7 @@ button:hover{
 }
 .shadow label {
     display: block;
-    margin-left: 3rem;
+    margin-left: 2rem;
     margin-bottom: 2rem;
 }
 .shadow label:nth-of-type(2) {
@@ -629,12 +599,12 @@ button:hover{
 }
 .shadow .btn-box .yes {
     margin-right: 1rem;
-    color: #fff;
-    background-color: #ee7419;
-    border: 1px solid orange;
+    color: #00b38a;
+    background-color: #ffffff;
+    border: 1px solid #00b38a;
 }
 .shadow .btn-box .yes:hover {
-    box-shadow: 0 0 5px orange;
+    box-shadow: 0 0 5px #00b38a;
 }
 
 .addb{

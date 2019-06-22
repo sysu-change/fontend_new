@@ -83,7 +83,6 @@ export default {
 <style scoped>
 .container{
     width:100%;
-    box-shadow: 5px 5px 5px #888888;
     text-align: left;
 }
 p{

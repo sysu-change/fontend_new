@@ -3,8 +3,8 @@
   <br/>
   <el-row  v-if="$route.path=='/User/Part/GetTask' 
         || $route.path=='/User/Part/Getjob'">
-    <el-col  :lg="22"  offset="1">
-      <el-carousel height="150px">
+    <el-col  :lg="22"  offset="1" :span="11">
+      <el-carousel height="150px"  type="card">
         <el-carousel-item v-for="(item,index) in imgArr" :key="item">
           <img class="small" v-bind:src="imgArr[index]" />
         </el-carousel-item>
@@ -69,7 +69,7 @@
       return {
           /*tableData: Array(20).fill(item)*/
 
-        imgArr:["/static/p1.jpg","/static/p2.jpg","/static/p3.jpg","/static/p4.jpg"],
+        imgArr:["/static/p2.jpg","/static/p3.jpg","/static/p4.jpg"],
         // 充值框显示和隐藏
         dialogVisible1: false,
         dialogVisible2: false,
@@ -170,7 +170,7 @@
   }
   
   .small{
-    width:40%;
+    width:100%;
     height: 100%;
   }
 </style>
