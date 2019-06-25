@@ -1,19 +1,18 @@
 
 <template>
   <div class="edit-container">
-    
-
-    <h2
-      type="text"
-      readonly="readonly"
-      name="qsTitle"
-      ref="titleInput"
-    >{{titleValue}}</h2>
-           <h6>{{description}}</h6>
+    <h2 type="text" readonly="readonly" name="qsTitle" ref="titleInput">{{titleValue}}</h2>
+    <h6>{{description}}</h6>
     <div class="content" v-loading.fullscreen.lock="loading">
-      <div class="questions" v-for="(qus, index) in qsItem" >
+      <div class="questions" v-for="(qus, index) in qsItem">
         <div class="qs-left">
-          <p class="qs-title">{{index+1}}. {{qus.question}}{{getMsg(qus.choice_type)}}<span style='color:red' v-if="qus.must_edit">*</span></p>
+          <p class="qs-title">
+            {{index+1}}. {{qus.question}}{{getMsg(qus.choice_type)}}
+            <span
+              style="color:red"
+              v-if="qus.must_edit"
+            >*</span>
+          </p>
           <p v-for="(option,index1) in qus.choice_item" class="option">
             <label>
               <input
@@ -40,7 +39,6 @@
       </div>
     </div>
     <footer>
-     
       <div class="btn-box">
         <button class="save" @click="save">提交</button>
         <button class="save" @click="back">返回</button>
@@ -93,14 +91,12 @@ export default {
             //多选
             var choice_num = 0;
             for (var d = 0; d < vm.qsItem[i].choice_item.length; d++) {
-              
-                if (vm.qsItem[i].choiced[d]==true){
-                  choice_num++;
-                }
-            
+              if (vm.qsItem[i].choiced[d] == true) {
+                choice_num++;
+              }
             }
-      
-            if(choice_num < 1) {
+
+            if (choice_num < 1) {
               return false;
             }
           } else if (vm.qsItem[i].choice_type == 1) {
@@ -108,12 +104,10 @@ export default {
             if (vm.qsItem[i].indexCh == -1) {
               return false;
             }
-          
           } else {
-            if (vm.qsItem[i].innertext == ""){
+            if (vm.qsItem[i].innertext == "") {
               return false;
             }
-            
           }
         }
       }
@@ -121,11 +115,14 @@ export default {
     },
 
     save() {
-      if (this.check(this)){
+      if (this.check(this)) {
         this.uploadWenjuan(this);
-      }
-      else {
-        alert("请完成所有必填项");
+      } else {
+        this.$message({
+          showClose: true,
+          message: "请完成所有必填项",
+          type: "warning"
+        });
       }
     },
     dateToString() {
@@ -150,12 +147,10 @@ export default {
           continue;
         } else if (vm.qsItem[i].choice_type == 1) {
           inner.push(vm.qsItem[i].choice_item[vm.qsItem[i].indexCh]);
-          //alert((vm.qsItem[i]).choice_item[(vm.qsItem[i]).indexCh]);
           ans.push(inner);
           continue;
         }
         for (var d = 0; d < vm.qsItem[i].choice_item.length; d++) {
-          //alert((vm.qsItem[i]).choice_item[d]+"+"+(vm.qsItem[i]).choiced[d]);
           if (
             vm.qsItem[i].choiced[d] == true &&
             vm.qsItem[i].choice_type == 2
@@ -178,15 +173,30 @@ export default {
         .then(function(res) {
           if (res.status == 200) {
             if (res.data.code == 200) {
-              alert("成功");
-            } else alert(res.data.msg);
+              vm.$router.push({ path: "/User/Part/Getjob" });
+            } else {
+              vm.$message({
+                showClose: true,
+                message: res.data.msg,
+                type: "error"
+              });
+            }
             vm.showDialog = false;
-            vm.$router.push({ path: "/User/Part/Getjob" });
-          } else alert("网络错误");
+          } else {
+            vm.$message({
+              showClose: true,
+              message: "网络错误",
+              type: "error"
+            });
+          }
         })
         .catch(function(err) {
           console.log(err);
-          alert("发生了一个异常");
+          vm.$message({
+            showClose: true,
+            message: "发生了一个异常",
+            type: "error"
+          });
         });
     },
     getWenjuan(vm) {
@@ -216,18 +226,33 @@ export default {
                 }
               }
               vm.loading = false;
-            } else alert(res.data.msg);
-          } else alert("网络错误");
+            } else {
+              vm.$message({
+                showClose: true,
+                message: res.data.msg,
+                type: "error"
+              });
+            }
+          } else {
+            vm.$message({
+              showClose: true,
+              message: "网络错误",
+              type: "error"
+            });
+          }
         })
         .catch(function(err) {
           console.log(err);
-          alert("发生了一个异常");
+          vm.$message({
+            showClose: true,
+            message: "发生了一个异常",
+            type: "error"
+          });
         });
     }
   },
   mounted() {
     this.qid = parseInt(this.$route.query.ID);
-    //alert(this.qid);
     this.getWenjuan(this);
   }
 };
@@ -253,14 +278,12 @@ h2 {
   cursor: pointer;
 }
 
-
-
 input[name="qsTitle"] {
   height: 20px;
   width: 100%;
   margin-bottom: 2px;
   font-size: 20px;
-  text-align: center; 
+  text-align: center;
 }
 
 .content {
@@ -275,7 +298,6 @@ input[name="qsTitle"] {
   justify-content: space-between;
   padding: 2px 2px;
   margin-bottom: 5px;
- 
 }
 
 .questions p {
@@ -370,5 +392,4 @@ button:hover {
   height: 100%;
   background: rgba(85, 85, 85, 0.7);
 }
-
 </style>

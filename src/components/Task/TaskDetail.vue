@@ -90,11 +90,19 @@ export default {
         }
       }
       else {
-        alert("网络错误");
+        vm.$message({
+              showClose: true,
+              message: "网络错误",
+              type: "error"
+            });
       }
     }).catch(function(err) {
       console.log(err);
-      alert("An Err Happened");
+      vm.$message({
+            showClose: true,
+            message: "发生了一个异常",
+            type: "error"
+          });
     });
     },
 

@@ -93,12 +93,28 @@ export default {
               var contentjs = res.data.content.content;
               vm.qsItem = contentjs;
               vm.loading = false;
-            } else alert(res.data.msg);
-          } else alert("网络错误");
+            } else {
+              vm.$message({
+                showClose: true,
+                message: res.data.msg,
+                type: "error"
+              });
+            }
+          } else {
+            vm.$message({
+              showClose: true,
+              message: "网络错误",
+              type: "error"
+            });
+          }
         })
         .catch(function(err) {
           console.log(err);
-          alert("发生了一个异常");
+          vm.$message({
+            showClose: true,
+            message: "发生了一个异常",
+            type: "error"
+          });
         });
     }
   },

@@ -2,11 +2,14 @@
   <el-main>
     <h3 align="left">可接受的问卷</h3>
     <el-breadcrumb separator="/">
-  <el-breadcrumb-item :to="{ path: '/User/Part/Getjob' }">问卷任务</el-breadcrumb-item>
-  <el-breadcrumb-item :to="{ path: '/User/Part/GetTask' }">其他任务</el-breadcrumb-item>
-  <el-breadcrumb-item></el-breadcrumb-item>
-</el-breadcrumb>
-    <el-table :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)" v-loading="loading">
+      <el-breadcrumb-item :to="{ path: '/User/Part/Getjob' }">问卷任务</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/User/Part/GetTask' }">其他任务</el-breadcrumb-item>
+      <el-breadcrumb-item></el-breadcrumb-item>
+    </el-breadcrumb>
+    <el-table
+      :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+      v-loading="loading"
+    >
       <el-table-column prop="ID" label="标号" sortable></el-table-column>
       <el-table-column prop="date" label="日期" sortable width="140"></el-table-column>
       <el-table-column prop="type" label="任务类型" width="120"></el-table-column>
@@ -20,15 +23,15 @@
       </el-table-column>
     </el-table>
     <el-pagination
-  background
-  @size-change="handleSizeChange"
-  @current-change="handleCurrentChange"
-  :current-page="currentPage"
-  :page-sizes="[5, 10]" 
-  :page-size="pagesize"         
-  layout="total, sizes, prev, pager, next, jumper"
-  :total="1000">
-</el-pagination>
+      background
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="currentPage"
+      :page-sizes="[5, 10]"
+      :page-size="pagesize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="1000"
+    ></el-pagination>
   </el-main>
 </template>
 
@@ -37,17 +40,16 @@ export default {
   name: "Getjob",
   data() {
     return {
-      tableData: [
-      ],
-      loading:false,
-      currentPage:1, //初始页
-      pagesize:5,    //    每页的数据
+      tableData: [],
+      loading: false,
+      currentPage: 1, //初始页
+      pagesize: 5 //    每页的数据
     };
   },
   methods: {
     getWenjuan: function(vm) {
       if (this.user_id === "") return;
-      vm.loading=true;
+      vm.loading = true;
       var URL = "http://localhost:8082/module/user/questionnaire_pre";
       var jsonData = { offset: 0, number: 500 };
       var axios = {
@@ -81,40 +83,58 @@ export default {
                 tempIndex.price = "$" + String(temp.reward);
                 vm.tableData.push(tempIndex);
               }
-              vm.loading=false;
+              vm.loading = false;
             } else {
-              alert(res.data.msg);
+              vm.$message({
+                showClose: true,
+                message: res.data.msg,
+                type: "error"
+              });
             }
-          } else alert("网络出错");
+          } else {
+            vm.$message({
+              showClose: true,
+              message: "网络错误",
+              type: "error"
+            });
+          }
         })
         .catch(function(err) {
           console.log(err);
+          vm.$message({
+            showClose: true,
+            message: "发生了一个异常",
+            type: "error"
+          });
         });
     },
     Edit(row) {
-    if (row.ID == "") {
-        alert("未找到问卷标号为空");
+      if (row.ID == "") {
+        this.$message({
+          showClose: true,
+          message: "未找到问卷标号为空",
+          type: "warning"
+        });
         return;
       }
-    this.$router.push({
+      this.$router.push({
         path: "/Fillin",
         query: { ID: parseInt(row.ID) }
       });
-  },
+    },
 
-   handleSizeChange: function (size) {
-                this.pagesize = size;
-                console.log(this.pagesize)  //每页下拉显示数据
-        },
-        handleCurrentChange: function(currentPage){
-                this.currentPage = currentPage;
-                console.log(this.currentPage)  //点击第几页
-        },
+    handleSizeChange: function(size) {
+      this.pagesize = size;
+      console.log(this.pagesize); //每页下拉显示数据
+    },
+    handleCurrentChange: function(currentPage) {
+      this.currentPage = currentPage;
+      console.log(this.currentPage); //点击第几页
+    }
   },
   created() {
     this.getWenjuan(this);
-  },
-  
+  }
 };
 </script>
 

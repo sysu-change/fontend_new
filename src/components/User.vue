@@ -4,7 +4,7 @@
   <el-row  v-if="$route.path=='/User/Part/GetTask' 
         || $route.path=='/User/Part/Getjob'">
     <el-col  :lg="22"  offset="1" :span="11">
-      <el-carousel height="150px"  type="card">
+      <el-carousel class="carousel" height="150px"  type="card">
         <el-carousel-item v-for="(item,index) in imgArr" :key="item">
           <img class="small" v-bind:src="imgArr[index]" />
         </el-carousel-item>
@@ -167,6 +167,11 @@
   .el-carousel__item{
      background-color: white;
      opacity: 1.0;
+  }
+  
+  .carousel{
+    position: relative;
+    width: 100%;
   }
   
   .small{

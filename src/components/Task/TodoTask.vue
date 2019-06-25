@@ -113,9 +113,19 @@ export default {
                 vm.tableData.push(tempIndex);
               }
             } else {
-              alert(res.data.msg);
+              vm.$message({
+                showClose: true,
+                message: res.data.msg,
+                type: "error"
+              });
             }
-          } else alert("网络出错");
+          } else {
+            vm.$message({
+              showClose: true,
+              message: "网络错误",
+              type: "error"
+            });
+          }
           vm.loading=false;
         })
         .catch(function(err) {
@@ -126,7 +136,6 @@ export default {
  
  //删除
     Delete: function(row) {
-      //alert(row.ID);
       this.$confirm('确定删除吗？', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -136,6 +145,7 @@ export default {
        this.DeleteDatabase(parseInt(row.ID),this);
        
         this.$message({
+          showClose: true,
           type: 'success',
           message: '已删除任务!'
         })

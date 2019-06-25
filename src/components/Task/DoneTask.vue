@@ -103,14 +103,29 @@ export default {
               }
               
             } else {
-              alert(res.data.msg);
+              vm.$message({
+                showClose: true,
+                message: res.data.msg,
+                type: "error"
+              });
             }
-          } else alert("网络出错");
+          } else {
+            vm.$message({
+              showClose: true,
+              message: "网络错误",
+              type: "error"
+            });
+          }
           vm.loading=false;
         })
         .catch(function(err) {
           vm.loading=false;
           console.log(err);
+          vm.$message({
+            showClose: true,
+            message: "发生了一个异常",
+            type: "error"
+          });
         });
     },
 

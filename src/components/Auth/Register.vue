@@ -134,7 +134,7 @@ export default {
         checkPass: "",
         phone_num: "",
         code: "",
-        email: "318015961@qq.com"
+        email: ""
       },
       authCode: "",
       haveSend: false,

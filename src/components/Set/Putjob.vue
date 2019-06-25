@@ -39,7 +39,7 @@
         </el-table-column>
         <el-table-column>
           <template slot-scope="scope">
-            <el-button size="mini" type="info" @click="Statics(scope.row)">数据</el-button>
+            <el-button size="mini" type="info" @click="Statics(scope.row)">审核</el-button>
           </template>
         </el-table-column>
         <el-table-column>
@@ -75,9 +75,12 @@ export default {
     /*进入页面详情页，并进行编辑*/
     Edit: function(row) {
       var ID = row.ID;
-      //alert(ID);
       if (ID == "") {
-        alert("未找到问卷标号为空");
+        this.$message({
+          showClose: true,
+          message: "未找到问卷标号为空",
+          type: "warning"
+        });
         return;
       }
       this.$router.push({
@@ -88,7 +91,11 @@ export default {
     /**查看问卷 */
     Check: function(row) {
       if (row.ID == "") {
-        alert("未找到问卷标号为空");
+        this.$message({
+          showClose: true,
+          message: "未找到问卷标号为空",
+          type: "warning"
+        });
         return;
       }
       this.$router.push({
@@ -99,7 +106,11 @@ export default {
     /**查看已回答问卷的统计数据 */
     Statics: function(row) {
       if (row.ID == "") {
-        alert("未找到问卷标号为空");
+        this.$message({
+          showClose: true,
+          message: "未找到问卷标号为空",
+          type: "warning"
+        });
         return;
       }
       this.$router.push({
@@ -108,7 +119,6 @@ export default {
       });
     },
     Delete: function(row) {
-      //alert(row.ID);
       this.$confirm('确定放弃吗？', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -196,9 +206,19 @@ export default {
               }
               vm.loading=false;
             } else {
-              alert("服务器出错");
+              vm.$message({
+                showClose: true,
+                message: res.data.msg,
+                type: "error"
+              });
             }
-          } else alert("网络出错");
+          } else {
+            vm.$message({
+              showClose: true,
+              message: "网络错误",
+              type: "error"
+            });
+          }
         })
         .catch(function(err) {
           console.log(err);

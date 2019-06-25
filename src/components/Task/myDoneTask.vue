@@ -93,9 +93,19 @@ export default {
               }
               vm.loading=false;
             } else {
-              alert(res.data.msg);
+              vm.$message({
+                showClose: true,
+                message: res.data.msg,
+                type: "error"
+              });
             }
-          } else alert("网络出错");
+          } else {
+            vm.$message({
+              showClose: true,
+              message: "网络错误",
+              type: "error"
+            });
+          }
         })
         .catch(function(err) {
           console.log(err);

@@ -74,7 +74,13 @@ export default {
               }
               
             }
-          } else alert("网络出错");
+          } else {
+            vm.$message({
+              showClose: true,
+              message: "网络错误",
+              type: "error"
+            });
+          }
           vm.loading=false;
         })
         .catch(function(err) {
@@ -84,7 +90,11 @@ export default {
     },
     View(row) {
       if (row.sid == "") {
-        alert("未找到问卷标号为空");
+        this.$message({
+            showClose: true,
+            message: "未找到问卷标号为空",
+            type: "warning"
+          });
         return;
       }
       this.nowsid=row.sid;
@@ -110,11 +120,21 @@ export default {
               if(t.sid==row.sid) (vm.tableData[i]).vers="已通过";
             }
           }
-          else alert(res.data.msg);
+          else {
+            vm.$message({
+              showClose: true,
+              message: "网络错误",
+              type: "error"
+            });
+          }
         }
       }).catch(function(err){
         console.log(err);
-        alert("An Err Happened");
+        vm.$message({
+            showClose: true,
+            message: "发生了一个异常",
+            type: "error"
+          });
       });
     }
   },
