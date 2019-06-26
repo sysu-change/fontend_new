@@ -57,6 +57,7 @@ export default {
   data() {
     return {
       tableData: [],
+      loading: true,
       // 对话框显示和隐藏
         dialogVisible: false
     };
@@ -90,7 +91,7 @@ export default {
       this.$http(axios)
         .then(function(res) {
           if (res.status == 200) {
-            if (res.data.code == 200) {
+            if (res.data.code == 200)  {
               var number = res.data.number;
               var content = res.data.content;
               var jsonContent = content;
@@ -110,14 +111,17 @@ export default {
                 tempIndex.price = "$" + String(temp.reward);
                 tempIndex.need = temp.quantity;
                 tempIndex.total = temp.accept_num;
-                vm.tableData.push(tempIndex);
+                vm.tableData.push(tempIndex);  
               }
+              vm.loading=false;
             } else {
+              vm.loading=false;
               vm.$message({
                 showClose: true,
                 message: res.data.msg,
                 type: "error"
               });
+              
             }
           } else {
             vm.$message({
@@ -126,7 +130,6 @@ export default {
               type: "error"
             });
           }
-          vm.loading=false;
         })
         .catch(function(err) {
           vm.loading=false;

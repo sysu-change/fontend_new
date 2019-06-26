@@ -1,12 +1,12 @@
 <template>
   <div>
     <el-main>
-       <h3 align="left">奶牛端</h3>
+      <h3 align="left">奶牛端</h3>
       <el-breadcrumb separator="/">
-  <el-breadcrumb-item :to="{ path: '/User/Part/Putjob' }">问卷任务</el-breadcrumb-item>
-  <el-breadcrumb-item :to="{ path: '/User/Part/Putjob/TodoTask' }">进行中的任务</el-breadcrumb-item>
-  <el-breadcrumb-item :to="{ path: '/User/Part/Putjob/DoneTask' }">已完成的任务</el-breadcrumb-item>
-  <el-breadcrumb-item></el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/User/Part/Putjob' }">问卷任务</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/User/Part/Putjob/TodoTask' }">进行中的任务</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/User/Part/Putjob/DoneTask' }">已完成的任务</el-breadcrumb-item>
+        <el-breadcrumb-item></el-breadcrumb-item>
       </el-breadcrumb>
       <el-table :data="tableData" v-loading="loading">
         <el-table-column prop="ID" label="标号" sortable></el-table-column>
@@ -16,11 +16,11 @@
         <el-table-column prop="count" sortable label="需求量" width="100"></el-table-column>
         <el-table-column prop="price" sortable label="赏金"></el-table-column>
         <el-table-column prop="status" label="状态" width="120">
-         <template slot-scope="scope">
-          <i style="color:#00b38a" class="el-icon-check" v-if="scope.row.status=='已发布'"></i>
-          <i style="color:orange" class="el-icon-time" v-if="scope.row.status=='未发布'"></i>
-          <span style="margin-left: 10px">{{ scope.row.status }}</span>
-        </template>
+          <template slot-scope="scope">
+            <i style="color:#00b38a" class="el-icon-check" v-if="scope.row.status=='已发布'"></i>
+            <i style="color:orange" class="el-icon-time" v-if="scope.row.status=='未发布'"></i>
+            <span style="margin-left: 10px">{{ scope.row.status }}</span>
+          </template>
         </el-table-column>
         <el-table-column>
           <template slot-scope="scope">
@@ -47,12 +47,10 @@
             <el-button size="mini" type="success" @click="Check(scope.row)">查看</el-button>
           </template>
         </el-table-column>
-       
-        
       </el-table>
       <div class="crhead">
-      <el-button   class="but" @click="Create">+新建问卷</el-button>
-    </div>
+        <el-button class="but" @click="Create">+新建问卷</el-button>
+      </div>
     </el-main>
   </div>
 </template>
@@ -62,9 +60,8 @@ export default {
   name: "Getjob",
   data() {
     return {
-      tableData: [
-      ],
-      loading:false
+      tableData: [],
+      loading: false
     };
   },
   methods: {
@@ -119,23 +116,16 @@ export default {
       });
     },
     Delete: function(row) {
-      this.$confirm('确定放弃吗？', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      this.$confirm("确定放弃吗？", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
       }).then(() => {
-        
-       this.DeleteDatabase(parseInt(row.ID),this);
-       
-        this.$message({
-          type: 'success',
-          message: '已放弃任务!'
-        })
-      })
-      
+        this.DeleteDatabase(parseInt(row.ID), this);
+      });
     },
     DeleteDatabase: function(id, vm) {
-       var param = { qid: id };
+      var param = { qid: id };
       var URL = "http://localhost:8082/module/user/delete_questionnaire";
       var axios = {
         method: "delete",
@@ -154,16 +144,37 @@ export default {
                   break;
                 }
               }
-            }
+              vm.$message({
+                type: "success",
+                message: "已放弃任务!",
+                showClose: true
+              });
+            }else {
+            vm.$message({
+              type: "error",
+              message: res.data.msg,
+              showClose: true
+            });
+          } 
+          }else {
+            vm.$message({
+              type: "error",
+              message: "删除失败",
+              showClose: true
+            });
           }
         })
         .catch(function(err) {
           console.log(err);
+          vm.$message({
+            type: "error",
+            message: "网络出错",
+            showClose: true
+          });
         });
-      
     },
     getQuestionnaire: function(vm) {
-      vm.loading=true;
+      vm.loading = true;
       if (this.user_id === "") return;
       var URL = "http://localhost:8082/module/user/questionnaire_own";
       var axios = { method: "get", url: URL, widthCredentials: false };
@@ -204,7 +215,7 @@ export default {
                 }
                 vm.tableData.push(tempIndex);
               }
-              vm.loading=false;
+              vm.loading = false;
             } else {
               vm.$message({
                 showClose: true,
@@ -243,8 +254,8 @@ export default {
   height: 40px;
   margin: 3%;
 }
-.but:hover{
-  color:#00b38a
+.but:hover {
+  color: #00b38a;
 }
 .crhead {
   margin-top: 3px;

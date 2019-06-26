@@ -7,7 +7,7 @@
       </el-col>
     </el-row>
 
-    <el-form ref="form" :model="form" label-width="100px" class="complain_box">
+    <el-form ref="form" :model="form" :rules="rules" label-width="100px" class="complain_box">
       <el-form-item label="投诉任务号" style="width:100%">
         <el-input disabled v-model="form.tid"></el-input>
       </el-form-item>
@@ -18,7 +18,7 @@
       <el-form-item label="被投诉人学号" style="width:100%">
         <el-input disabled v-model="form.sid2"></el-input>
       </el-form-item>
-      <el-form-item label="投诉原因" style="height:100px">
+      <el-form-item label="投诉原因" prop="reason" style="height:100px">
         <el-input type="textarea" v-model="form.reason" style="height:100%"></el-input>
       </el-form-item>
 
@@ -71,7 +71,10 @@ export default {
       },
       fileList: [],
       dialogImageUrl: "",
-      dialogVisible: false
+      dialogVisible: false,
+      rules: {
+        reason: [{ required: true, message: "必填", trigger: "blur" }]
+      }
     };
   },
   methods: {
