@@ -153,7 +153,7 @@ export default {
       jsonData.sex = parseInt(vm.ruleForm.sex == "男" ? 0 : 1);
       var axios = {
         method: "put",
-        url: "http://localhost:8082/module/user/userInfo",
+        url: "http://localhost:8082/module/user/userinfo",
         widthCredentials: false,
         data: jsonData
       };
@@ -303,4 +303,3 @@ export default {
   font: 2em sans-serif;
 }
 </style>
-
