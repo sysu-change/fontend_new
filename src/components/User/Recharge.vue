@@ -133,7 +133,7 @@ export default {
 
       var axios = {
         method: "post",
-        url: "http://localhost:8082/user/recharge",
+        url: "http://localhost:8082/module/user/recharge",
         widthCredentials: false,
         data: jsonData
       };
@@ -213,4 +213,3 @@ export default {
   left: -8.5%;
 }
 </style>
-

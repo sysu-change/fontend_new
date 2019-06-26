@@ -135,7 +135,7 @@ export default {
       };
       var axios = {
         method: "post",
-        url: "http://localhost:8082/user/withdraw",
+        url: "http://localhost:8082/module/user/withdraw",
         widthCredentials: false,
         data: jsonData
       };
@@ -228,4 +228,3 @@ export default {
   left: -8.5%;
 }
 </style>
-
