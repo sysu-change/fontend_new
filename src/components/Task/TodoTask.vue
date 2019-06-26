@@ -105,13 +105,18 @@ export default {
                   need:0,
                   total:0
                 };
+               
                 tempIndex.ID = temp.tid;
                 tempIndex.type = temp.type;
                 tempIndex.deadline = temp.deadline;
                 tempIndex.price = "$" + String(temp.reward);
                 tempIndex.need = temp.quantity;
                 tempIndex.total = temp.accept_num;
-                vm.tableData.push(tempIndex);  
+                 if( tempIndex.need!= 0){
+                  vm.tableData.push(tempIndex);
+                }
+                 
+                
               }
               vm.loading=false;
             } else {
