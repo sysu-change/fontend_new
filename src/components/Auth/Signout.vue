@@ -22,7 +22,7 @@ export default {
         .then(function(res) {
           if (res.status == 200) {
             if (res.data.code == 200) {
-              vm.$router.push({ path: "/Hello" });
+              vm.$router.push({ path: "/Signin" });
               sessionStorage.clear();
             } else {
               vm.$message({
@@ -42,7 +42,6 @@ export default {
         .catch(function(err) {
           console.log(err);
         });
-      //this.$router.push({path: '/Hello'});
     },
 
     back: function() {

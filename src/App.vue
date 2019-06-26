@@ -4,7 +4,6 @@
        style="font-size: 15px;"
         class="elheader"
         v-if="$route.path!=='/Signin' 
-             && $route.path!=='/Hello'
              && $route.path!=='/Register'">
       
       <el-row><el-col :span="4">
@@ -17,7 +16,7 @@
           <router-link :to="{ path: '/AccessAccount'}">
           <el-dropdown-item >个人信息</el-dropdown-item>
           </router-link >
-          <router-link :to="{ path: '/Hello'}">
+          <router-link :to="{ path: '/Signin'}">
           <el-dropdown-item >返回首页</el-dropdown-item>
           </router-link>
           <router-link :to="{ path: '/Signout'}">
@@ -38,7 +37,7 @@ export default {
   name: 'App',
   data(){
     return {
-        user_name:"唐育涛"
+        user_name:""
     }
   },
    methods:{
@@ -51,11 +50,19 @@ export default {
        
       }
       else {
-        alert("网络错误");
+        vm.$message({
+              showClose: true,
+              message: "网络错误",
+              type: "error"
+            });
       }
     }).catch(function(err) {
       console.log(err);
-      alert("An Err Happened");
+      vm.$message({
+            showClose: true,
+            message: "An Err Happened",
+            type: "error"
+          });
     });
     }
    },

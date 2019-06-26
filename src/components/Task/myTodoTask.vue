@@ -129,7 +129,7 @@ export default {
       this.$http(axios)
         .then(function(res) {
           if (res.status == 200) {
-            alert("已提交");
+            ("已提交");
 
             var table = this.tableData;
             for (var i = 0; i < table.length; i++) {
@@ -139,7 +139,7 @@ export default {
               }
             }
           } else {
-            alert("request failed");
+            ("request failed");
             return false;
           }
         })
