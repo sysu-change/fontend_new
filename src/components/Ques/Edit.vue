@@ -463,7 +463,7 @@ h2:hover {
 
 input[name="qsTitle"] {
   height: 20px;
-  width: 100%;
+  width: 60%;
   margin-bottom: 2px;
   font-size: 20px;
   text-align: center;
@@ -535,12 +535,15 @@ input[name="qsTitle"] {
 
 .add {
   border: 0.2rem solid #cccccc;
+  width: 60%;
+  margin-left: 20%;
 }
 
 .add-option {
   width: 100%;
   height: 3rem;
   line-height: 3rem;
+  margin-left: -10%;
   text-align: center;
 }
 .add-option:hover {
@@ -557,18 +560,17 @@ input[name="qsTitle"] {
 
 .add-item {
   width: 100%;
-  height: 1rem;
-  line-height: 1rem;
+  height: 1.5rem;
   text-align: center;
-  background-color: #eee;
+  background-color: #ffffff;
   cursor: pointer;
 }
 .add-item span {
-  font-size: 5px;
+  font-size: 15px;
 }
 
 .des textarea {
-  width: 80%;
+  width: 60%;
   border-radius: 5px;
 }
 

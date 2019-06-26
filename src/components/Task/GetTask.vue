@@ -135,8 +135,7 @@ export default {
       });
     },
 
-    //申请任务
-    TaskAccept(row) {
+    TaskHttp: function(row, vm) {
       var jsonData = {
         tid: parseInt(row.ID)
       };
@@ -150,13 +149,32 @@ export default {
       this.$http(axios)
         .then(function(res) {
           if (res.status == 200) {
-            alert("已申请");
-          } else alert("网络错误");
+            vm.$message({
+              showClose: true,
+              message: "已申请",
+              type: "success"
+            });
+          } else {
+            vm.$message({
+              showClose: true,
+              message: "网络错误",
+              type: "error"
+            });
+          }
         })
         .catch(function(err) {
           console.log(err);
-          alert("发生了一个异常");
+          vm.$message({
+            showClose: true,
+            message: "发生了一个异常",
+            type: "error"
+          });
         });
+    },
+
+    //申请任务
+    TaskAccept(row) {
+      this.TaskHttp(row, this);
     },
     handleSizeChange: function(size) {
       this.pagesize = size;

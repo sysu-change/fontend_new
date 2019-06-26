@@ -138,11 +138,6 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$message({
-            showClose: true,
-            message: "提交成功",
-            type: "success"
-          });
           this.updateTask(this);
         } else {
           console.log("error submit!!");
@@ -178,7 +173,18 @@ export default {
         .then(function(res) {
           if (res.status == 200) {
             if (res.data.msg == "successful") {
+              vm.$message({
+                showClose: true,
+                message: "提交成功",
+                type: "success"
+              });
               vm.$router.push("/User/Part/Putjob/TodoTask");
+            } else {
+              vm.$message({
+                showClose: true,
+                message: res.data.msg,
+                type: "error"
+              });
             }
           } else {
             vm.$message({

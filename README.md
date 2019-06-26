@@ -59,7 +59,6 @@ npm test
 |   |    |   ├─Complain.vue：投诉
 |   |    |   ├─Recharge.vue：充值 
 |   |    |   └─Withdraw.vue：提现 
-|   |    |─Hello.vue：首页
 |   |    └─User.vue：用户界面父组件
 |   | 
 │   ├─router：前端路由

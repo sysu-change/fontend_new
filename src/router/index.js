@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
 import Signin from '../components/Auth/Signin'
 import Register from '../components/Auth/Register'
 import User from '@/components/User'
@@ -27,12 +26,7 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    {
-      path: '/Hello',
-      name: 'Hello',
-      component: Hello
-    },
-
+    
     {
       path: '/Signin',
       name: 'Signin',
@@ -76,7 +70,7 @@ export default new Router({
     ,
     {
       path: '/',
-      redirect: '/Hello'
+      redirect: '/Signin'
     },
     
     {
