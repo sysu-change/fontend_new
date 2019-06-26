@@ -48,6 +48,7 @@ export default {
       loading: false
     };
   },
+  
   methods: {
     //学生查看已完成的任务，查看到目前系统所有的其他类型任务
     getTask: function(vm) {
@@ -118,35 +119,20 @@ export default {
 
     //完成任务
     TaskComplete(row) {
-      var jsonData = { tid: parseInt(row.ID) };
+        this.$confirm("确定提交吗？", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        this.ApplyDatabase2(parseInt(row.ID), this);
 
-      var axios = {
-        method: "post",
-        url: "http://localhost:8082/module/user/task_finish",
-        widthCredentials: false,
-        data: jsonData
-      };
-      this.$http(axios)
-        .then(function(res) {
-          if (res.status == 200) {
-            alert("已提交");
-
-            var table = this.tableData;
-            for (var i = 0; i < table.length; i++) {
-              if (table[i].ID == id) {
-                this.tableData.splice(i, 1);
-                break;
-              }
-            }
-          } else {
-            alert("request failed");
-            return false;
-          }
-        })
-        .catch(function(err) {
-          console.log(err);
+        this.$message({
+          type: "success",
+          message: "已提交任务!"
         });
+      });
     },
+    
 
     //放弃任务
     TaskDrop: function(row) {
@@ -190,7 +176,38 @@ export default {
         .catch(function(err) {
           console.log(err);
         });
-    }
+    },
+
+    ApplyDatabase2: function(id, vm)  {
+      var jsonData = { tid: id };
+
+      var axios = {
+        method: "post",
+        url: "http://localhost:8082/module/user/task_finish",
+        widthCredentials: false,
+        data: jsonData
+      };
+      this.$http(axios)
+        .then(function(res) {
+          if (res.status == 200) {
+           
+
+            var table = vm.tableData;
+            for (var i = 0; i < table.length; i++) {
+              if (table[i].ID == id) {
+                vm.tableData.splice(i, 1);
+                break;
+              }
+            }
+          } else {
+            alert("发生异常");
+            return false;
+          }
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+    },
   },
 
   created() {
