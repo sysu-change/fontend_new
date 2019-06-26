@@ -171,7 +171,7 @@
   
   .carousel{
     position: relative;
-    width: 100%;
+    width: 70rem;
   }
   
   .small{

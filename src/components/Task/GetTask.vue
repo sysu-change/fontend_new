@@ -92,7 +92,9 @@ export default {
                 tempIndex.descript = temp.description;
                 tempIndex.count = temp.quantity;
                 tempIndex.price = "$" + String(temp.reward);
-                vm.tableData.push(tempIndex);
+               if( tempIndex.count!= 0){
+                  vm.tableData.push(tempIndex);
+                }
               }
               vm.loading = false;
             } else {

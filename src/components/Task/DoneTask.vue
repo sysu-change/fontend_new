@@ -35,7 +35,7 @@
       </el-table-column>
       <el-table-column>
         <template slot-scope="scope">
-          <el-button size="mini"  @click="Pass(scope.row)">通过</el-button>
+          <el-button size="mini"  @click="Pass(scope.row,vm)">通过</el-button>
         </template>
       </el-table-column>
       <el-table-column>
@@ -144,13 +144,18 @@ export default {
       this.$http(axios).then(function(res){
           if(res.status==200) {
            alert("已提交！");
+           
           }
           else alert("网络错误");
         }).catch(function(err){
           console.log(err);
           alert("发生了一个异常");
         });
+   
+         
     },
+
+    
 
     Reject:function(row){
       var jsonData = {

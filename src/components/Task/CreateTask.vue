@@ -3,6 +3,7 @@
     <br>
     <br>
     <div class="box">
+      <h2>新任务</h2>
       <el-form
         :model="ruleForm"
         :rules="rules"
@@ -102,12 +103,34 @@ export default {
           { required: true, message: "请简单描述任务", trigger: "blur" }
         ],
         deadline: [
-          { required: true, message: "请确认任务截止日期", trigger: "blur" }
+          { required: true, message: "请确认任务截止日期", trigger: "blur" },
+        
         ],
-        phone_num: [{ required: true, message: "必填", trigger: "blur" }],
+        phone_num: [{ required: true, message: "必填", trigger: "blur" },
+        {
+          validator (rule, value, callback) {
+          if (/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|17[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/.test(value)) {
+           callback()
+          } else {
+           callback(new Error('请输入正确格式'))
+          }
+        },
+        trigger: 'blur'
+
+        }],
         weixin: [{ required: true, message: "必填", trigger: "blur" }],
-        need: [{ required: true, message: "必填", trigger: "blur" }],
-        price: [{ required: true, message: "必填", trigger: "blur" }]
+        need: [{ required: true, message: "必填", trigger: "blur" },
+        {
+          pattern: /(^[1-9][0-9]*$)|(^[1-9]$)/,
+            message: "请输入不为1-99的整数",
+            trigger: "blur"
+         }],
+        price: [{ required: true, message: "必填", trigger: "blur" },
+        {
+          pattern: /(^[1-9][0-9]*[\.]{0,1}[0-9]*[1-9]$)|(^[0].[0-9]*[1-9]$)|(^[1-9]$)/,
+            message: "赏金不能为0",
+            trigger: "blur"
+         }]
       }
     };
   },
