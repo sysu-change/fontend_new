@@ -329,6 +329,11 @@ export default {
                 type: "error"
               });
             } else {
+              vm.$message({
+                showClose: true,
+                message: "发布成功",
+                type: "success"
+              });
               vm.$router.push({ path: "/User/Part/Putjob" });
             }
             vm.showDialog = false;
@@ -370,6 +375,20 @@ export default {
           }
         }
       }
+      if (this.quantity == 0) {
+        this.$message({
+          showClose: true,
+          message: "问卷数不能为0",
+          type: "warning"
+        });
+      }else if(this.reward == 0) {
+        this.$message({
+          showClose: true,
+          message: "赏金不能为0",
+          type: "warning"
+        });
+        return false;
+      }
       if (parseInt(this.quantity).toString() == "NaN") {
         this.$message({
           showClose: true,
@@ -388,7 +407,7 @@ export default {
       if (parseFloat(this.reward).toString() == "NaN") {
         this.$message({
           showClose: true,
-          message: "问卷数量请输入数字",
+          message: "赏金请输入数字",
           type: "warning"
         });
         return false;

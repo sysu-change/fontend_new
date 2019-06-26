@@ -29,7 +29,7 @@
           ref="upload"
           :http-request="imgRequest"
           list-type="picture-card"
-          :limit="6"
+          :limit="1"
           :on-exceed="handleExceed"
           :on-change="getFile"
           :on-preview="handlePictureCardPreview"
@@ -151,7 +151,7 @@ export default {
     },
 
     handleExceed(files, fileList) {
-      this.$message.warning("最多上传 6 个文件");
+      this.$message.warning("最多上传 1 个文件");
     },
     //上传图片
     getBase64(file) {
