@@ -30,7 +30,7 @@
       </el-table-column>
       <el-table-column>
         <template slot-scope="scope">
-          <el-button @click="TaskAccept(scope.row)">申请任务</el-button>
+          <el-button @click="TaskAccept(scope.row)" v-bind:disabled="scope.row.verify">申请任务</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -92,6 +92,7 @@ export default {
                 tempIndex.descript = temp.description;
                 tempIndex.count = temp.quantity;
                 tempIndex.price = "$" + String(temp.reward);
+                 
                if( tempIndex.count!= 0){
                   vm.tableData.push(tempIndex);
                 }
@@ -135,8 +136,18 @@ export default {
       });
     },
 
-    TaskHttp: function(row, vm) {
-      var jsonData = {
+    //申请任务
+    TaskAccept(row) {
+     this.apply(row,this);
+      this.$message({
+            showClose: true,
+            message: "申请成功",
+            type: "success"
+          });
+    },
+
+    apply(row,vm){
+       var jsonData = {
         tid: parseInt(row.ID)
       };
       var axios = {
@@ -149,32 +160,17 @@ export default {
       this.$http(axios)
         .then(function(res) {
           if (res.status == 200) {
-            vm.$message({
-              showClose: true,
-              message: "已申请",
-              type: "success"
-            });
-          } else {
-            vm.$message({
+            vm.$router.push('/User/Part/myTodoTask');
+          } else  {vm.$message({
               showClose: true,
               message: "网络错误",
               type: "error"
-            });
-          }
+            });}
         })
         .catch(function(err) {
           console.log(err);
-          vm.$message({
-            showClose: true,
-            message: "发生了一个异常",
-            type: "error"
-          });
+          alert("发生了一个异常");
         });
-    },
-
-    //申请任务
-    TaskAccept(row) {
-      this.TaskHttp(row, this);
     },
     handleSizeChange: function(size) {
       this.pagesize = size;

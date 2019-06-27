@@ -35,12 +35,12 @@
       </el-table-column>
       <el-table-column>
         <template slot-scope="scope">
-          <el-button size="mini" @click="Pass(scope.row,vm)">通过</el-button>
+          <el-button size="mini" @click="Pass(scope.row,vm)" v-bind:disabled="scope.row.verify">通过</el-button>
         </template>
       </el-table-column>
       <el-table-column>
         <template slot-scope="scope">
-          <el-button size="mini" @click="Reject(scope.row)">不通过</el-button>
+          <el-button size="mini" @click="Reject(scope.row)" v-bind:disabled="scope.row.verify">不通过</el-button>
         </template>
       </el-table-column>
       <el-table-column>
@@ -97,7 +97,7 @@ export default {
                 tempIndex.number = temp.sid;
                 tempIndex.state = temp.accept_status;
                 tempIndex.state_s = temp.verify;
-
+                tempIndex.verify = temp.verify == 0 ? false : true;
                 vm.tableData.push(tempIndex);
               }
             } else {
@@ -142,6 +142,13 @@ export default {
         .then(function(res) {
           if (res.status == 200) {
             if (res.data.msg == "successful") {
+              for (var i = 0; i < vm.tableData.length; i++) {
+                var t = vm.tableData[i];
+                if (t.ID == row.ID) {
+                  vm.tableData[i].state_s = 1;
+                  vm.tableData[i].verify = true;
+                }
+              }
               vm.$message({
                 showClose: true,
                 message: "提交成功",
@@ -197,6 +204,13 @@ export default {
         .then(function(res) {
           if (res.status == 200) {
             if (res.data.msg == "successful") {
+              for (var i = 0; i < vm.tableData.length; i++) {
+                var t = vm.tableData[i];
+                if (t.ID == row.ID) {
+                  vm.tableData[i].state_s = 2;
+                  vm.tableData[i].verify = true;
+                }
+              }
               vm.$message({
                 showClose: true,
                 message: "提交成功",

@@ -191,6 +191,7 @@ export default {
         .then(function(res) {
           if (res.status == 200) {
            
+
             var table = vm.tableData;
             for (var i = 0; i < table.length; i++) {
               if (table[i].ID == id) {
@@ -199,11 +200,7 @@ export default {
               }
             }
           } else {
-            vm.$message({
-              showClose: true,
-              message: "发生异常",
-              type: "error"
-            });
+            alert("发生异常");
             return false;
           }
         })
