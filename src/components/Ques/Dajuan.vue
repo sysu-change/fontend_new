@@ -43,7 +43,7 @@ export default {
               vm.verifyed = vm.verify == 0 ? false : true;
               vm.tableData = res.data.content.content;
             } else {
-                vm.$message({
+              vm.$message({
                 showClose: true,
                 message: res.data.msg,
                 type: "error"
@@ -85,7 +85,10 @@ export default {
             if (res.data.code == 200) {
               for (var i = 0; i < vm.tableData.length; i++) {
                 var t = vm.tableData[i];
-                if (t.sid == vm.sid) vm.tableData[i].vers = "已通过";
+                if (t.sid == vm.sid) {
+                  vm.tableData[i].vers = "已通过";
+                  
+                }
               }
             } else {
               vm.$message({
