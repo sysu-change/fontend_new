@@ -35,12 +35,12 @@
       </el-table-column>
       <el-table-column>
         <template slot-scope="scope">
-          <el-button size="mini"  @click="Pass(scope.row,vm)">通过</el-button>
+          <el-button size="mini"  @click="Pass(scope.row,vm)" v-bind:disabled="scope.row.verify">通过</el-button>
         </template>
       </el-table-column>
       <el-table-column>
         <template slot-scope="scope">
-          <el-button size="mini" @click="Reject(scope.row)">不通过</el-button>
+          <el-button size="mini" @click="Reject(scope.row)" v-bind:disabled="scope.row.verify">不通过</el-button>
         </template>
       </el-table-column>
       <el-table-column>
@@ -58,7 +58,8 @@ export default {
   data() {
     return {
       tableData: [],
-      loading:false
+      loading:false,
+     
     };
   },
   methods: {
@@ -98,7 +99,7 @@ export default {
                 tempIndex.number = temp.sid;
                 tempIndex.state=temp.accept_status;
                 tempIndex.state_s=temp.verify;
-                
+                 tempIndex.verify=(temp.verify==0)?false:true;
                 vm.tableData.push(tempIndex);
               }
               
@@ -130,6 +131,12 @@ export default {
     },
 
     Pass:function(row){
+       this.passVerify(row,this);
+      
+         
+    },
+
+    passVerify(row,vm){
       var jsonData = {
         tid: parseInt(row.ID),
         sid:row.number,
@@ -143,7 +150,13 @@ export default {
       };
       this.$http(axios).then(function(res){
           if(res.status==200) {
-           alert("已提交！");
+          for(var i=0;i<vm.tableData.length;i++) {
+              var t=vm.tableData[i];
+              if(t.ID==row.ID) {
+                (vm.tableData[i]).state_s=1;
+                (vm.tableData[i]).verify=true;
+                }
+            }
            
           }
           else alert("网络错误");
@@ -152,13 +165,14 @@ export default {
           alert("发生了一个异常");
         });
    
-         
     },
 
-    
-
     Reject:function(row){
-      var jsonData = {
+      this.rejectVerify(row,this);
+    },
+
+rejectVerify(row,vm){
+var jsonData = {
         tid: parseInt(row.ID),
         sid:row.number,
         verify:2
@@ -172,13 +186,19 @@ export default {
      
       this.$http(axios).then(function(res){
         if(res.status==200) {
-          alert("已提交！");
+          for(var i=0;i<vm.tableData.length;i++) {
+              var t=vm.tableData[i];
+              if(t.ID==row.ID) {
+                (vm.tableData[i]).state_s=2;
+                (vm.tableData[i]).verify=true;
+                }
+            }
         }
         else alert("网络错误");}).catch(function(err){
           console.log(err);
           alert("发生了一个异常");
       });
-    },
+},
 
     Complain:function(row){
       this.$router.push({
