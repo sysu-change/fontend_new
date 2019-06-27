@@ -172,7 +172,7 @@
   .carousel{
     position: relative;
     left:5%;
-    width:1000px;
+    width:100%;
   }
   
   .small{

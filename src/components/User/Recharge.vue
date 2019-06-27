@@ -140,11 +140,19 @@ export default {
       this.$http(axios)
         .then(function(res) {
           if (res.status == 200) {
-            vm.$message({
-              showClose: true,
-              message: res.data.msg,
-              type: "success"
-            });
+            if (res.data.msg == "successful") {
+              vm.$message({
+                showClose: true,
+                message: res.data.msg,
+                type: "success"
+              });
+            } else {
+              vm.$message({
+                showClose: true,
+                message: res.data.msg,
+                type: "error"
+              });
+            }
           } else {
             vm.$message({
               showClose: true,
